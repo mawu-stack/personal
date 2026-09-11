@@ -1,0 +1,3937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuthGuard // K.E.A.N. Core - Applied Security Bench - Mawutorwu Klu</title>
+  
+  <!-- Modern Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Industry Benchmark: Dropbox zxcvbn Library via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js" defer id="zxcvbn-script"></script>
+
+  <style>
+    /* ==========================================================================
+       AuthGuard // K.E.A.N. Core - Enterprise Cryptographic SaaS Styling
+       Aesthetic: Kean University Navy (#002D62), Dropbox Blue (#0061FF), Crisp White Cards
+       ========================================================================== */
+
+    :root {
+      /* Canvas & Palette */
+      --bg-canvas: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --bg-muted: #e2e8f0;
+
+      /* Brand Palette (Kean Navy & Dropbox Blue) */
+      --brand-navy: #002d62;
+      --brand-blue: #0061ff;
+      --brand-blue-hover: #004ecc;
+      --brand-blue-subtle: #eff6ff;
+      --brand-blue-border: #bfdbfe;
+
+      /* Typography Colors */
+      --text-heading: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --text-subtle: #94a3b8;
+
+      /* Cryptographic Status Accents */
+      --accent-emerald: #10b981;
+      --accent-emerald-bg: #ecfdf5;
+      --accent-emerald-border: #a7f3d0;
+
+      --accent-amber: #f59e0b;
+      --accent-amber-bg: #fffbeb;
+      --accent-amber-border: #fde68a;
+
+      --accent-rose: #ef4444;
+      --accent-rose-bg: #fef2f2;
+      --accent-rose-border: #fecaca;
+
+      --accent-cyan: #0ea5e9;
+      --accent-cyan-bg: #f0f9ff;
+      --accent-cyan-border: #bae6fd;
+
+      --accent-purple: #8b5cf6;
+      --accent-purple-bg: #f5f3ff;
+      --accent-purple-border: #ddd6fe;
+
+      /* Borders & Shadows */
+      --card-border: #e2e8f0;
+      --card-border-hover: #cbd5e1;
+      --card-shadow: 0 4px 20px -2px rgba(0, 45, 98, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04);
+      --card-shadow-hover: 0 12px 30px -4px rgba(0, 45, 98, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --radius-full: 9999px;
+
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", Consolas, monospace;
+    }
+
+    /* Dark Slate Mode */
+    body.dark-mode {
+      --bg-canvas: #0b0f19;
+      --bg-surface: #111827;
+      --bg-subtle: #1f2937;
+      --bg-muted: #374151;
+
+      --brand-navy: #1e3a8a;
+      --brand-blue: #3b82f6;
+      --brand-blue-hover: #60a5fa;
+      --brand-blue-subtle: #172554;
+      --brand-blue-border: #1e40af;
+
+      --text-heading: #f8fafc;
+      --text-body: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+
+      --card-border: #1f2937;
+      --card-border-hover: #374151;
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+      --card-shadow-hover: 0 12px 30px -4px rgba(0, 0, 0, 0.7);
+
+      --accent-emerald-bg: #064e3b;
+      --accent-amber-bg: #78350f;
+      --accent-rose-bg: #7f1d1d;
+      --accent-cyan-bg: #082f49;
+      --accent-purple-bg: #3b0764;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-canvas);
+      background-image: 
+        radial-gradient(circle at 50% -10%, rgba(0, 97, 255, 0.08), transparent 65%),
+        radial-gradient(var(--card-border-hover) 1px, transparent 1px);
+      background-size: 100% 100%, 24px 24px;
+      background-position: top center, top left;
+      color: var(--text-body);
+      line-height: 1.65;
+      min-height: 100vh;
+      padding: 0 0 80px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navigation Bar */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body.dark-mode .top-navbar {
+      background: rgba(17, 24, 39, 0.92);
+    }
+
+    .nav-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--brand-navy);
+      color: #ffffff;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 45, 98, 0.25);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .nav-item {
+      color: var(--text-body);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-subtle);
+      color: var(--brand-blue);
+    }
+
+    .nav-item.active {
+      background: var(--brand-blue-subtle);
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .security-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      background: var(--accent-emerald-bg);
+      border: 1px solid var(--accent-emerald-border);
+      color: #065f46;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    body.dark-mode .security-status-badge {
+      color: #6ee7b7;
+    }
+
+    .pulse-dot-green {
+      width: 7px;
+      height: 7px;
+      background: var(--accent-emerald);
+      border-radius: 50%;
+      animation: pulse-ring 2s infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .theme-segmented-control {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .theme-seg-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .theme-seg-btn:hover {
+      color: var(--text-heading);
+    }
+
+    .theme-seg-btn.active {
+      background: var(--bg-surface);
+      color: var(--brand-blue);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark-mode .theme-seg-btn.active {
+      background: var(--bg-muted);
+      color: #60a5fa;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    .hero-banner {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 40px;
+      margin-bottom: 32px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .hero-content {
+      flex: 1;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-pill {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      background: var(--brand-blue-subtle);
+      color: var(--brand-navy);
+      border: 1px solid var(--brand-blue-border);
+      border-radius: var(--radius-full);
+    }
+
+    body.dark-mode .hero-pill {
+      color: #93c5fd;
+    }
+
+    .hero-greeting {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .hero-greeting-time-badge {
+      font-size: 10.5px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      color: var(--brand-navy);
+      font-family: var(--font-mono);
+    }
+
+    body.dark-mode .hero-greeting-time-badge {
+      color: #93c5fd;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--brand-navy);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    body.dark-mode .hero-title {
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 680px;
+      line-height: 1.6;
+    }
+
+    .hero-graphic {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: var(--brand-blue-subtle);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--brand-blue-border);
+      flex-shrink: 0;
+    }
+
+    .lab-section-header {
+      margin-bottom: 16px;
+    }
+
+    .lab-section-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lab-section-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .lab-grid {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .lab-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .saas-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      margin-bottom: 24px;
+    }
+
+    .saas-card:hover {
+      border-color: var(--card-border-hover);
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--card-border);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .card-header-row h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+    }
+
+    .pwd-input-container {
+      position: relative;
+      margin: 14px 0 12px;
+    }
+
+    .pwd-input-box {
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      padding: 14px 90px 14px 16px;
+      background: var(--bg-canvas);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-md);
+      color: var(--text-heading);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .pwd-input-box:focus {
+      border-color: var(--brand-blue);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 3px rgba(0, 97, 255, 0.15);
+    }
+
+    .pwd-input-actions {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pwd-action-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 8px;
+      font-size: 13px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pwd-action-btn:hover {
+      background: var(--bg-muted);
+      color: var(--text-heading);
+    }
+
+    .passphrase-gen-btn {
+      background: var(--brand-blue-subtle);
+      border: 1.5px solid var(--brand-blue-border);
+      color: var(--brand-blue);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .passphrase-gen-btn:hover {
+      background: var(--brand-blue);
+      color: #ffffff;
+      border-color: var(--brand-blue);
+      box-shadow: 0 2px 8px rgba(0, 97, 255, 0.25);
+    }
+
+    .sample-chips-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .sample-chips-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .sample-chip-btn {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      padding: 4px 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      color: var(--text-body);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .sample-chip-btn:hover {
+      background: var(--brand-blue-subtle);
+      border-color: var(--brand-blue-border);
+      color: var(--brand-blue);
+    }
+
+    .strength-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.15fr;
+      gap: 12px;
+      margin: 18px 0 14px;
+    }
+
+    @media (max-width: 800px) {
+      .strength-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-tile {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-tile-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stat-tile-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .stat-tile-value small {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+    }
+
+    .stat-tile-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    /* Entropy Resistance Gap & Penalty Gauge */
+    .entropy-gap-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 14px 0 16px;
+    }
+
+    body.dark-mode .entropy-gap-card {
+      background: #0f172a;
+      border-color: #1e293b;
+    }
+
+    .gap-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .gap-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--brand-navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    body.dark-mode .gap-title {
+      color: #93c5fd;
+    }
+
+    .gap-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-rose-bg);
+      color: #b91c1c;
+      border: 1px solid var(--accent-rose-border);
+      letter-spacing: -0.01em;
+      transition: all 0.2s ease;
+    }
+
+    body.dark-mode .gap-badge {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .gap-track {
+      height: 14px;
+      background: #e2e8f0;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      display: flex;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    body.dark-mode .gap-track {
+      background: #1e293b;
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .gap-seg-effective {
+      height: 100%;
+      background: var(--brand-blue);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    body.dark-mode .gap-seg-effective {
+      background: #3b82f6;
+    }
+
+    .gap-seg-penalty {
+      height: 100%;
+      background: repeating-linear-gradient(
+        45deg,
+        #ef4444,
+        #ef4444 6px,
+        #dc2626 6px,
+        #dc2626 12px
+      );
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      opacity: 0.92;
+    }
+
+    body.dark-mode .gap-seg-penalty {
+      background: repeating-linear-gradient(
+        45deg,
+        #f87171,
+        #f87171 6px,
+        #ef4444 6px,
+        #ef4444 12px
+      );
+      opacity: 0.95;
+    }
+
+    .gap-scale-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .gap-scale-val {
+      font-weight: 600;
+      color: var(--text-subtle);
+    }
+
+    .gap-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      flex-wrap: wrap;
+    }
+
+    .gap-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+    }
+
+    .gap-legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .gap-legend-dot.effective {
+      background: var(--brand-blue);
+    }
+
+    .gap-legend-dot.penalty {
+      background: repeating-linear-gradient(
+        45deg,
+        #ef4444,
+        #ef4444 2px,
+        #dc2626 2px,
+        #dc2626 4px
+      );
+    }
+
+    .known-compromise-banner {
+      background: #fef2f2;
+      border: 1.5px solid #ef4444;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: none;
+      animation: alert-fade 0.3s ease;
+    }
+
+    body.dark-mode .known-compromise-banner {
+      background: #450a0a;
+      border-color: #f87171;
+    }
+
+    @keyframes alert-fade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .known-banner-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: #991b1b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    body.dark-mode .known-banner-header {
+      color: #fca5a5;
+    }
+
+    .known-banner-body {
+      font-size: 12px;
+      color: #7f1d1d;
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+
+    body.dark-mode .known-banner-body {
+      color: #fecaca;
+    }
+
+    .pattern-penalties-container {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+
+    .pattern-penalties-header {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--brand-navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    body.dark-mode .pattern-penalties-header {
+      color: #93c5fd;
+    }
+
+    .penalty-tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .penalty-pill {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .penalty-pill.critical {
+      background: var(--accent-rose-bg);
+      color: #991b1b;
+      border: 1px solid var(--accent-rose-border);
+    }
+
+    .penalty-pill.warn {
+      background: var(--accent-amber-bg);
+      color: #92400e;
+      border: 1px solid var(--accent-amber-border);
+    }
+
+    .penalty-pill.neutral {
+      background: var(--accent-cyan-bg);
+      color: #0369a1;
+      border: 1px solid var(--accent-cyan-border);
+    }
+
+    .penalty-pill.good {
+      background: var(--accent-emerald-bg);
+      color: #065f46;
+      border: 1px solid var(--accent-emerald-border);
+    }
+
+    .digital-timer-card {
+      background: #090d16;
+      color: #f8fafc;
+      border: 1px solid #1e293b;
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin: 16px 0;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .digital-timer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 11.5px;
+      color: #94a3b8;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .threat-rig-badge {
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(14, 165, 233, 0.4);
+      color: #38bdf8;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    .digital-timer-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .digital-timer-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px 6px;
+      }
+    }
+
+    .time-digit-block {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: var(--radius-sm);
+      padding: 8px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .time-digit-val {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .time-digit-val.critical {
+      color: #f87171;
+    }
+
+    .time-digit-val.safe {
+      color: #34d399;
+    }
+
+    .time-digit-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .traversal-meter-container {
+      margin-top: 14px;
+    }
+
+    .traversal-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .traversal-track {
+      height: 7px;
+      background: #1e293b;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .traversal-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+      border-radius: var(--radius-full);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .traversal-fill.scanning {
+      background-size: 20px 20px;
+      background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+      animation: scan-stripe 1s linear infinite;
+    }
+
+    @keyframes scan-stripe {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 0; }
+    }
+
+    .trend-history-container {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .trend-history-label {
+      font-size: 10.5px;
+      color: #64748b;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .trend-chip {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: var(--radius-sm);
+      color: #cbd5e1;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .trend-chip.stronger {
+      border-color: #059669;
+      color: #6ee7b7;
+    }
+
+    .trend-chip.weaker {
+      border-color: #dc2626;
+      color: #fca5a5;
+    }
+
+    /* Audit Report Section */
+    .report-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .report-action-info {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .btn-toggle-report {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--brand-blue);
+      color: var(--brand-blue);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-toggle-report:hover {
+      background: var(--brand-blue-subtle);
+      border-color: var(--brand-blue-hover);
+    }
+
+    .audit-drawer {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: var(--radius-md);
+      margin-top: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      animation: drawer-slide 0.25s ease-out;
+    }
+
+    @keyframes drawer-slide {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .audit-drawer-header {
+      background: #111827;
+      border-bottom: 1px solid #1e293b;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .audit-drawer-title {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    .audit-drawer-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drawer-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .drawer-btn:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .drawer-btn.close {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    .drawer-btn.close:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #ffffff;
+    }
+
+    .audit-drawer-body {
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 380px;
+      overflow-y: auto;
+      margin: 0;
+      background: #090d16;
+    }
+
+    .criteria-checklist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .criteria-checklist {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .criteria-item {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+    }
+
+    .criteria-indicator {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--bg-muted);
+      color: var(--text-subtle);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .criteria-item.valid {
+      color: var(--text-heading);
+      font-weight: 500;
+    }
+
+    .criteria-item.valid .criteria-indicator {
+      background: var(--accent-emerald);
+      color: #ffffff;
+    }
+
+    .sidebar-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ai-companion-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-companion-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand-navy), var(--brand-blue), var(--accent-cyan));
+    }
+
+    .ai-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .ai-persona {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-avatar-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background: var(--brand-blue-subtle);
+      border: 1px solid var(--brand-blue-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .ai-persona-info h4 {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--brand-navy);
+      letter-spacing: -0.01em;
+    }
+
+    body.dark-mode .ai-persona-info h4 {
+      color: #ffffff;
+    }
+
+    .ai-persona-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .ai-status-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+    }
+
+    .ai-status-pill.listening {
+      background: var(--accent-emerald-bg);
+      color: #065f46;
+      border-color: var(--accent-emerald-border);
+      animation: pulse-ring 2s infinite;
+    }
+
+    body.dark-mode .ai-status-pill.listening {
+      color: #6ee7b7;
+    }
+
+    .ai-status-pill.speaking {
+      background: var(--brand-blue-subtle);
+      color: var(--brand-blue);
+      border-color: var(--brand-blue-border);
+    }
+
+    .ai-waveform-box {
+      background: var(--bg-canvas);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .wave-bars {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 20px;
+    }
+
+    .wave-bar {
+      width: 3px;
+      height: 6px;
+      background: var(--card-border-hover);
+      border-radius: var(--radius-full);
+      transition: height 0.2s ease, background-color 0.2s ease;
+    }
+
+    .wave-bars.active .wave-bar {
+      background: var(--brand-blue);
+      animation: wave-bounce 1s infinite ease-in-out;
+    }
+
+    .wave-bars.active .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bars.active .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bars.active .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+    .wave-bars.active .wave-bar:nth-child(5) { animation-delay: 0.6s; }
+
+    @keyframes wave-bounce {
+      0%, 100% { height: 6px; }
+      50% { height: 18px; }
+    }
+
+    .wave-status-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      flex: 1;
+      text-align: right;
+    }
+
+    .ai-speech-bubble {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--text-body);
+      line-height: 1.5;
+      margin-bottom: 14px;
+      min-height: 64px;
+    }
+
+    .ai-controls-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .btn-primary-voice {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--brand-navy);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary-voice:hover {
+      background: var(--brand-blue-hover);
+    }
+
+    .btn-primary-voice.listening {
+      background: var(--accent-emerald);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-icon-subtle {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      color: var(--text-body);
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-icon-subtle:hover {
+      background: var(--bg-muted);
+    }
+
+    .ai-chips-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .ai-chip-pill {
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--bg-canvas);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-full);
+      padding: 4px 10px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .ai-chip-pill:hover {
+      background: var(--brand-blue-subtle);
+      border-color: var(--brand-blue-border);
+      color: var(--brand-blue);
+    }
+
+    .guidance-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .guidance-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .guidance-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+
+    .guidance-comparison {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .guidance-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 11.5px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-subtle);
+    }
+
+    .guidance-tag-bad {
+      background: var(--accent-rose-bg);
+      color: #991b1b;
+      border: 1px solid var(--accent-rose-border);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .guidance-tag-good {
+      background: var(--accent-emerald-bg);
+      color: #065f46;
+      border: 1px solid var(--accent-emerald-border);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .page-section {
+      margin-bottom: 36px;
+    }
+
+    .section-title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title-bar h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+    }
+
+    .section-number-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-full);
+      color: var(--text-muted);
+    }
+
+    .saas-card p {
+      font-size: 14px;
+      color: var(--text-body);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .saas-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin: 18px 0 8px;
+    }
+
+    .saas-card ul, .saas-card ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .saas-card li {
+      font-size: 14px;
+      color: var(--text-body);
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+
+    .tip-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-left: 4px solid var(--brand-blue);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .tip-box h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--brand-navy);
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+    body.dark-mode .tip-box h3 {
+      color: var(--brand-blue);
+    }
+
+    .tip-box p {
+      font-size: 13px;
+      color: var(--text-body);
+      margin-bottom: 0;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .skill-category {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .skill-category h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+    }
+
+    .skill-category p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 0;
+    }
+
+    .qa-card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .qa-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+    }
+
+    .qa-card h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+    }
+
+    .qa-card p {
+      font-size: 13px;
+      color: var(--text-body);
+      margin-bottom: 0;
+    }
+
+    .tip-generator-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 18px;
+    }
+
+    .interactive-output {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--brand-navy);
+    }
+
+    body.dark-mode .interactive-output {
+      color: #93c5fd;
+    }
+
+    .simple-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      color: var(--text-heading);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .simple-btn:hover {
+      background: var(--bg-muted);
+      border-color: var(--card-border-hover);
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: var(--card-border);
+      margin: 36px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      border-top: 1px solid var(--card-border);
+      margin-top: 40px;
+    }
+
+    /* Floating AI Widget */
+    .ai-launcher {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      background: var(--brand-navy);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-full);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 45, 98, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .ai-launcher:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 45, 98, 0.35);
+      background: var(--brand-blue);
+    }
+
+    .ai-widget {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 24px;
+      width: 380px;
+      max-width: calc(100vw - 32px);
+      max-height: 560px;
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ai-widget.active {
+      display: flex;
+    }
+
+    .ai-header {
+      background: var(--brand-navy);
+      color: #ffffff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ai-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-avatar {
+      font-size: 22px;
+    }
+
+    .ai-header-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-name {
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+
+    .ai-status {
+      font-size: 11px;
+      opacity: 0.85;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ai-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+    }
+
+    .ai-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-icon-btn, .ai-close-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #ffffff;
+      border-radius: var(--radius-sm);
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .ai-messages {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 200px;
+      max-height: 300px;
+      background: var(--bg-canvas);
+    }
+
+    .ai-msg {
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 90%;
+    }
+
+    .ai-msg.bot {
+      background: var(--bg-surface);
+      border: 1px solid var(--card-border);
+      color: var(--text-body);
+      align-self: flex-start;
+    }
+
+    .ai-msg.user {
+      background: var(--brand-blue);
+      color: #ffffff;
+      align-self: flex-end;
+    }
+
+    .ai-chips-wrapper {
+      padding: 8px 12px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .ai-chip {
+      white-space: nowrap;
+      font-size: 11px;
+      padding: 4px 8px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-full);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .ai-input-form {
+      padding: 10px 12px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-input-form input {
+      flex: 1;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      font-size: 13px;
+      outline: none;
+      background: var(--bg-canvas);
+      color: var(--text-heading);
+    }
+
+    .ai-mic-btn, .ai-send-btn {
+      background: var(--bg-subtle);
+      border: 1px solid var(--card-border);
+      color: var(--text-heading);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .ai-mic-btn.listening {
+      background: var(--accent-emerald);
+      color: #ffffff;
+    }
+
+    .ai-send-btn {
+      background: var(--brand-blue);
+      color: #ffffff;
+      border: none;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       TOP NAVIGATION BAR
+       ============================================================ -->
+  <header class="top-navbar">
+    <div class="nav-container">
+      <a href="#page-1-home" class="brand-wrapper">
+        <div class="brand-icon">🛡️</div>
+        <div class="brand-text">
+          <span class="brand-title">AuthGuard // K.E.A.N. Core</span>
+          <span class="brand-subtitle">TECH 3498: IT Computer Security • Mawutorwu Klu</span>
+        </div>
+      </a>
+
+      <nav class="nav-center" aria-label="Course Sections">
+        <a href="#page-1-home" class="nav-item">1. Home</a>
+        <a href="#page-2-about" class="nav-item">2. About Me</a>
+        <a href="#page-3-tech" class="nav-item">3. Tech Interests</a>
+        <a href="#page-4-security" class="nav-item">4. Security</a>
+        <a href="#project-proposal" class="nav-item">Project Proposal</a>
+        <a href="#challenge-demo" class="nav-item active">Applied Security Bench</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="security-status-badge" title="100% Client-Side Verified: Zero credentials stored or transmitted over network.">
+          <span class="pulse-dot-green"></span>
+          <span>100% Client-Side Verified • Zero Data Stored</span>
+        </div>
+
+        <div class="theme-segmented-control" role="radiogroup" aria-label="Theme Mode Selection">
+          <button type="button" id="theme-btn-light" class="theme-seg-btn" data-theme="light" title="Force Clean Light Mode">☀️ Light</button>
+          <button type="button" id="theme-btn-dark" class="theme-seg-btn" data-theme="dark" title="Force Dark Slate Mode">🌙 Dark</button>
+          <button type="button" id="theme-btn-auto" class="theme-seg-btn active" data-theme="auto" title="Auto: Dark from 7 PM–6 AM, Light during day">⚙️ Auto</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <div class="container">
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-pill">Academic Portfolio & Applied Cryptography Lab</span>
+          <span id="welcome-text" class="hero-greeting">
+            <span id="greeting-greeting">Good afternoon</span>! Welcome to Mawutorwu Klu's Course Portal
+            <span id="greeting-time-tag" class="hero-greeting-time-badge">Local Time: 12:00</span>
+          </span>
+        </div>
+        <h1 class="hero-title">TECH 3498: IT Computer Security</h1>
+        <p class="hero-subtitle">
+          Lab 1: Academic introduction, professional technical foundations, personal cybersecurity perspectives, and <strong>AuthGuard // K.E.A.N. Core</strong>—an applied cryptographic testing suite with calibrated threat-rig cracking modeling, continuous voice activation, and Dropbox zxcvbn industry benchmarking.
+        </p>
+      </div>
+      <div class="hero-graphic">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
+          <path d="M50 10 L85 25 V50 C85 70 50 90 50 90 C50 90 15 70 15 50 V25 Z" fill="#002d62" stroke="#0061ff" stroke-width="2.5"/>
+          <rect x="38" y="48" width="24" height="20" rx="3" fill="#ffffff" />
+          <path d="M43 48 V40 C43 36.13 46.13 33 50 33 C53.87 33 57 36.13 57 40 V48" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="50" cy="56" r="2.5" fill="#002d62"/>
+          <path d="M50 58 V63" stroke="#002d62" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         INTERACTIVE LABORATORY: CALIBRATED THREAT BENCH
+         ============================================================ -->
+    <section id="challenge-demo" class="page-section">
+      <div class="lab-section-header">
+        <h2>🔬 AuthGuard Cryptographic Testing Bench & Threat Rig</h2>
+        <p>Real-world pattern-penalized entropy analysis, textbook Diceware detection, interactive NIST passphrase generator, and side-by-side Dropbox zxcvbn industry benchmarking.</p>
+      </div>
+
+      <div class="lab-grid">
+        <!-- LEFT COLUMN (60%): Main Testing Bench -->
+        <div class="main-bench-col">
+          <div class="saas-card">
+            <div class="card-header-row">
+              <h3>🔐 Multi-Model Credential Vulnerability Analyzer</h3>
+              <span class="card-badge">Calibrated Against 8x RTX 4090 (100 GH/s)</span>
+            </div>
+
+            <p style="margin-bottom: 12px; font-size: 13.5px;">
+              Type a candidate password, click benchmark samples, or click <strong>Generate Secure NIST Passphrase</strong> to test resistance against modern Hashcat dictionary combinators, mask attacks, and known public wordlists:
+            </p>
+
+            <!-- Benchmark Samples Row & Passphrase Generator -->
+            <div class="sample-chips-row">
+              <button type="button" id="generate-passphrase-btn" class="passphrase-gen-btn">
+                🎲 Generate Secure NIST Passphrase
+              </button>
+              <button type="button" class="sample-chip-btn" data-pwd="password">Top Wordlist: "password"</button>
+              <button type="button" class="sample-chip-btn" data-pwd="correct-horse-battery-staple">Textbook XKCD: "correct-horse-battery-staple"</button>
+              <button type="button" class="sample-chip-btn" data-pwd="Cyb3r$ecure!2026#">Leet-Mask: "Cyb3r$ecure!2026#"</button>
+              <button type="button" class="sample-chip-btn" data-pwd="cougar-kean-security-2026">Kean Diceware: "cougar-kean-security-2026"</button>
+            </div>
+
+            <!-- Input Group with Eye Show/Hide Toggle & Clear -->
+            <div class="pwd-input-container">
+              <input type="password" id="pwd-input" class="pwd-input-box" placeholder="Enter candidate password to evaluate..." autocomplete="off">
+              <div class="pwd-input-actions">
+                <button type="button" id="toggle-pwd-visibility-btn" class="pwd-action-btn" title="Toggle password visibility" aria-label="Show password">👁️</button>
+                <button type="button" id="clear-pwd-btn" class="pwd-action-btn" title="Clear input">✕</button>
+              </div>
+            </div>
+
+            <!-- Known Compromised Public Example Banner -->
+            <div class="known-compromise-banner" id="known-banner">
+              <div class="known-banner-header">
+                <span>🚨 KNOWN PUBLIC EXAMPLE IDENTIFIED</span>
+                <span style="font-size: 11px; background: #ef4444; color: #fff; padding: 2px 6px; border-radius: 4px;">CRITICAL COMPROMISE</span>
+              </div>
+              <div class="known-banner-body">
+                This credential matches a globally documented textbook example (e.g. XKCD #936 / SecLists / RockYou). Adversaries include these exact tokens in standard dictionary precomputations. Real-world attack entropy is forced to zero-defense levels (&lt;10 bits).
+              </div>
+            </div>
+
+            <!-- Tri-Metric Stats Grid: NIST vs. Real-World vs. zxcvbn Industry Benchmark -->
+            <div class="strength-stats-grid">
+              <div class="stat-tile">
+                <div class="stat-tile-label">
+                  <span>NIST Theoretical</span>
+                  <span title="Pure theoretical Shannon entropy assuming uniform random character distribution">SP 800-63B</span>
+                </div>
+                <div class="stat-tile-value"><span id="entropy-bits">0.0</span> <small>bits</small></div>
+                <div class="stat-tile-sub" id="entropy-pool-desc">Scaled Pool: 0 chars</div>
+              </div>
+
+              <div class="stat-tile" style="border-left: 3px solid var(--brand-blue);">
+                <div class="stat-tile-label">
+                  <span style="color: var(--brand-blue);">Real-World Attack</span>
+                  <span title="Calibrated keyspace factoring in leet normalization, dictionary roots, and year masks">Penalized</span>
+                </div>
+                <div class="stat-tile-value"><span id="real-entropy-bits" style="color: var(--brand-blue);">0.0</span> <small>bits</small></div>
+                <div class="stat-tile-sub" id="keyspace-desc">Effective: 0 combinations</div>
+              </div>
+
+              <div class="stat-tile" style="border-left: 3px solid var(--accent-purple);">
+                <div class="stat-tile-label">
+                  <span style="color: var(--accent-purple);">Dropbox zxcvbn</span>
+                  <span title="Industry standard pattern-matching and spatial modeling developed for Dropbox and OWASP">Benchmark</span>
+                </div>
+                <div class="stat-tile-value"><span id="zxcvbn-time" style="color: var(--accent-purple); font-size: 14px;">Instant</span></div>
+                <div class="stat-tile-sub" id="zxcvbn-score-desc">Score: 0 / 4 (Waiting for input)</div>
+              </div>
+            </div>
+
+            <!-- Visual Entropy Resistance Gap & Penalty Gauge (0 to 128-bit scale) -->
+            <div class="entropy-gap-card" id="entropy-gap-container">
+              <div class="gap-header-row">
+                <div class="gap-title">
+                  <span>⚖️ ENTROPY RESISTANCE GAP</span>
+                </div>
+                <span class="gap-badge" id="gap-penalty-badge">-0.0 bits penalty</span>
+              </div>
+
+              <!-- Stacked Dual-Segment Progress Track (0 - 128 bit scale) -->
+              <div class="gap-track" title="Dual-segment representation on 0-128 bit entropy scale">
+                <div class="gap-seg-effective" id="gap-seg-effective" style="width: 0%;"></div>
+                <div class="gap-seg-penalty" id="gap-seg-penalty" style="width: 0%;"></div>
+              </div>
+
+              <!-- Legend / Scale Footer -->
+              <div class="gap-scale-footer">
+                <span class="gap-scale-val">0 bits</span>
+                <div class="gap-legend">
+                  <span class="gap-legend-item">
+                    <span class="gap-legend-dot effective"></span> Effective Attack Strength (Solid)
+                  </span>
+                  <span class="gap-legend-item">
+                    <span class="gap-legend-dot penalty"></span> Penalized Vulnerability (Hatched)
+                  </span>
+                </div>
+                <span class="gap-scale-val">128+ bits</span>
+              </div>
+            </div>
+
+            <!-- Pattern & Dictionary Penalties Detected -->
+            <div class="pattern-penalties-container" id="penalty-box" style="display: none;">
+              <div class="pattern-penalties-header">
+                <span>⚠️ Cryptographic Pattern & Dictionary Penalties Detected</span>
+                <span id="penalty-count-badge" style="font-size: 10px; background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 1px 6px; border-radius: 4px;">0 Penalties</span>
+              </div>
+              <div class="penalty-tags-list" id="penalty-tags"></div>
+            </div>
+
+            <!-- Detailed Digital Cracking Countdown Breakdown Display -->
+            <div class="digital-timer-card">
+              <div class="digital-timer-header">
+                <span>⏱️ ESTIMATED CRACKING RESISTANCE (OFFLINE MULTI-GPU RIG)</span>
+                <span class="threat-rig-badge">8x RTX 4090 @ 100 GH/s Fast-Hash Baseline</span>
+              </div>
+
+              <!-- Multi-Unit Monospaced Counter -->
+              <div class="digital-timer-grid">
+                <div class="time-digit-block">
+                  <span class="time-digit-val" id="timer-years">00</span>
+                  <span class="time-digit-label">Years</span>
+                </div>
+                <div class="time-digit-block">
+                  <span class="time-digit-val" id="timer-months">00</span>
+                  <span class="time-digit-label">Months</span>
+                </div>
+                <div class="time-digit-block">
+                  <span class="time-digit-val" id="timer-days">00</span>
+                  <span class="time-digit-label">Days</span>
+                </div>
+                <div class="time-digit-block">
+                  <span class="time-digit-val" id="timer-hours">00</span>
+                  <span class="time-digit-label">Hours</span>
+                </div>
+                <div class="time-digit-block">
+                  <span class="time-digit-val" id="timer-minutes">00</span>
+                  <span class="time-digit-label">Minutes</span>
+                </div>
+                <div class="time-digit-block">
+                  <span class="time-digit-val" id="timer-seconds">00.000</span>
+                  <span class="time-digit-label">Seconds</span>
+                </div>
+              </div>
+
+              <!-- Animated Traversal / Keyspace Exhaustion Meter -->
+              <div class="traversal-meter-container">
+                <div class="traversal-meta">
+                  <span id="traversal-status-text">Keyspace traversal rate: Standby</span>
+                  <span id="traversal-pct-text">0.0% Exhaustion Depth</span>
+                </div>
+                <div class="traversal-track">
+                  <div id="traversal-bar" class="traversal-fill"></div>
+                </div>
+              </div>
+
+              <!-- Volatile In-Memory Session History Trend Chips -->
+              <div class="trend-history-container">
+                <span class="trend-history-label">Session Edits Trend:</span>
+                <div id="trend-chips-list" style="display: inline-flex; gap: 6px; flex-wrap: wrap;">
+                  <span class="trend-chip" style="font-size: 10.5px; color: #64748b;">No recent inputs yet</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- In-Page Collapsible Audit Report Toggle Action Row -->
+            <div class="report-action-row">
+              <div class="report-action-info">
+                <strong>📋 Cryptographic Verification Receipt:</strong> View full morphology, rule penalties, and client-side zero-retention attestation on-screen.
+              </div>
+              <button type="button" id="toggle-report-btn" class="btn-toggle-report">
+                📋 View Audit Report
+              </button>
+            </div>
+
+            <!-- In-Page Collapsible Audit Report Terminal Drawer -->
+            <div id="audit-report-drawer" class="audit-drawer" style="display: none;">
+              <div class="audit-drawer-header">
+                <div class="audit-drawer-title">
+                  <span class="pulse-dot-green"></span>
+                  <span>CRYPTOGRAPHIC AUDIT RECEIPT // K.E.A.N. CORE</span>
+                </div>
+                <div class="audit-drawer-actions">
+                  <button type="button" id="copy-report-btn" class="drawer-btn" title="Copy report text to clipboard">📋 Copy Text</button>
+                  <button type="button" id="save-report-btn" class="drawer-btn" title="Save .txt receipt to disk">💾 Save .txt</button>
+                  <button type="button" id="close-report-btn" class="drawer-btn close" title="Close report drawer">&times; Close</button>
+                </div>
+              </div>
+              <pre id="audit-report-text" class="audit-drawer-body"></pre>
+            </div>
+
+            <!-- Verification Criteria Checklist -->
+            <ul class="criteria-checklist">
+              <li id="crit-len" class="criteria-item">
+                <span class="criteria-indicator">&#8226;</span> Minimum 8 characters (15+ recommended)
+              </li>
+              <li id="crit-casing" class="criteria-item">
+                <span class="criteria-indicator">&#8226;</span> Mixed casing (both upper & lowercase)
+              </li>
+              <li id="crit-num" class="criteria-item">
+                <span class="criteria-indicator">&#8226;</span> Numerical digits (0–9)
+              </li>
+              <li id="crit-sym" class="criteria-item">
+                <span class="criteria-indicator">&#8226;</span> Special symbols (!@#$%^&*)
+              </li>
+            </ul>
+
+            <!-- Rotating Security Tip Generator Sub-Card -->
+            <div class="tip-generator-box">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                <div>
+                  <strong style="font-size: 13px; color: var(--text-heading);">💡 Rotating Security Guidance</strong>
+                  <div style="font-size: 12px; color: var(--text-muted);">Cycle through authoritative cybersecurity guidelines</div>
+                </div>
+                <button type="button" id="tip-btn" class="simple-btn">Show Next Tip</button>
+              </div>
+              <div id="tip-display" class="interactive-output" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN (40%): K.E.A.N. // SENTRY-3498 AI Card & NIST Standards -->
+        <div class="sidebar-col">
+          <div class="ai-companion-card">
+            <div class="ai-card-top">
+              <div class="ai-persona">
+                <div class="ai-avatar-badge">🛡️</div>
+                <div class="ai-persona-info">
+                  <h4>K.E.A.N. // SENTRY-3498</h4>
+                  <span class="ai-persona-tag">Key Evaluation & Adversary Neutralizer</span>
+                </div>
+              </div>
+              <span id="sidebar-ai-status" class="ai-status-pill">Ready 🎙️</span>
+            </div>
+
+            <!-- Active Waveform Visualizer -->
+            <div class="ai-waveform-box">
+              <div id="sidebar-waveform" class="wave-bars">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+              </div>
+              <span id="sidebar-wave-text" class="wave-status-text">Voice Standby (Click Speak or say "Hey K.E.A.N.")</span>
+            </div>
+
+            <!-- Speech Output Bubble -->
+            <div id="sidebar-ai-speech" class="ai-speech-bubble">
+              🛡️ <strong>K.E.A.N. CORE DIAGNOSTIC READY:</strong> Testing credential resiliency against Hashcat mask templates and dictionary precomputations. Click <strong>Speak</strong> or say <em>"Hey K.E.A.N."</em> to activate voice analysis!
+            </div>
+
+            <!-- Voice Controls -->
+            <div class="ai-controls-row">
+              <button type="button" id="sidebar-voice-btn" class="btn-primary-voice">
+                🎙️ Click to Speak
+              </button>
+              <button type="button" id="sidebar-test-voice-btn" class="btn-icon-subtle" title="Test voice synthesis">
+                ▶ Test Voice
+              </button>
+            </div>
+
+            <!-- Interactive Query Chips -->
+            <div class="ai-chips-list">
+              <button type="button" class="ai-chip-pill" data-query="Who is Mawutorwu?">👤 Mawutorwu Klu</button>
+              <button type="button" class="ai-chip-pill" data-query="What are the course goals?">🎯 Course Goals</button>
+              <button type="button" class="ai-chip-pill" data-query="What is the password tip?">🛡️ 6-Month Tip</button>
+              <button type="button" class="ai-chip-pill" data-query="Tell me about the project proposal">📋 Proposal</button>
+              <button type="button" class="ai-chip-pill" data-query="What is a hashcat mask attack?">⚡ Mask Attacks</button>
+              <button type="button" class="ai-chip-pill" data-query="Why does Diceware fail if public?">📘 XKCD Phrase Risk</button>
+            </div>
+          </div>
+
+          <!-- NIST Special Publication 800-63B Quick Reference Card -->
+          <div class="guidance-card">
+            <h4>📘 NIST SP 800-63B Guidance</h4>
+            <p>
+              Modern NIST password recommendations emphasize <strong>length and passphrase complexity</strong> rather than arbitrary frequent expiration periods.
+            </p>
+            <div class="guidance-comparison">
+              <div class="guidance-row">
+                <span class="guidance-tag-bad">Legacy</span>
+                <span>Forced 30-day resets lead users to make predictable swaps (e.g. <code>Summer2026!</code>).</span>
+              </div>
+              <div class="guidance-row">
+                <span class="guidance-tag-good">Modern NIST</span>
+                <span>Use 15+ character passphrases, multi-factor auth, and reset only when a credential leak occurs.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <main>
+      <!-- PAGE 1 — HOME -->
+      <section id="page-1-home" class="page-section">
+        <div class="section-title-bar">
+          <h2>Page 1 — Home</h2>
+          <span class="section-number-pill">Section 1</span>
+        </div>
+
+        <div class="saas-card">
+          <p>
+            Hello! My name is <strong>Mawutorwu Klu</strong>. I am currently an undergraduate 
+            <strong>Senior</strong> majoring in <strong>B.S. in Information Technology (Cybersecurity Option)</strong>. 
+            Welcome to my personal course website for <strong>TECH 3498 – IT Computer Security</strong> (Fall 2026)!
+          </p>
+          <p>
+            This website serves as my introduction to my instructor and peers, showcasing my technical interests, 
+            academic goals, and foundational understanding of online privacy and cybersecurity principles.
+          </p>
+
+          <h3>Course Information</h3>
+          <ul>
+            <li><strong>Course Name:</strong> IT Computer Security</li>
+            <li><strong>Course Number:</strong> TECH 3498</li>
+            <li><strong>Student Name:</strong> Mawutorwu Klu</li>
+            <li><strong>Academic Program:</strong> B.S. in Information Technology (Cybersecurity Option)</li>
+            <li><strong>Academic Year:</strong> Senior</li>
+            <li><strong>Semester:</strong> Fall 2026</li>
+          </ul>
+
+          <h3>My Interests</h3>
+          <p>
+            Outside of academics, my personal interests include <strong>gaming, sports, music, and watching movies</strong>. 
+            On the technology side, I am particularly interested in <strong>Artificial Intelligence, Cloud Computing, and Cybersecurity</strong>.
+          </p>
+
+          <div class="tip-box">
+            <h3>⚡ One Interesting Fact About Me</h3>
+            <p>
+              When I was a kid, I used to open up my system unit to look at the parts and tinker with them. One day I accidentally got shocked and stopped!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- PAGE 2 — ABOUT ME -->
+      <section id="page-2-about" class="page-section">
+        <div class="section-title-bar">
+          <h2>Page 2 — About Me</h2>
+          <span class="section-number-pill">Section 2</span>
+        </div>
+
+        <div class="saas-card">
+          <h3>Academic Background & Education</h3>
+          <p>
+            I am an undergraduate <strong>Senior</strong> majoring in <strong>B.S. in Information Technology with a Concentration in Cybersecurity</strong> at the university. 
+            I am taking <strong>TECH 3498: IT Computer Security</strong> to fulfill my degree requirements and to develop essential hands-on defensive capabilities to protect computer networks, databases, and personal privacy.
+          </p>
+
+          <h3>Hobbies & Favorite Activities</h3>
+          <p>
+            When I am not working on coursework or coding projects, I enjoy <strong>gaming, sports, listening to music, and watching movies</strong>. 
+            Balancing technical problem-solving with creative and active hobbies helps me stay focused and energized.
+          </p>
+
+          <h3>Career Interests & Goals</h3>
+          <p>
+            After graduating, my goal is to pursue a career as a <strong>Data Analyst</strong>, <strong>Cybersecurity Analyst</strong>, or <strong>Software Engineer</strong>. 
+            I am passionate about combining data analysis, database integrity, and cybersecurity awareness to build resilient, reliable software systems.
+          </p>
+
+          <h3>Technical & Professional Skills</h3>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h4>📊 Databases & Data</h4>
+              <p>SQL, MySQL, phpMyAdmin, XAMPP, Data Integrity, and Query Testing</p>
+            </div>
+            <div class="skill-category">
+              <h4>💻 Programming Languages</h4>
+              <p>HTML, Java, Lua</p>
+            </div>
+            <div class="skill-category">
+              <h4>🛠️ Technical Architecture</h4>
+              <p>Debugging in IDEs, Logic Gate Design, Circuit Simulation</p>
+            </div>
+            <div class="skill-category">
+              <h4>⚙️ Developer Tools</h4>
+              <p>Visual Studio Code, Eclipse, IntelliJ IDEA, BlueJ, Roblox Studio</p>
+            </div>
+            <div class="skill-category">
+              <h4>📈 Data Tools</h4>
+              <p>Microsoft Excel, Spreadsheet Analysis</p>
+            </div>
+            <div class="skill-category">
+              <h4>🤝 Soft Skills</h4>
+              <p>Analytical Thinking, Problem Solving, Communication, Adaptability, Collaboration, Learning Agility</p>
+            </div>
+          </div>
+
+          <div class="tip-box">
+            <h3>🔒 Cybersecurity Privacy Notice</h3>
+            <p>
+              In accordance with computer security best practices, sensitive personal information—including home address, personal phone numbers, passwords, student ID numbers, and financial details—has been deliberately excluded from this website. Practicing safe data hygiene and thinking carefully before sharing personal information online is an essential cybersecurity principle.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- PAGE 3 — MY TECHNOLOGY INTERESTS -->
+      <section id="page-3-tech" class="page-section">
+        <div class="section-title-bar">
+          <h2>Page 3 — My Technology Interests</h2>
+          <span class="section-number-pill">Section 3</span>
+        </div>
+
+        <div class="saas-card">
+          <p>
+            Technology is a central part of my academic journey and daily life. Below are the details of my relationship with technology and my answers to the key reflection questions:
+          </p>
+
+          <div class="qa-card-stack">
+            <div class="qa-card">
+              <h4>1. What technology do you use most often?</h4>
+              <p>
+                The technologies I use most often are my <strong>computer and smartphone</strong> for school and personal use, along with the <strong>IntelliJ IDEA IDE</strong> for coding and software development (and occasionally my <strong>Xbox</strong> for gaming).
+              </p>
+            </div>
+
+            <div class="qa-card">
+              <h4>2. What technology skill would you like to improve?</h4>
+              <p>
+                I would honestly like to improve on my <strong>Java programming skills</strong>, deepening my understanding of object-oriented design, secure coding standards, and building scalable applications.
+              </p>
+            </div>
+
+            <div class="qa-card">
+              <h4>3. What technology career interests you?</h4>
+              <p>
+                The career paths that interest me most are <strong>Data Analyst, Cybersecurity Analyst, and Software Engineer</strong>.
+              </p>
+            </div>
+
+            <div class="qa-card">
+              <h4>4. Why are you interested in this area?</h4>
+              <p>
+                I am interested in these areas because <strong>I want to create things that can solve or help solve real-world problems</strong>. Whether by analyzing data to find insights, designing secure software, or defending networks, I want to build tools that genuinely help people.
+              </p>
+            </div>
+          </div>
+
+          <h3>Core Technology Domains</h3>
+          <ul>
+            <li>
+              <strong>Artificial Intelligence (AI):</strong> 
+              Exploring how machine learning algorithms and AI models can automate tasks, analyze patterns, and assist in detecting security threats.
+            </li>
+            <li>
+              <strong>Cloud Computing:</strong> 
+              Understanding how modern applications and datasets are securely hosted, scaled, and managed across cloud platforms.
+            </li>
+            <li>
+              <strong>Cybersecurity:</strong> 
+              Studying how to safeguard personal information, secure computer networks, and defend systems against unauthorized intrusion.
+            </li>
+            <li>
+              <strong>Data Analytics:</strong> 
+              Examining and visualizing large datasets to discover trends, evaluate system performance, and make data-driven technical decisions.
+            </li>
+            <li>
+              <strong>Software Engineering:</strong> 
+              Writing clean, efficient code and developing robust software applications that solve real-world problems.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- PAGE 4 — MY CYBERSECURITY AWARENESS -->
+      <section id="page-4-security" class="page-section">
+        <div class="section-title-bar">
+          <h2>Page 4 — My Cybersecurity Awareness</h2>
+          <span class="section-number-pill">Section 4</span>
+        </div>
+
+        <div class="saas-card">
+          <p>
+            As a Senior pursuing a Cybersecurity concentration in Information Technology, connecting my coursework in <strong>TECH 3498: IT Computer Security</strong> to real-world defensive principles is vital.
+          </p>
+
+          <div class="qa-card-stack">
+            <div class="qa-card">
+              <h4>1. What does cybersecurity mean to you?</h4>
+              <p>
+                To me, cybersecurity means <strong>protecting people who might not know the dangers of the internet from the possible dangers and threats that can occur to them</strong>.
+              </p>
+            </div>
+
+            <div class="qa-card">
+              <h4>2. Why is cybersecurity important?</h4>
+              <p>
+                Cybersecurity is important because <strong>it provides much-needed structure, safety, and reliability to the internet and its users</strong>.
+              </p>
+            </div>
+
+            <div class="qa-card">
+              <h4>3. What is one cybersecurity habit you currently practice?</h4>
+              <p>
+                One cybersecurity habit I actively practice is <strong>never sharing my passwords with anyone and making sure to update them every 6 months</strong>.
+              </p>
+            </div>
+
+            <div class="qa-card">
+              <h4>4. What cybersecurity topic do you want to learn this semester?</h4>
+              <p>
+                This semester in TECH 3498, <strong>I would like to learn penetration testing</strong>—understanding how ethical security professionals systematically test and analyze vulnerabilities.
+              </p>
+            </div>
+          </div>
+
+          <div id="course-goals" style="margin-top: 24px;">
+            <h3>My Goals for This Course</h3>
+            <ol>
+              <li><strong>Goal 1 - Personal Digital Protection:</strong> Learn how to identify common online threats and acquire practical protective knowledge.</li>
+              <li><strong>Goal 2 - Understanding Attack Vectors and System Defense:</strong> Learn defensive strategies used to secure networks and cloud environments.</li>
+              <li><strong>Goal 3 - Building Foundational Skills for My Career:</strong> Develop hands-on technical skills for my future career path.</li>
+            </ol>
+          </div>
+
+          <div id="security-tip" class="tip-box">
+            <h3>💡 Featured Cybersecurity Tip</h3>
+            <p><strong>Rule:</strong> Do not share your passwords with anyone and update them every 6 months.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- SECURITY REFLECTION -->
+      <section id="security-reflection" class="page-section">
+        <div class="section-title-bar">
+          <h2>Security Reflection: What Should I Share Online?</h2>
+          <span class="section-number-pill">Reflection</span>
+        </div>
+
+        <div class="saas-card">
+          <p>
+            When posting or communicating on the internet, a great guideline to follow is that you should only share what you feel comfortable with the entire world knowing. You should never share sensitive personal information, including your home address, personal phone number, passwords, financial details, or student ID numbers.
+          </p>
+          <p style="margin-bottom: 0;">
+            Oversharing sensitive personal information creates dangerous security and privacy risks, allowing attackers to conduct social engineering, launch targeted phishing attempts, or attempt identity theft.
+          </p>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- RESOURCES -->
+      <section id="resources" class="page-section">
+        <div class="section-title-bar">
+          <h2>Authoritative Cybersecurity Resources</h2>
+          <span class="section-number-pill">External Links</span>
+        </div>
+
+        <div class="saas-card">
+          <p>Here are reliable cybersecurity resources to learn more about staying safe online:</p>
+          <ul>
+            <li>
+              <a href="https://www.cisa.gov" target="_blank" rel="noopener noreferrer" style="color: var(--brand-blue); font-weight: 600;">CISA - Cybersecurity & Infrastructure Security Agency</a>: Threat advisories and defensive frameworks.
+            </li>
+            <li>
+              <a href="https://www.staysafeonline.org" target="_blank" rel="noopener noreferrer" style="color: var(--brand-blue); font-weight: 600;">National Cybersecurity Alliance (Stay Safe Online)</a>: Public educational non-profit for online privacy.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- PROJECT PROPOSAL -->
+      <section id="project-proposal" class="page-section">
+        <div class="section-title-bar">
+          <h2>Course Project Proposal: Cybersecurity Web Application</h2>
+          <span class="section-number-pill">Proposal</span>
+        </div>
+
+        <div class="saas-card">
+          <div class="tip-box">
+            <h3>1. Website Concept</h3>
+            <p>
+              <strong>AuthGuard // K.E.A.N. Core:</strong> An interactive, client-side educational cybersecurity web platform designed to demystify credential vulnerabilities and protect everyday users from online threats. The application combines live in-browser cryptographic entropy calculation, a calibrated brute-force cracking resistance countdown, side-by-side Dropbox zxcvbn industry benchmarking, rule-by-rule criteria checking, rotational security guidance, an interactive NIST Diceware passphrase generator, and an assistive conversational voice AI companion (<strong>K.E.A.N. // SENTRY-3498</strong>).
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <hr>
+
+    <footer>
+      <p>Mawutorwu Klu &bull; TECH 3498: IT Computer Security &bull; Fall 2026</p>
+    </footer>
+
+  </div>
+
+  <!-- FLOATING AI ASSISTANT LAUNCHER & DRAWER -->
+  <button id="ai-launcher" class="ai-launcher" aria-label="Open K.E.A.N. Sentry-3498 Assistant">
+    <span class="ai-launcher-icon">🛡️</span>
+    <span id="ai-launcher-text">K.E.A.N. // SENTRY-3498 🎙️</span>
+  </button>
+
+  <div id="ai-widget" class="ai-widget" role="dialog" aria-label="K.E.A.N. Sentry Assistant Drawer">
+    <div class="ai-header">
+      <div class="ai-header-info">
+        <div class="ai-avatar">🛡️</div>
+        <div class="ai-header-title">
+          <span class="ai-name">K.E.A.N. // SENTRY-3498</span>
+          <span class="ai-status" id="ai-header-status">
+            <span class="ai-status-dot" id="ai-header-dot"></span>
+            <span id="ai-header-label">Ready for Voice</span>
+          </span>
+        </div>
+      </div>
+      <div class="ai-header-actions">
+        <button type="button" id="ai-handsfree-btn" class="ai-icon-btn" title="Toggle Auto-Listen" aria-label="Toggle hands-free mode">🎙️ Auto-Listen</button>
+        <button type="button" id="ai-voice-toggle" class="ai-icon-btn" title="Mute/Unmute Voice" aria-label="Toggle voice output">🔊</button>
+        <button id="ai-close-btn" class="ai-close-btn" aria-label="Close Assistant">&times;</button>
+      </div>
+    </div>
+
+    <div id="ai-messages" class="ai-messages">
+      <div class="ai-msg bot">
+        🛡️ <strong>K.E.A.N. CORE ENGAGED:</strong> Key Evaluation & Adversary Neutralizer standing by. Ask me about Hashcat mask attacks, Diceware passphrase risks, or course goals!
+      </div>
+    </div>
+
+    <div class="ai-chips-wrapper">
+      <button type="button" class="ai-chip" data-query="Who is Mawutorwu?">👤 Mawutorwu</button>
+      <button type="button" class="ai-chip" data-query="What are the course goals?">🎯 Course Goals</button>
+      <button type="button" class="ai-chip" data-query="Tell me about the project proposal">📋 Proposal</button>
+      <button type="button" class="ai-chip" data-query="What is a hashcat mask attack?">⚡ Mask Attacks</button>
+      <button type="button" class="ai-chip" data-query="What should I share online?">🔒 Privacy Rule</button>
+    </div>
+
+    <form id="ai-form" class="ai-input-form">
+      <button type="button" id="ai-mic-btn" class="ai-mic-btn" title="Click to speak command" aria-label="Voice input">🎤</button>
+      <input type="text" id="ai-input" placeholder="Type or click 🎤 to speak..." autocomplete="off">
+      <button type="submit" class="ai-send-btn" aria-label="Send message">&uarr;</button>
+    </form>
+  </div>
+
+  <!-- ============================================================
+       EMBEDDED VANILLA JAVASCRIPT LOGIC
+       ============================================================ -->
+  <script>
+    var inMemoryTrendHistory = [];
+    var lastEvaluatedAuditData = null;
+
+    document.addEventListener("DOMContentLoaded", function() {
+      initTimeGreeting();
+      initThemeEngine();
+      initCryptographicBench();
+      initTipGenerator();
+      initAIAssistant();
+      runEntropyTests();
+    });
+
+    // 1. Dynamic Client-Time Greeting
+    function initTimeGreeting() {
+      var greetingGreeting = document.getElementById("greeting-greeting");
+      var greetingTimeTag = document.getElementById("greeting-time-tag");
+      if (!greetingGreeting) return;
+
+      function updateTimeDisplay() {
+        var now = new Date();
+        var hour = now.getHours();
+        var minutes = String(now.getMinutes()).padStart(2, '0');
+        var greeting = "Good morning";
+
+        if (hour >= 5 && hour < 12) {
+          greeting = "Good morning";
+        } else if (hour >= 12 && hour < 17) {
+          greeting = "Good afternoon";
+        } else if (hour >= 17 && hour < 22) {
+          greeting = "Good evening";
+        } else {
+          greeting = "Late night security audit";
+        }
+
+        greetingGreeting.textContent = greeting;
+        if (greetingTimeTag) {
+          var ampm = hour >= 12 ? "PM" : "AM";
+          var displayHour = hour % 12 || 12;
+          greetingTimeTag.textContent = "Local Time: " + displayHour + ":" + minutes + " " + ampm;
+        }
+      }
+
+      updateTimeDisplay();
+      setInterval(updateTimeDisplay, 60000);
+    }
+
+    // 2. Auto Dark/Light Theme with Manual Override (3-State Toggle)
+    function initThemeEngine() {
+      var btnLight = document.getElementById("theme-btn-light");
+      var btnDark = document.getElementById("theme-btn-dark");
+      var btnAuto = document.getElementById("theme-btn-auto");
+      var themeButtons = [btnLight, btnDark, btnAuto];
+      var storedMode = localStorage.getItem("authguard-theme-mode") || "auto";
+
+      function applyTheme(mode) {
+        var now = new Date();
+        var hour = now.getHours();
+        var shouldBeDark = false;
+
+        if (mode === "dark") {
+          shouldBeDark = true;
+        } else if (mode === "light") {
+          shouldBeDark = false;
+        } else {
+          shouldBeDark = (hour >= 19 || hour < 6);
+        }
+
+        if (shouldBeDark) {
+          document.body.classList.add("dark-mode");
+        } else {
+          document.body.classList.remove("dark-mode");
+        }
+
+        themeButtons.forEach(function(btn) {
+          if (!btn) return;
+          if (btn.getAttribute("data-theme") === mode) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
+        });
+
+        localStorage.setItem("authguard-theme-mode", mode);
+      }
+
+      applyTheme(storedMode);
+
+      if (btnLight) btnLight.addEventListener("click", function() { applyTheme("light"); });
+      if (btnDark) btnDark.addEventListener("click", function() { applyTheme("dark"); });
+      if (btnAuto) btnAuto.addEventListener("click", function() { applyTheme("auto"); });
+
+      setInterval(function() {
+        var currentMode = localStorage.getItem("authguard-theme-mode") || "auto";
+        if (currentMode === "auto") {
+          applyTheme("auto");
+        }
+      }, 60000);
+    }
+
+    // 3. Cryptographic Durability Evaluator & Diceware Generator
+    var HASH_RATE_PER_SEC = 100000000000; // 100 GH/s
+
+    var KNOWN_EXAMPLE_PHRASES = [
+      "correcthorsebatterystaple",
+      "trubador&3",
+      "letmein123",
+      "password123",
+      "admin123",
+      "cyb3r$ecure!2026#"
+    ];
+
+    var DICTIONARY_ROOTS = [
+      "horse", "battery", "staple", "correct", "monkey", "purple", "hammer",
+      "table", "river", "forest", "cyber", "secure", "kean", "cougar",
+      "password", "pass", "admin", "welcome", "ninja", "dragon", "master",
+      "letmein", "shadow", "sunshine", "princess", "football", "baseball",
+      "computer", "system", "internet", "access", "network", "student",
+      "college", "orange", "blue", "green", "black", "summer", "winter",
+      "spring", "autumn", "defend", "sentry", "guard", "login", "qwerty",
+      "trust", "secret", "roblox", "gamer", "hunter", "test"
+    ];
+
+    var DICEWARE_WORDS = [
+      "timber", "falcon", "orbit", "radiant", "glacier", "summit", "quantum", "cipher",
+      "horizon", "beacon", "canyon", "phoenix", "harbor", "monarch", "granite", "stellar",
+      "voyage", "shield", "vertex", "nebula", "cougar", "aurora", "catalyst", "zenith",
+      "dynamo", "cascade", "prismatic", "obsidian", "solstice", "vanguard", "infinity",
+      "meridian", "pinnacle", "matrix", "bastion", "pulsar", "echo", "stride", "drift",
+      "atlas", "cosmic", "strata", "titan", "vector", "genesis", "flint", "crest",
+      "quarry", "ember", "sentry", "kean", "haven", "glade", "ridge", "tundra"
+    ];
+
+    function normalizeLeet(str) {
+      return str.toLowerCase()
+        .replace(/3/g, "e")
+        .replace(/@/g, "a")
+        .replace(/4/g, "a")
+        .replace(/\$/g, "s")
+        .replace(/5/g, "s")
+        .replace(/0/g, "o")
+        .replace(/1/g, "i")
+        .replace(/!/g, "i")
+        .replace(/7/g, "t")
+        .replace(/8/g, "b");
+    }
+
+    function evaluateCryptographicDurability(pwd, isHeadless) {
+      if (!pwd || pwd.length === 0) {
+        return {
+          length: 0,
+          theoreticalEntropy: 0,
+          realEntropy: 0,
+          crackSeconds: 0,
+          penalties: [],
+          recognizedWords: [],
+          isKnownExample: false,
+          poolSize: 0,
+          uniqueSpecials: 0,
+          hasCasing: false,
+          hasNumber: false,
+          hasSpecial: false
+        };
+      }
+
+      var len = pwd.length;
+      var hasLower = /[a-z]/.test(pwd);
+      var hasUpper = /[A-Z]/.test(pwd);
+      var hasCasing = hasLower && hasUpper;
+      var hasNumber = /[0-9]/.test(pwd);
+      var specialMatches = pwd.match(/[^a-zA-Z0-9]/g) || [];
+      var hasSpecial = specialMatches.length > 0;
+
+      var uniqueSpecials = 0;
+      var distinctSpecialSet = {};
+      for (var i = 0; i < specialMatches.length; i++) {
+        if (!distinctSpecialSet[specialMatches[i]]) {
+          distinctSpecialSet[specialMatches[i]] = true;
+          uniqueSpecials++;
+        }
+      }
+
+      var scaledSpecialPool = 0;
+      if (uniqueSpecials > 0) {
+        scaledSpecialPool = Math.min(33, Math.max(6, uniqueSpecials * 6));
+      }
+
+      var poolSize = 0;
+      if (hasLower) poolSize += 26;
+      if (hasUpper) poolSize += 26;
+      if (hasNumber) poolSize += 10;
+      poolSize += scaledSpecialPool;
+
+      var theoreticalEntropy = 0;
+      if (poolSize > 0 && len > 0) {
+        theoreticalEntropy = len * (Math.log(poolSize) / Math.LN2);
+      }
+
+      var normalizedNoSep = pwd.toLowerCase().replace(/[\s\-_.,!@#$%^&*()+=/\\|~`\[\]{}:;"'<>\?]/g, "");
+      var normalizedWithPunct = pwd.toLowerCase();
+      var normalizedLeetStr = normalizeLeet(pwd);
+
+      var penalties = [];
+      var recognizedWords = [];
+      var isKnownExample = false;
+
+      for (var k = 0; k < KNOWN_EXAMPLE_PHRASES.length; k++) {
+        var phrase = KNOWN_EXAMPLE_PHRASES[k];
+        var phraseNoSep = phrase.replace(/[\s\-_.,!@#$%^&*()+=/\\|~`\[\]{}:;"'<>\?]/g, "");
+        if (normalizedNoSep === phraseNoSep || normalizedWithPunct === phrase || normalizedLeetStr === phrase) {
+          isKnownExample = true;
+          break;
+        }
+      }
+
+      var realEntropy = 0;
+      var crackSeconds = 0;
+
+      if (isKnownExample) {
+        realEntropy = 9.5;
+        crackSeconds = 0.00001;
+        penalties.push({
+          type: "critical",
+          label: "Known Public Example: Documented in wordlists, assume compromised."
+        });
+      } else {
+        var yearMatches = pwd.match(/(19\d\d|20\d\d)/g);
+        var hasYearPenalty = false;
+        if (yearMatches) {
+          hasYearPenalty = true;
+          yearMatches.forEach(function(yr) {
+            penalties.push({ type: "warn", label: "Year Mask (" + yr + "): ~6.5 bits" });
+          });
+        }
+
+        if (/(123|1234|000|111|999)/.test(pwd)) {
+          penalties.push({ type: "warn", label: "Sequential/Repeated Digits: ~2 bits" });
+        }
+
+        if (/^[!@#$%^&*?]/.test(pwd) || /[!@#$%^&*?]+$/.test(pwd)) {
+          penalties.push({ type: "neutral", label: "Standard Symbol Mask (!/#): ~3.5 bits" });
+        }
+
+        var hasLeet = /[3@$4501!78]/.test(pwd) && (/[a-zA-Z]/.test(pwd));
+        if (hasLeet && /3|\$|@|0|1|!/.test(pwd)) {
+          penalties.push({ type: "warn", label: "Predictable Leet Substitutions (3→e, $→s)" });
+        }
+
+        DICTIONARY_ROOTS.forEach(function(root) {
+          if (normalizedLeetStr.includes(root)) {
+            recognizedWords.push(root);
+            penalties.push({ type: "warn", label: "Dictionary/Diceware Token: \"" + root + "\" (~12.5 bits)" });
+          }
+        });
+
+        if (recognizedWords.length > 0) {
+          var wordEntropy = recognizedWords.length * 12.9;
+          var leetModifier = hasLeet ? (recognizedWords.length * 1.8) : 0;
+          var yearBits = hasYearPenalty ? 6.5 : (hasNumber ? 9.0 : 0);
+          var symbolBits = hasSpecial ? (uniqueSpecials * 3.5) : 0;
+          var residualLength = Math.max(0, (len - (recognizedWords.join("").length + (hasYearPenalty ? 4 : 0))) * 3.0);
+
+          realEntropy = wordEntropy + leetModifier + yearBits + symbolBits + residualLength;
+          realEntropy = Math.min(realEntropy, theoreticalEntropy * 0.85);
+        } else {
+          var penaltyRatio = 1.0;
+          if (hasYearPenalty) penaltyRatio *= 0.85;
+          if (hasLeet) penaltyRatio *= 0.90;
+          if (len < 10) penaltyRatio *= 0.85;
+          realEntropy = theoreticalEntropy * penaltyRatio;
+        }
+
+        realEntropy = Math.max(1.0, realEntropy);
+        var totalCombinations = Math.pow(2, realEntropy);
+        crackSeconds = totalCombinations / HASH_RATE_PER_SEC;
+      }
+
+      return {
+        length: len,
+        theoreticalEntropy: theoreticalEntropy,
+        realEntropy: realEntropy,
+        crackSeconds: crackSeconds,
+        penalties: penalties,
+        recognizedWords: recognizedWords,
+        isKnownExample: isKnownExample,
+        poolSize: poolSize,
+        uniqueSpecials: uniqueSpecials || 0,
+        hasCasing: hasCasing,
+        hasNumber: hasNumber,
+        hasSpecial: hasSpecial
+      };
+    }
+
+    // Cryptographic Bench UI Controller
+    function initCryptographicBench() {
+      var pwdInput = document.getElementById("pwd-input");
+      var toggleVisBtn = document.getElementById("toggle-pwd-visibility-btn");
+      var clearBtn = document.getElementById("clear-pwd-btn");
+      var genPassphraseBtn = document.getElementById("generate-passphrase-btn");
+
+      var entropyBitsEl = document.getElementById("entropy-bits");
+      var realEntropyBitsEl = document.getElementById("real-entropy-bits");
+      var entropyPoolDescEl = document.getElementById("entropy-pool-desc");
+      var keyspaceDescEl = document.getElementById("keyspace-desc");
+
+      var zxcvbnTimeEl = document.getElementById("zxcvbn-time");
+      var zxcvbnScoreDescEl = document.getElementById("zxcvbn-score-desc");
+
+      var knownBanner = document.getElementById("known-banner");
+      var penaltyBox = document.getElementById("penalty-box");
+      var penaltyTags = document.getElementById("penalty-tags");
+      var penaltyCountBadge = document.getElementById("penalty-count-badge");
+
+      var timerYears = document.getElementById("timer-years");
+      var timerMonths = document.getElementById("timer-months");
+      var timerDays = document.getElementById("timer-days");
+      var timerHours = document.getElementById("timer-hours");
+      var timerMinutes = document.getElementById("timer-minutes");
+      var timerSeconds = document.getElementById("timer-seconds");
+
+      var traversalBar = document.getElementById("traversal-bar");
+      var traversalStatusText = document.getElementById("traversal-status-text");
+      var traversalPctText = document.getElementById("traversal-pct-text");
+      var trendChipsList = document.getElementById("trend-chips-list");
+
+      // Entropy Resistance Gap & Penalty Gauge Elements
+      var gapSegEffective = document.getElementById("gap-seg-effective");
+      var gapSegPenalty = document.getElementById("gap-seg-penalty");
+      var gapPenaltyBadge = document.getElementById("gap-penalty-badge");
+
+      // Collapsible Audit Report Drawer Elements
+      var toggleReportBtn = document.getElementById("toggle-report-btn");
+      var auditReportDrawer = document.getElementById("audit-report-drawer");
+      var auditReportText = document.getElementById("audit-report-text");
+      var copyReportBtn = document.getElementById("copy-report-btn");
+      var saveReportBtn = document.getElementById("save-report-btn");
+      var closeReportBtn = document.getElementById("close-report-btn");
+
+      var critLen = document.getElementById("crit-len");
+      var critCasing = document.getElementById("crit-casing");
+      var critNum = document.getElementById("crit-num");
+      var critSym = document.getElementById("crit-sym");
+
+      var sampleBtns = document.querySelectorAll(".sample-chip-btn");
+
+      if (!pwdInput) return;
+
+      function renderEvaluation(pwd) {
+        if (!pwd || pwd.length === 0) {
+          resetDisplay();
+          return;
+        }
+
+        var res = evaluateCryptographicDurability(pwd, false);
+        res.uniqueSpecials = res.uniqueSpecials || 0;
+        lastEvaluatedAuditData = res;
+        lastEvaluatedAuditData.rawLength = pwd.length;
+        lastEvaluatedAuditData.sampleVal = pwd;
+
+        // Checklist Updates
+        updateCriterion(critLen, res.length >= 8, "Minimum 8 characters (" + res.length + " entered)");
+        updateCriterion(critCasing, res.hasCasing, "Mixed casing (both upper & lowercase)");
+        updateCriterion(critNum, res.hasNumber, "Numerical digits (0–9)");
+        updateCriterion(critSym, res.hasSpecial, "Special symbols (" + res.uniqueSpecials + " distinct)");
+
+        // 1. NIST Theoretical
+        entropyBitsEl.textContent = res.theoreticalEntropy.toFixed(1);
+        entropyPoolDescEl.textContent = "Scaled Pool: " + res.poolSize + " chars (" + (res.uniqueSpecials > 0 ? res.uniqueSpecials + " sym" : "no sym") + ")";
+
+        // 2. Real-World Attack
+        realEntropyBitsEl.textContent = res.realEntropy.toFixed(1);
+        var totalComb = Math.pow(2, res.realEntropy);
+        if (totalComb > 1e15) {
+          keyspaceDescEl.textContent = "Effective: 2^" + res.realEntropy.toFixed(1) + " (" + totalComb.toExponential(2) + ")";
+        } else {
+          keyspaceDescEl.textContent = "Effective: ~" + Math.round(totalComb).toLocaleString() + " hashes";
+        }
+
+        // 3. Dropbox zxcvbn Benchmark Integration
+        var zxcvbnResult = null;
+        if (typeof zxcvbn === "function") {
+          try {
+            zxcvbnResult = zxcvbn(pwd);
+          } catch (e) {
+            console.warn("zxcvbn execution error:", e);
+          }
+        }
+
+        if (zxcvbnResult) {
+          var displayTime = zxcvbnResult.crack_times_display.offline_fast_hashing_1e10_per_second || "Instant";
+          var score = zxcvbnResult.score;
+          var starLabels = ["★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"];
+          var scoreText = ["Very Weak", "Weak", "Fair", "Strong", "Very Strong"][score];
+
+          zxcvbnTimeEl.textContent = displayTime;
+          zxcvbnScoreDescEl.textContent = starLabels[score] + " Score " + score + "/4 (" + scoreText + ")";
+          lastEvaluatedAuditData.zxcvbnScore = score;
+          lastEvaluatedAuditData.zxcvbnTime = displayTime;
+        } else {
+          zxcvbnTimeEl.textContent = "Checking...";
+          zxcvbnScoreDescEl.textContent = "CDN benchmark initializing";
+        }
+
+        // Update Visual Entropy Resistance Gap & Penalty Gauge (0 - 128 bit scale)
+        var deltaBits = Math.max(0, res.theoreticalEntropy - res.realEntropy);
+        var SCALE_MAX_BITS = 128;
+        var effectivePct = Math.min(100, (res.realEntropy / SCALE_MAX_BITS) * 100);
+        var penaltyPct = Math.min(100 - effectivePct, (deltaBits / SCALE_MAX_BITS) * 100);
+
+        if (gapSegEffective) {
+          gapSegEffective.style.width = effectivePct.toFixed(1) + "%";
+        }
+        if (gapSegPenalty) {
+          gapSegPenalty.style.width = penaltyPct.toFixed(1) + "%";
+        }
+        if (gapPenaltyBadge) {
+          if (deltaBits === 0 && res.realEntropy > 0) {
+            gapPenaltyBadge.textContent = "0.0 bits penalty (Optimal)";
+            gapPenaltyBadge.style.color = "#059669";
+            gapPenaltyBadge.style.background = "var(--accent-emerald-bg)";
+            gapPenaltyBadge.style.borderColor = "var(--accent-emerald-border)";
+          } else {
+            gapPenaltyBadge.textContent = "-" + deltaBits.toFixed(1) + " bits penalty";
+            gapPenaltyBadge.style.color = "";
+            gapPenaltyBadge.style.background = "";
+            gapPenaltyBadge.style.borderColor = "";
+          }
+        }
+
+        // Known Compromise Banner
+        if (res.isKnownExample) {
+          knownBanner.style.display = "block";
+        } else {
+          knownBanner.style.display = "none";
+        }
+
+        // Render Penalties
+        if (res.penalties.length > 0) {
+          penaltyBox.style.display = "block";
+          penaltyCountBadge.textContent = res.penalties.length + (res.penalties.length === 1 ? " Penalty Detected" : " Penalties Detected");
+          penaltyTags.innerHTML = "";
+          res.penalties.forEach(function(p) {
+            var tag = document.createElement("span");
+            tag.className = "penalty-pill " + p.type;
+            tag.textContent = p.label;
+            penaltyTags.appendChild(tag);
+          });
+        } else {
+          penaltyBox.style.display = "block";
+          penaltyCountBadge.textContent = "Pattern Clean";
+          penaltyCountBadge.style.color = "#10b981";
+          penaltyCountBadge.style.background = "rgba(16, 185, 129, 0.1)";
+          penaltyTags.innerHTML = '<span class="penalty-pill good">✓ No common dictionary roots, leet substitutions, or textbook patterns detected</span>';
+        }
+
+        // Digital Countdown Display
+        renderDigitalCountdown(res.crackSeconds, res.realEntropy);
+
+        // Update In-Memory Volatile Trend History
+        recordSessionTrend(res.realEntropy);
+
+        // Update In-Page Audit Report Text if drawer is open
+        if (auditReportDrawer && auditReportDrawer.style.display !== "none") {
+          updateAuditReportContent();
+        }
+      }
+
+      function renderDigitalCountdown(totalSeconds, entropy) {
+        var SECONDS_PER_YEAR = 31536000;
+        var SECONDS_PER_MONTH = 2592000;
+        var SECONDS_PER_DAY = 86400;
+        var SECONDS_PER_HOUR = 3600;
+        var SECONDS_PER_MINUTE = 60;
+
+        var yr = 0, mo = 0, dy = 0, hr = 0, mn = 0, sc = 0;
+        var digitColorClass = "critical";
+
+        if (entropy < 32) {
+          digitColorClass = "critical";
+        } else if (entropy < 55) {
+          digitColorClass = "critical";
+        } else if (entropy < 75) {
+          digitColorClass = "safe";
+        } else {
+          digitColorClass = "safe";
+        }
+
+        if (totalSeconds >= SECONDS_PER_YEAR) {
+          yr = Math.floor(totalSeconds / SECONDS_PER_YEAR);
+          var remYr = totalSeconds % SECONDS_PER_YEAR;
+          mo = Math.floor(remYr / SECONDS_PER_MONTH);
+          var remMo = remYr % SECONDS_PER_MONTH;
+          dy = Math.floor(remMo / SECONDS_PER_DAY);
+          var remDy = remMo % SECONDS_PER_DAY;
+          hr = Math.floor(remDy / SECONDS_PER_HOUR);
+          mn = Math.floor((remDy % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
+          sc = Math.floor(remDy % SECONDS_PER_MINUTE);
+        } else if (totalSeconds >= SECONDS_PER_DAY) {
+          dy = Math.floor(totalSeconds / SECONDS_PER_DAY);
+          var remDy = totalSeconds % SECONDS_PER_DAY;
+          hr = Math.floor(remDy / SECONDS_PER_HOUR);
+          mn = Math.floor((remDy % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
+          sc = Math.floor(remDy % SECONDS_PER_MINUTE);
+        } else if (totalSeconds >= SECONDS_PER_HOUR) {
+          hr = Math.floor(totalSeconds / SECONDS_PER_HOUR);
+          var remHr = totalSeconds % SECONDS_PER_HOUR;
+          mn = Math.floor(remHr / SECONDS_PER_MINUTE);
+          sc = Math.floor(remHr % SECONDS_PER_MINUTE);
+        } else if (totalSeconds >= SECONDS_PER_MINUTE) {
+          mn = Math.floor(totalSeconds / SECONDS_PER_MINUTE);
+          sc = (totalSeconds % SECONDS_PER_MINUTE).toFixed(1);
+        } else {
+          sc = totalSeconds < 0.001 ? (totalSeconds * 1000).toFixed(3) + "ms" : totalSeconds.toFixed(4) + "s";
+        }
+
+        timerYears.textContent = yr > 9999 ? "9999+" : String(yr).padStart(2, '0');
+        timerMonths.textContent = String(mo).padStart(2, '0');
+        timerDays.textContent = String(dy).padStart(2, '0');
+        timerHours.textContent = String(hr).padStart(2, '0');
+        timerMinutes.textContent = String(mn).padStart(2, '0');
+        timerSeconds.textContent = typeof sc === 'number' ? String(sc).padStart(2, '0') : sc;
+
+        [timerYears, timerMonths, timerDays, timerHours, timerMinutes, timerSeconds].forEach(function(el) {
+          el.className = "time-digit-val " + digitColorClass;
+        });
+
+        if (traversalBar) {
+          traversalBar.style.width = Math.min(100, Math.max(5, (100 - entropy))) + "%";
+          traversalBar.className = "traversal-fill scanning";
+        }
+        if (traversalStatusText) {
+          if (totalSeconds < 0.1) {
+            traversalStatusText.textContent = "Traversed instantly (<0.1s) under 100 GH/s offline rig";
+          } else if (totalSeconds < 86400) {
+            traversalStatusText.textContent = "Exhausted within hours under dictionary + mask attack";
+          } else if (totalSeconds < 31536000) {
+            traversalStatusText.textContent = "Sub-year resistance under dedicated offline cluster";
+          } else {
+            traversalStatusText.textContent = "Robust cryptographic depth: resilient against offline clusters";
+          }
+        }
+        if (traversalPctText) {
+          traversalPctText.textContent = entropy.toFixed(1) + " bits effective strength";
+        }
+      }
+
+      function recordSessionTrend(currentEntropy) {
+        if (!trendChipsList) return;
+        var prevItem = inMemoryTrendHistory[inMemoryTrendHistory.length - 1];
+        var delta = 0;
+        var deltaStr = "";
+        var trendClass = "";
+
+        if (prevItem) {
+          delta = currentEntropy - prevItem.entropy;
+          if (delta > 0.5) {
+            deltaStr = "(+" + delta.toFixed(1) + " ↗)";
+            trendClass = "stronger";
+          } else if (delta < -0.5) {
+            deltaStr = "(" + delta.toFixed(1) + " ↘)";
+            trendClass = "weaker";
+          } else {
+            deltaStr = "(=)";
+          }
+        }
+
+        if (!prevItem || Math.abs(currentEntropy - prevItem.entropy) > 0.2) {
+          inMemoryTrendHistory.push({
+            entropy: currentEntropy,
+            deltaStr: deltaStr,
+            trendClass: trendClass
+          });
+
+          if (inMemoryTrendHistory.length > 3) {
+            inMemoryTrendHistory.shift();
+          }
+        }
+
+        trendChipsList.innerHTML = "";
+        inMemoryTrendHistory.forEach(function(item, idx) {
+          var chip = document.createElement("span");
+          chip.className = "trend-chip " + item.trendClass;
+          chip.textContent = "Test #" + (idx + 1) + ": " + item.entropy.toFixed(1) + "b " + item.deltaStr;
+          trendChipsList.appendChild(chip);
+        });
+      }
+
+      function generateAuditReportString() {
+        if (!lastEvaluatedAuditData || lastEvaluatedAuditData.rawLength === 0) {
+          return "No credential evaluated yet. Please enter a password above.";
+        }
+
+        var now = new Date();
+        var timeStr = now.toISOString().replace("T", " ").substring(0, 19) + " UTC";
+        var d = lastEvaluatedAuditData;
+        var safeSpecials = d.uniqueSpecials || 0;
+
+        var reportLines = [
+          "================================================================================",
+          "AUTHGUARD // K.E.A.N. CORE — CRYPTOGRAPHIC AUDIT REPORT",
+          "Client-Side Zero-Retention Cryptographic Verification Receipt",
+          "================================================================================",
+          "Generated At: " + timeStr,
+          "Candidate Target: Mawutorwu Klu",
+          "Academic Course: TECH 3498: IT Computer Security (Fall 2026)",
+          "Audit Architecture: 100% Client-Side Verified (Zero Network Storage/Transfer)",
+          "",
+          "1. CREDENTIAL MORPHOLOGY & COMPOSITION:",
+          "--------------------------------------------------------------------------------",
+          "- Length: " + d.rawLength + " characters",
+          "- Lowercase Alphabet [a-z]: " + (/[a-z]/.test(pwdInput.value) ? "PRESENT" : "ABSENT"),
+          "- Uppercase Alphabet [A-Z]: " + (/[A-Z]/.test(pwdInput.value) ? "PRESENT" : "ABSENT"),
+          "- Numerical Digits [0-9]: " + (d.hasNumber ? "PRESENT" : "ABSENT"),
+          "- Distinct Special Symbols: " + safeSpecials,
+          "- Scaled Effective Character Pool: " + d.poolSize + " characters",
+          "",
+          "2. CRYPTOGRAPHIC ENTROPY MEASUREMENTS:",
+          "--------------------------------------------------------------------------------",
+          "- NIST Theoretical Uniform Entropy: " + d.theoreticalEntropy.toFixed(2) + " bits",
+          "- Real-World Attack Entropy (Calibrated): " + d.realEntropy.toFixed(2) + " bits",
+          "- Threat Rig Penalty Gap: -" + (d.theoreticalEntropy - d.realEntropy).toFixed(2) + " bits (" + (d.theoreticalEntropy > 0 ? (((d.theoreticalEntropy - d.realEntropy) / d.theoreticalEntropy) * 100).toFixed(1) : "0.0") + "% vulnerability reduction)",
+          "- 128-Bit Scale Resistance Saturation: " + Math.min(100, (d.realEntropy / 128) * 100).toFixed(1) + "% (" + (d.realEntropy >= 80 ? "Resilient" : (d.realEntropy >= 50 ? "Moderate" : "Critically Vulnerable")) + ")",
+          "- Effective Search Space: ~2^" + d.realEntropy.toFixed(1) + " candidate combinations",
+          "",
+          "3. INDUSTRY BENCHMARK COMPARISON (DROPBOX ZXCVBN):",
+          "--------------------------------------------------------------------------------",
+          "- Dropbox zxcvbn Score: " + (d.zxcvbnScore !== undefined ? d.zxcvbnScore + " / 4" : "N/A"),
+          "- zxcvbn Fast Hashing Crack Estimate: " + (d.zxcvbnTime || "N/A"),
+          "- Offline Threat Rig Baseline: 8x RTX 4090 @ 100 GH/s",
+          "- Estimated Time to Exhaust Keyspace: " + (d.crackSeconds < 0.1 ? "< 0.10s (Instant)" : (d.crackSeconds < 3600 ? (d.crackSeconds / 60).toFixed(1) + " minutes" : (d.crackSeconds / 3600).toFixed(2) + " hours")),
+          "",
+          "4. DETECTED ATTACK PATTERNS & VULNERABILITY PENALTIES:",
+          "--------------------------------------------------------------------------------"
+        ];
+
+        if (d.isKnownExample) {
+          reportLines.push("CRITICAL ALERT: Matches globally documented textbook example (assume compromised).");
+        }
+
+        if (d.penalties.length > 0) {
+          d.penalties.forEach(function(p, idx) {
+            reportLines.push("[" + (idx + 1) + "] " + p.label);
+          });
+        } else {
+          reportLines.push("No common dictionary roots, leet substitutions, or template masks identified.");
+        }
+
+        reportLines.push("");
+        reportLines.push("5. CLIENT-SIDE ZERO-RETENTION ATTESTATION:");
+        reportLines.push("--------------------------------------------------------------------------------");
+        reportLines.push("Attestation: This security receipt was generated purely in-browser via JavaScript.");
+        reportLines.push("Neither plaintext passwords nor hashes were saved, logged, or sent to any server.");
+        reportLines.push("================================================================================");
+
+        return reportLines.join("\r\n");
+      }
+
+      function updateAuditReportContent() {
+        if (auditReportText) {
+          auditReportText.textContent = generateAuditReportString();
+        }
+      }
+
+      if (toggleReportBtn && auditReportDrawer) {
+        toggleReportBtn.addEventListener("click", function() {
+          if (auditReportDrawer.style.display === "none" || !auditReportDrawer.style.display) {
+            updateAuditReportContent();
+            auditReportDrawer.style.display = "block";
+            toggleReportBtn.textContent = "✕ Close Audit Report";
+            auditReportDrawer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          } else {
+            auditReportDrawer.style.display = "none";
+            toggleReportBtn.textContent = "📋 View Audit Report";
+          }
+        });
+      }
+
+      if (closeReportBtn && auditReportDrawer) {
+        closeReportBtn.addEventListener("click", function() {
+          auditReportDrawer.style.display = "none";
+          if (toggleReportBtn) toggleReportBtn.textContent = "📋 View Audit Report";
+        });
+      }
+
+      if (copyReportBtn) {
+        copyReportBtn.addEventListener("click", function() {
+          var textToCopy = generateAuditReportString();
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy).then(function() {
+              var oldLabel = copyReportBtn.innerHTML;
+              copyReportBtn.textContent = "✓ Copied!";
+              copyReportBtn.style.background = "#059669";
+              setTimeout(function() {
+                copyReportBtn.innerHTML = oldLabel;
+                copyReportBtn.style.background = "";
+              }, 2200);
+            }).catch(function() {
+              alert("Could not automatically copy text to clipboard.");
+            });
+          }
+        });
+      }
+
+      if (saveReportBtn) {
+        saveReportBtn.addEventListener("click", function() {
+          var reportContent = generateAuditReportString();
+          var reportBlob = new Blob([reportContent], { type: "text/plain;charset=utf-8" });
+          var blobUrl = URL.createObjectURL(reportBlob);
+          var downloadAnchor = document.createElement("a");
+          downloadAnchor.href = blobUrl;
+          downloadAnchor.download = "AuthGuard-Receipt-" + Date.now() + ".txt";
+          downloadAnchor.click();
+          URL.revokeObjectURL(blobUrl);
+        });
+      }
+
+      // Interactive NIST Diceware Passphrase Generator
+      if (genPassphraseBtn) {
+        genPassphraseBtn.addEventListener("click", function() {
+          var array = new Uint32Array(4);
+          window.crypto.getRandomValues(array);
+          var words = [];
+          for (var i = 0; i < 4; i++) {
+            words.push(DICEWARE_WORDS[array[i] % DICEWARE_WORDS.length]);
+          }
+          var generatedPhrase = words.join("-");
+          pwdInput.value = generatedPhrase;
+          pwdInput.type = "text";
+          if (toggleVisBtn) {
+            toggleVisBtn.textContent = "🙈";
+            toggleVisBtn.setAttribute("title", "Hide candidate password");
+          }
+          renderEvaluation(generatedPhrase);
+          pwdInput.focus();
+        });
+      }
+
+      function updateCriterion(el, isValid, text) {
+        if (!el) return;
+        var indicator = el.querySelector(".criteria-indicator");
+        if (isValid) {
+          el.classList.add("valid");
+          if (indicator) indicator.textContent = "✓";
+        } else {
+          el.classList.remove("valid");
+          if (indicator) indicator.textContent = "•";
+        }
+      }
+
+      function resetDisplay() {
+        lastEvaluatedAuditData = null; // Clean reset
+
+        entropyBitsEl.textContent = "0.0";
+        realEntropyBitsEl.textContent = "0.0";
+        entropyPoolDescEl.textContent = "Scaled Pool: 0 chars";
+        keyspaceDescEl.textContent = "Effective: 0 combinations";
+        zxcvbnTimeEl.textContent = "Instant";
+        zxcvbnScoreDescEl.textContent = "Score: 0 / 4 (Waiting for input)";
+        knownBanner.style.display = "none";
+        penaltyBox.style.display = "none";
+
+        if (gapSegEffective) gapSegEffective.style.width = "0%";
+        if (gapSegPenalty) gapSegPenalty.style.width = "0%";
+        if (gapPenaltyBadge) {
+          gapPenaltyBadge.textContent = "-0.0 bits penalty";
+          gapPenaltyBadge.style.color = "";
+          gapPenaltyBadge.style.background = "";
+          gapPenaltyBadge.style.borderColor = "";
+        }
+
+        timerYears.textContent = "00";
+        timerMonths.textContent = "00";
+        timerDays.textContent = "00";
+        timerHours.textContent = "00";
+        timerMinutes.textContent = "00";
+        timerSeconds.textContent = "00.000";
+
+        [timerYears, timerMonths, timerDays, timerHours, timerMinutes, timerSeconds].forEach(function(el) {
+          el.className = "time-digit-val";
+        });
+
+        if (traversalBar) {
+          traversalBar.style.width = "0%";
+          traversalBar.className = "traversal-fill";
+        }
+        if (traversalStatusText) traversalStatusText.textContent = "Keyspace traversal rate: Standby";
+        if (traversalPctText) traversalPctText.textContent = "0.0% Exhaustion Depth";
+
+        if (auditReportText) {
+          auditReportText.textContent = "No credential evaluated yet. Please enter a password above.";
+        }
+
+        [critLen, critCasing, critNum, critSym].forEach(function(el) {
+          if (el) {
+            el.classList.remove("valid");
+            var ind = el.querySelector(".criteria-indicator");
+            if (ind) ind.textContent = "•";
+          }
+        });
+      }
+
+      pwdInput.addEventListener("input", function() {
+        renderEvaluation(pwdInput.value);
+      });
+
+      if (toggleVisBtn) {
+        toggleVisBtn.addEventListener("click", function() {
+          if (pwdInput.type === "password") {
+            pwdInput.type = "text";
+            toggleVisBtn.textContent = "🙈";
+            toggleVisBtn.setAttribute("title", "Hide candidate password");
+          } else {
+            pwdInput.type = "password";
+            toggleVisBtn.textContent = "👁️";
+            toggleVisBtn.setAttribute("title", "Show candidate password");
+          }
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener("click", function() {
+          pwdInput.value = "";
+          resetDisplay();
+          pwdInput.focus();
+        });
+      }
+
+      sampleBtns.forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var sample = btn.getAttribute("data-pwd") || "";
+          pwdInput.value = sample;
+          renderEvaluation(sample);
+        });
+      });
+
+      // Asynchronous zxcvbn Loading Guard
+      function onZxcvbnLoaded() {
+        if (pwdInput && pwdInput.value) {
+          renderEvaluation(pwdInput.value);
+        }
+      }
+      var zxcvbnScript = document.getElementById("zxcvbn-script");
+      if (zxcvbnScript) {
+        zxcvbnScript.addEventListener("load", onZxcvbnLoaded);
+      }
+      window.addEventListener("load", function() {
+        if (typeof zxcvbn === "function") {
+          onZxcvbnLoaded();
+        }
+      });
+    }
+
+    // 4. Rotating Security Tip Generator
+    function initTipGenerator() {
+      var tipButton = document.getElementById("tip-btn");
+      var tipDisplay = document.getElementById("tip-display");
+      if (!tipButton || !tipDisplay) return;
+
+      var tips = [
+        "Security Tip: Never share your passwords with anyone and update them every 6 months.",
+        "Security Tip: Never reuse the same password across multiple websites or personal accounts.",
+        "Security Tip: Always verify the sender's true email address before clicking links or downloading attachments.",
+        "Security Tip: Enable Multi-Factor Authentication (MFA) on all critical accounts, especially email and banking.",
+        "Security Tip: Keep your operating system, web browser, and security software updated to patch known vulnerabilities.",
+        "Security Tip: Avoid conducting financial transactions or logging into sensitive accounts on public unencrypted Wi-Fi.",
+        "Security Tip: Consider using 16+ character passphrases instead of short complex words to resist brute-force cracking."
+      ];
+
+      var currentIndex = 0;
+      tipButton.addEventListener("click", function() {
+        tipDisplay.style.display = "block";
+        tipDisplay.textContent = tips[currentIndex];
+        currentIndex = (currentIndex + 1) % tips.length;
+        tipButton.textContent = "Show Another Tip";
+      });
+    }
+
+    // 5. 4-Stage Siri-Style Voice Activation Pipeline for K.E.A.N.
+    function initAIAssistant() {
+      var launcher = document.getElementById("ai-launcher");
+      var widget = document.getElementById("ai-widget");
+      var closeBtn = document.getElementById("ai-close-btn");
+      var form = document.getElementById("ai-form");
+      var input = document.getElementById("ai-input");
+      var messagesContainer = document.getElementById("ai-messages");
+      var chips = document.querySelectorAll(".ai-chip, .ai-chip-pill");
+
+      var sidebarVoiceBtn = document.getElementById("sidebar-voice-btn");
+      var sidebarTestVoiceBtn = document.getElementById("sidebar-test-voice-btn");
+      var sidebarStatusPill = document.getElementById("sidebar-ai-status");
+      var sidebarWaveform = document.getElementById("sidebar-waveform");
+      var sidebarWaveText = document.getElementById("sidebar-wave-text");
+      var sidebarSpeechBubble = document.getElementById("sidebar-ai-speech");
+      var micBtn = document.getElementById("ai-mic-btn");
+
+      var aiHandsfreeBtn = document.getElementById("ai-handsfree-btn");
+      var aiVoiceToggle = document.getElementById("ai-voice-toggle");
+
+      var isListening = false;
+      var isSpeaking = false;
+      var voiceMuted = false;
+      var wakeChimeAudioCtx = null;
+
+      // Unlock and prepare AudioContext within user gesture
+      function unlockAudioContext() {
+        try {
+          var AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          if (!wakeChimeAudioCtx) wakeChimeAudioCtx = new AudioCtx();
+          if (wakeChimeAudioCtx.state === "suspended") wakeChimeAudioCtx.resume();
+        } catch (e) {}
+      }
+
+      function playWakeChime() {
+        try {
+          if (!wakeChimeAudioCtx) unlockAudioContext();
+          if (!wakeChimeAudioCtx) return;
+
+          var now = wakeChimeAudioCtx.currentTime;
+          var osc1 = wakeChimeAudioCtx.createOscillator();
+          var gain1 = wakeChimeAudioCtx.createGain();
+          osc1.type = "sine";
+          osc1.frequency.setValueAtTime(520, now);
+          osc1.frequency.exponentialRampToValueAtTime(680, now + 0.14);
+          gain1.gain.setValueAtTime(0.12, now);
+          gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          osc1.connect(gain1);
+          gain1.connect(wakeChimeAudioCtx.destination);
+          osc1.start(now);
+          osc1.stop(now + 0.22);
+        } catch (e) {}
+      }
+
+      if (launcher && widget) {
+        launcher.addEventListener("click", function() {
+          widget.classList.toggle("active");
+          if (widget.classList.contains("active") && input) input.focus();
+        });
+      }
+
+      if (closeBtn && widget) {
+        closeBtn.addEventListener("click", function() {
+          widget.classList.remove("active");
+        });
+      }
+
+      if (aiVoiceToggle) {
+        aiVoiceToggle.addEventListener("click", function() {
+          voiceMuted = !voiceMuted;
+          aiVoiceToggle.textContent = voiceMuted ? "🔇" : "🔊";
+          if (voiceMuted && 'speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+          }
+        });
+      }
+
+      function processLocalQuery(query) {
+        var q = query.toLowerCase().trim();
+        var reply = "K.E.A.N. // SENTRY-3498 is active. Monitoring credential resilience.";
+
+        if (q.includes("mawutorwu") || q.includes("who is") || q.includes("creator") || q.includes("student")) {
+          reply = "🏆 <strong>Mawutorwu Klu</strong> is an undergraduate Senior at Kean University majoring in B.S. in Information Technology with a Concentration in Cybersecurity for TECH 3498!";
+        } else if (q.includes("goal") || q.includes("course goals")) {
+          reply = "🎯 <strong>Course Goals:</strong> 1) Personal digital protection, 2) Mastering attack vectors & system defense, 3) Developing industry-ready technical skills!";
+        } else if (q.includes("mask") || q.includes("hashcat")) {
+          reply = "⚡ <strong>Hashcat Mask Attacks:</strong> Attackers don't guess randomly! They use templates like ?u?l?l?l?d?d?d?d?s (Word + Year + Symbol) to shrink keyspaces from billions of years down to minutes!";
+        } else if (q.includes("xkcd") || q.includes("diceware") || q.includes("phrase")) {
+          reply = "📘 <strong>Textbook Passphrase Risk:</strong> While random Diceware phrases have strong entropy, famous textbook examples (like 'correct-horse-battery-staple') are precomputed by adversaries and cracked in milliseconds!";
+        } else if (q.includes("tip") || q.includes("password rule") || q.includes("6 month") || q.includes("six month")) {
+          reply = "👋 <strong>CYBERSECURITY RULE:</strong> Never share passwords with anyone, and update them every 6 months! If adversaries can't see them, they can't breach them!";
+        } else if (q.includes("proposal") || q.includes("project") || q.includes("authguard")) {
+          reply = "📋 <strong>Course Proposal:</strong> AuthGuard // K.E.A.N. Core—an interactive client-side cryptographic testing bench featuring calibrated threat modeling and zxcvbn benchmarking!";
+        } else if (q.includes("share") || q.includes("privacy")) {
+          reply = "🔒 <strong>Privacy Notice:</strong> Never share sensitive personal information online, including home address, phone numbers, or passwords!";
+        } else if (q.includes("shock") || q.includes("fact") || q.includes("hardware")) {
+          reply = "⚡ <strong>Hardware Fun Fact:</strong> When Mawutorwu was a kid, he used to tinker with the inside of his system unit, until one day he got shocked and stopped!";
+        } else if (q.includes("generate") || q.includes("passphrase")) {
+          reply = "🎲 Click the 'Generate Secure NIST Passphrase' button above to create a cryptographically secure 4-word Diceware passphrase!";
+        } else {
+          reply = "🛡️ <strong>K.E.A.N. HEARD:</strong> \"" + query + "\" — Ask me about Mawutorwu Klu, course goals, Hashcat mask attacks, or the 6-month password rule!";
+        }
+
+        return reply;
+      }
+
+      function speakResponse(text) {
+        if (voiceMuted || !('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+
+        isSpeaking = true;
+        // Pause recognition while speaking so K.E.A.N. doesn't hear itself
+        if (recognition && isListening) {
+          try { recognition.stop(); } catch (e) {}
+        }
+
+        if (sidebarStatusPill) {
+          sidebarStatusPill.textContent = "Speaking 🎺";
+          sidebarStatusPill.className = "ai-status-pill speaking";
+        }
+        if (sidebarWaveform) sidebarWaveform.classList.add("active");
+        if (sidebarWaveText) sidebarWaveText.textContent = "K.E.A.N. is speaking...";
+
+        var cleanText = text.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+        var utt = new SpeechSynthesisUtterance(cleanText);
+        utt.pitch = 0.85;
+        utt.rate = 1.08;
+        utt.volume = 1.0;
+
+        utt.onend = function() {
+          isSpeaking = false;
+          // Automatically re-arm recognition after speaking
+          if (isListening && recognition) {
+            try { recognition.start(); } catch (e) {}
+          }
+          if (sidebarStatusPill) {
+            sidebarStatusPill.textContent = isListening ? "Listening 🎙️" : "Ready 🎙️";
+            sidebarStatusPill.className = isListening ? "ai-status-pill listening" : "ai-status-pill";
+          }
+          if (sidebarWaveform && !isListening) {
+            sidebarWaveform.classList.remove("active");
+          }
+          if (sidebarWaveText) {
+            sidebarWaveText.textContent = isListening ? "Passive Listening (Say 'Hey K.E.A.N.')" : "Voice Standby";
+          }
+        };
+
+        utt.onerror = function() {
+          isSpeaking = false;
+          if (isListening && recognition) {
+            try { recognition.start(); } catch (e) {}
+          }
+          if (sidebarWaveform) sidebarWaveform.classList.remove("active");
+        };
+
+        window.speechSynthesis.speak(utt);
+      }
+
+      function handleQuery(query) {
+        if (!query) return;
+        var reply = processLocalQuery(query);
+
+        if (sidebarSpeechBubble) sidebarSpeechBubble.innerHTML = reply;
+        appendMsg(query, "user");
+        setTimeout(function() {
+          appendMsg(reply, "bot");
+          speakResponse(reply);
+        }, 150);
+      }
+
+      function appendMsg(txt, sender) {
+        if (!messagesContainer) return;
+        var d = document.createElement("div");
+        d.className = "ai-msg " + sender;
+        d.innerHTML = txt;
+        messagesContainer.appendChild(d);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+
+      // 4-Stage Speech Recognition Pipeline
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var recognition = null;
+
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognition.onstart = function() {
+          isListening = true;
+          if (sidebarStatusPill) {
+            sidebarStatusPill.textContent = "Listening 🎙️";
+            sidebarStatusPill.className = "ai-status-pill listening";
+          }
+          if (sidebarWaveform) sidebarWaveform.classList.add("active");
+          if (sidebarWaveText) sidebarWaveText.textContent = "Passive Listening (Say 'Hey K.E.A.N.')";
+          if (sidebarVoiceBtn) {
+            sidebarVoiceBtn.textContent = "🛑 Stop Listening";
+            sidebarVoiceBtn.classList.add("listening");
+          }
+          if (micBtn) micBtn.classList.add("listening");
+          if (aiHandsfreeBtn) {
+            aiHandsfreeBtn.textContent = "🎙️ Listening ON";
+            aiHandsfreeBtn.style.background = "var(--accent-emerald)";
+          }
+        };
+
+        recognition.onresult = function(event) {
+          if (!event.results || event.results.length === 0) return;
+          var lastResult = event.results[event.results.length - 1];
+          if (!lastResult || !lastResult[0]) return;
+
+          var transcript = lastResult[0].transcript.trim();
+          var wakeMatch = transcript.match(/\b(hey\s+kean|hey\s+k\.e\.a\.n\.|hey\s+sentry|kean|k\.e\.a\.n\.|sentry)\b/i);
+
+          if (wakeMatch) {
+            playWakeChime();
+            var extractedQuery = transcript.replace(/\b(hey\s+kean|hey\s+k\.e\.a\.n\.|hey\s+sentry|kean|k\.e\.a\.n\.|sentry)\b/gi, "").trim();
+
+            if (!extractedQuery) {
+              var wakeGreet = "K.E.A.N. Core listening! What can I analyze for you?";
+              if (sidebarSpeechBubble) sidebarSpeechBubble.innerHTML = "🛡️ <strong>WAKE WORD DETECTED:</strong> " + wakeGreet;
+              speakResponse(wakeGreet);
+            } else {
+              handleQuery(extractedQuery);
+            }
+          } else if (isListening && !isSpeaking) {
+            handleQuery(transcript);
+          }
+        };
+
+        recognition.onerror = function(e) {
+          console.warn("Speech recognition notice:", e.error);
+          if (e.error === "not-allowed") {
+            isListening = false;
+            if (sidebarStatusPill) {
+              sidebarStatusPill.textContent = "Mic Blocked ⚠️";
+              sidebarStatusPill.className = "ai-status-pill";
+            }
+            if (sidebarWaveform) sidebarWaveform.classList.remove("active");
+          }
+        };
+
+        recognition.onend = function() {
+          // Restart immediately if user still wants listening active and K.E.A.N. is not speaking
+          if (isListening && !isSpeaking) {
+            try { recognition.start(); } catch (err) {}
+          } else if (!isListening) {
+            if (sidebarStatusPill) {
+              sidebarStatusPill.textContent = "Ready 🎙️";
+              sidebarStatusPill.className = "ai-status-pill";
+            }
+            if (sidebarWaveform && !isSpeaking) sidebarWaveform.classList.remove("active");
+            if (sidebarVoiceBtn) {
+              sidebarVoiceBtn.textContent = "🎙️ Click to Speak";
+              sidebarVoiceBtn.classList.remove("listening");
+            }
+            if (micBtn) micBtn.classList.remove("listening");
+            if (aiHandsfreeBtn) {
+              aiHandsfreeBtn.textContent = "🎙️ Auto-Listen";
+              aiHandsfreeBtn.style.background = "";
+            }
+          }
+        };
+      }
+
+      function toggleVoiceListening() {
+        unlockAudioContext();
+        if (!recognition) {
+          alert("Web Speech API is supported in Google Chrome and Microsoft Edge.");
+          return;
+        }
+
+        if (isListening) {
+          isListening = false;
+          try { recognition.stop(); } catch (e) {}
+        } else {
+          isListening = true;
+          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+              stream.getTracks().forEach(function(t) { t.stop(); });
+              try { recognition.start(); } catch (e) {}
+            }).catch(function() {
+              isListening = false;
+              alert("Microphone permission required to enable K.E.A.N. Voice Activation.");
+            });
+          } else {
+            try { recognition.start(); } catch (e) {}
+          }
+        }
+      }
+
+      if (sidebarVoiceBtn) sidebarVoiceBtn.addEventListener("click", toggleVoiceListening);
+      if (micBtn) micBtn.addEventListener("click", toggleVoiceListening);
+      if (aiHandsfreeBtn) aiHandsfreeBtn.addEventListener("click", toggleVoiceListening);
+
+      chips.forEach(function(chip) {
+        chip.addEventListener("click", function() {
+          var q = chip.getAttribute("data-query");
+          if (q) handleQuery(q);
+        });
+      });
+
+      if (form && input) {
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          var val = input.value.trim();
+          if (val) {
+            input.value = "";
+            handleQuery(val);
+          }
+        });
+      }
+
+      function testVoice() {
+        unlockAudioContext();
+        speakResponse("AND HIS NAME IS SENTRY-3498! K.E.A.N. Core voice pipeline is operational!");
+      }
+      if (sidebarTestVoiceBtn) sidebarTestVoiceBtn.addEventListener("click", testVoice);
+    }
+
+    // 6. Automated Cryptographic Test Suite (Self-Test Assertions)
+    function runEntropyTests() {
+      console.group("[AuthGuard // K.E.A.N. Core] Automated Cryptographic Self-Test Suite");
+      var testsPassed = 0;
+      var totalTests = 0;
+
+      function assertTest(name, condition, detail) {
+        totalTests++;
+        if (condition) {
+          testsPassed++;
+          console.log("✓ PASS: " + name);
+        } else {
+          console.error("✗ FAIL: " + name + " | " + detail);
+        }
+      }
+
+      var t1 = evaluateCryptographicDurability("password", true);
+      assertTest("T1: 'password' dictionary vulnerability", t1.realEntropy <= 15 && t1.crackSeconds < 0.1, "Expected entropy <= 15, got " + t1.realEntropy);
+
+      var t2 = evaluateCryptographicDurability("Xk9#mP!2$vQ8*xL5^wR1", true);
+      assertTest("T2: 20-char random uniform string resilience", t2.realEntropy >= 85, "Expected entropy >= 85, got " + t2.realEntropy);
+
+      var t3 = evaluateCryptographicDurability("correct-horse-battery-staple", true);
+      assertTest("T3: Known public phrase 'correct-horse-battery-staple'", t3.isKnownExample === true && t3.realEntropy <= 12, "Expected isKnownExample=true and entropy <= 12, got isKnown=" + t3.isKnownExample + " entropy=" + t3.realEntropy);
+
+      var t4 = evaluateCryptographicDurability("Cyb3r$ecure!2026#", true);
+      assertTest("T4: Template 'Cyb3r$ecure!2026#' penalized", t4.realEntropy < t4.theoreticalEntropy * 0.7, "Expected real entropy significantly below theoretical: real=" + t4.realEntropy + " vs theo=" + t4.theoreticalEntropy);
+
+      var t5 = evaluateCryptographicDurability("letmein123", true);
+      assertTest("T5: Known public phrase 'letmein123'", t5.isKnownExample === true, "Expected known example flag");
+
+      var t6 = evaluateCryptographicDurability("cougar-kean-security-2026", true);
+      assertTest("T6: Kean Cougar Diceware phrase detection", t6.recognizedWords.length >= 2, "Expected detection of cougar and kean roots");
+
+      var t7a = evaluateCryptographicDurability("aaaaaaaa", true);
+      var t7b = evaluateCryptographicDurability("aaaaaaaa-", true);
+      assertTest("T7: Pool size inflation fix for single symbol", (t7b.theoreticalEntropy - t7a.theoreticalEntropy) < 15, "Single symbol should not inflate entropy by full naive 33-char pool");
+
+      var t8 = evaluateCryptographicDurability("", true);
+      assertTest("T8: Empty input zero entropy", t8.realEntropy === 0, "Expected 0 entropy for empty input");
+
+      console.log("Self-Test Execution Summary: " + testsPassed + "/" + totalTests + " Test Cases Passed.");
+      console.groupEnd();
+    }
+  </script>
+</body>
+</html>
