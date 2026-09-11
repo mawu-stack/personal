@@ -398,15 +398,68 @@
       line-height: 1.6;
     }
 
+    /* ==========================================================================
+       Cyber Radar / Sentry Target HUD Component
+       ========================================================================== */
     .hero-graphic {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 18px;
-      background: var(--brand-blue-subtle);
+      padding: 12px;
+      background: radial-gradient(circle at center, rgba(0, 97, 255, 0.08) 0%, rgba(0, 45, 98, 0.04) 100%), var(--brand-blue-subtle);
       border-radius: var(--radius-xl);
       border: 1px solid var(--brand-blue-border);
+      box-shadow: 0 4px 20px -2px rgba(0, 97, 255, 0.12), inset 0 0 14px rgba(0, 97, 255, 0.05);
       flex-shrink: 0;
+      position: relative;
+    }
+
+    body.dark-mode .hero-graphic {
+      background: radial-gradient(circle at center, rgba(56, 189, 248, 0.14) 0%, rgba(0, 45, 98, 0.35) 100%), #0f172a;
+      border-color: rgba(56, 189, 248, 0.35);
+      box-shadow: 0 0 24px -2px rgba(0, 97, 255, 0.32), inset 0 0 16px rgba(56, 189, 248, 0.12);
+    }
+
+    .sentry-radar-container {
+      width: 90px;
+      height: 90px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-ring-spin {
+      transform-origin: 50px 50px;
+      animation: radar-sweep 12s linear infinite;
+    }
+
+    .radar-pulse-core {
+      transform-origin: 50px 50px;
+      animation: radar-core-glow 2.5s ease-in-out infinite;
+    }
+
+    .radar-sweep-beam {
+      transform-origin: 50px 50px;
+      animation: radar-sweep 3.5s linear infinite;
+    }
+
+    body.dark-mode .radar-ring-spin circle {
+      stroke: #38bdf8;
+    }
+
+    body.dark-mode .radar-ring-spin line {
+      stroke: #60a5fa;
+    }
+
+    @keyframes radar-sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes radar-core-glow {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.15); }
     }
 
     .lab-section-header {
@@ -2012,13 +2065,45 @@
         </p>
       </div>
       <div class="hero-graphic">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="84" height="84">
-          <path d="M50 10 L85 25 V50 C85 70 50 90 50 90 C50 90 15 70 15 50 V25 Z" fill="#002d62" stroke="#0061ff" stroke-width="2.5"/>
-          <rect x="38" y="48" width="24" height="20" rx="3" fill="#ffffff" />
-          <path d="M43 48 V40 C43 36.13 46.13 33 50 33 C53.87 33 57 36.13 57 40 V48" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
-          <circle cx="50" cy="56" r="2.5" fill="#002d62"/>
-          <path d="M50 58 V63" stroke="#002d62" stroke-width="2"/>
-        </svg>
+        <div class="sentry-radar-container">
+          <svg viewBox="0 0 100 100" width="90" height="90" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Gradient for the rotating sweep cone -->
+              <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0061ff" stop-opacity="0.45" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+
+            <!-- Outer Frame & Ticks (Slow Rotating Reticle) -->
+            <g class="radar-ring-spin">
+              <circle cx="50" cy="50" r="46" fill="none" stroke="#002d62" stroke-width="1.8" stroke-dasharray="8 4 2 4" opacity="0.6"/>
+              <!-- Crosshair Tick Marks -->
+              <line x1="50" y1="2" x2="50" y2="8" stroke="#0061ff" stroke-width="2" stroke-linecap="round"/>
+              <line x1="50" y1="92" x2="50" y2="98" stroke="#0061ff" stroke-width="2" stroke-linecap="round"/>
+              <line x1="2" y1="50" x2="8" y2="50" stroke="#0061ff" stroke-width="2" stroke-linecap="round"/>
+              <line x1="92" y1="50" x2="98" y2="50" stroke="#0061ff" stroke-width="2" stroke-linecap="round"/>
+            </g>
+
+            <!-- Concentric Range Rings -->
+            <circle cx="50" cy="50" r="32" fill="none" stroke="#0061ff" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/>
+            <circle cx="50" cy="50" r="18" fill="none" stroke="#38bdf8" stroke-width="1" opacity="0.5"/>
+
+            <!-- Sweeping Radar Beam / Wedge -->
+            <g class="radar-sweep-beam">
+              <path d="M50 50 L50 4 A46 46 0 0 1 82 17 Z" fill="url(#radarSweepGrad)"/>
+              <line x1="50" y1="50" x2="50" y2="4" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+            </g>
+
+            <!-- Sentry Core & Threat Blips -->
+            <circle cx="50" cy="50" r="4" fill="#0061ff" class="radar-pulse-core"/>
+            <circle cx="50" cy="50" r="2" fill="#38bdf8"/>
+            
+            <!-- Active Target Ping Blips -->
+            <circle cx="68" cy="36" r="2" fill="#ef4444" opacity="0.9"/>
+            <circle cx="34" cy="62" r="1.5" fill="#38bdf8" opacity="0.7"/>
+          </svg>
+        </div>
       </div>
     </div>
 
