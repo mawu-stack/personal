@@ -13,6 +13,9 @@
   <!-- Industry Benchmark: Dropbox zxcvbn Library via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js" defer id="zxcvbn-script"></script>
 
+  <!-- 3D WebGL Engine: Three.js r128 via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
   <style>
     /* ==========================================================================
        CYBERWORKBENCH // UNIFIED SAAS ENTERPRISE STYLING
@@ -3254,9 +3257,915 @@
       -webkit-backdrop-filter: blur(8px) !important;
     }
 
+
+    /* ============================================================
+       TAB 4: STRIDE THREAT MODELING DASHBOARD STYLES
+       ============================================================ */
+
+.stride-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.stride-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stride-badge-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-blue, #0061ff);
+  background: var(--brand-blue-subtle, #eff6ff);
+  border: 1px solid var(--brand-blue-border, #bfdbfe);
+  padding: 3px 10px;
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: 8px;
+}
+
+body.dark-mode .stride-badge-tag {
+  color: #93c5fd;
+  background: #172554;
+  border-color: #1e40af;
+}
+
+.stride-main-heading {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-heading, #0f172a);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.stride-sub-heading {
+  font-size: 14px;
+  color: var(--text-muted, #64748b);
+  max-width: 680px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.stride-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-sans, inherit);
+  border: 1px solid var(--brand-blue-border, #bfdbfe);
+  background: var(--brand-blue-subtle, #eff6ff);
+  color: var(--brand-blue, #0061ff);
+}
+
+.stride-action-btn:hover {
+  background: var(--brand-blue, #0061ff);
+  color: #ffffff;
+}
+
+.stride-flow-card {
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--card-border, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  padding: 20px 24px;
+  box-shadow: var(--card-shadow, 0 1px 3px rgba(0, 0, 0, 0.05));
+}
+
+.stride-flow-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.flow-pill-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-heading, #0f172a);
+}
+
+.flow-pill-note {
+  font-size: 11.5px;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-muted, #64748b);
+}
+
+.stride-pipeline-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+@media (max-width: 860px) {
+  .stride-pipeline-grid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.pipeline-node {
+  flex: 1;
+  background: var(--bg-subtle, #f8fafc);
+  border: 1px solid var(--card-border, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.node-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm, 6px);
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--card-border, #e2e8f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-blue, #0061ff);
+  flex-shrink: 0;
+}
+
+body.dark-mode .node-icon-box {
+  background: var(--bg-muted, #1f2937);
+  color: #60a5fa;
+}
+
+.node-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.node-tier {
+  font-size: 10px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brand-blue, #0061ff);
+}
+
+body.dark-mode .node-tier {
+  color: #93c5fd;
+}
+
+.node-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-heading, #0f172a);
+}
+
+.node-desc {
+  font-size: 11px;
+  color: var(--text-muted, #64748b);
+}
+
+.pipeline-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 4px;
+}
+
+.connector-line {
+  width: 24px;
+  height: 1px;
+  background: var(--card-border, #e2e8f0);
+}
+
+@media (max-width: 860px) {
+  .connector-line {
+    width: 2px;
+    height: 12px;
+    margin: 2px auto;
+  }
+}
+
+.connector-pill {
+  font-size: 9.5px;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-subtle, #94a3b8);
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+.stride-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .stride-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stride-card {
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--card-border, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  padding: 22px;
+  box-shadow: var(--card-shadow, 0 1px 3px rgba(0, 0, 0, 0.05));
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.stride-card:hover {
+  border-color: var(--brand-blue-border, #bfdbfe);
+  box-shadow: var(--card-shadow-hover, 0 8px 24px -4px rgba(0, 45, 98, 0.06));
+}
+
+.stride-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stride-tag-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.stride-letter-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md, 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, monospace);
+  font-size: 15px;
+  font-weight: 800;
+  flex-shrink: 0;
+  background: var(--bg-subtle, #f1f5f9);
+  color: var(--text-heading, #0f172a);
+  border: 1px solid var(--card-border, #e2e8f0);
+}
+
+.stride-letter-badge.letter-s { color: #0284c7; background: #f0f9ff; border-color: #bae6fd; }
+.stride-letter-badge.letter-t { color: #d97706; background: #fffbeb; border-color: #fde68a; }
+.stride-letter-badge.letter-r { color: #7c3aed; background: #f5f3ff; border-color: #ddd6fe; }
+.stride-letter-badge.letter-i { color: #e11d48; background: #fff1f2; border-color: #fecdd3; }
+.stride-letter-badge.letter-d { color: #dc2626; background: #fef2f2; border-color: #fecaca; }
+.stride-letter-badge.letter-e { color: #059669; background: #ecfdf5; border-color: #a7f3d0; }
+
+body.dark-mode .stride-letter-badge.letter-s { background: #082f49; border-color: #0369a1; color: #38bdf8; }
+body.dark-mode .stride-letter-badge.letter-t { background: #451a03; border-color: #b45309; color: #fbbf24; }
+body.dark-mode .stride-letter-badge.letter-r { background: #2e1065; border-color: #6d28d9; color: #c084fc; }
+body.dark-mode .stride-letter-badge.letter-i { background: #4c0519; border-color: #be123c; color: #fb7185; }
+body.dark-mode .stride-letter-badge.letter-d { background: #450a0a; border-color: #b91c1c; color: #f87171; }
+body.dark-mode .stride-letter-badge.letter-e { background: #064e3b; border-color: #047857; color: #34d399; }
+
+.stride-category-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-heading, #0f172a);
+  margin-bottom: 2px;
+}
+
+.stride-category-tagline {
+  font-size: 11.5px;
+  color: var(--text-muted, #64748b);
+  margin: 0;
+}
+
+.stride-icon-bubble {
+  color: var(--text-subtle, #94a3b8);
+  flex-shrink: 0;
+}
+
+.stride-comparison-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sub-block {
+  border-radius: var(--radius-md, 8px);
+  padding: 11px 13px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.sub-block p {
+  margin: 0;
+  color: var(--text-body, #334155);
+}
+
+.sub-block code {
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+body.dark-mode .sub-block code {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.threat-block {
+  background: var(--bg-subtle, #f8fafc);
+  border-left: 3px solid #f87171;
+  border-top: 1px solid var(--card-border, #e2e8f0);
+  border-right: 1px solid var(--card-border, #e2e8f0);
+  border-bottom: 1px solid var(--card-border, #e2e8f0);
+}
+
+.mitigation-block {
+  background: var(--bg-subtle, #f8fafc);
+  border-left: 3px solid #34d399;
+  border-top: 1px solid var(--card-border, #e2e8f0);
+  border-right: 1px solid var(--card-border, #e2e8f0);
+  border-bottom: 1px solid var(--card-border, #e2e8f0);
+}
+
+body.dark-mode .threat-block,
+body.dark-mode .mitigation-block {
+  background: var(--bg-subtle, #1e293b);
+}
+
+.sub-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+
+.threat-label {
+  color: #ef4444;
+}
+
+.mitigation-label {
+  color: #10b981;
+}
+
+.stride-deepdive {
+  margin-top: auto;
+  border-top: 1px dashed var(--card-border, #e2e8f0);
+  padding-top: 10px;
+}
+
+.stride-deepdive summary {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--brand-blue, #0061ff);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+body.dark-mode .stride-deepdive summary {
+  color: #60a5fa;
+}
+
+.stride-deepdive summary::-webkit-details-marker {
+  display: none;
+}
+
+.stride-deepdive summary::after {
+  content: "→";
+  font-size: 11px;
+  transition: transform 0.15s ease;
+}
+
+.stride-deepdive[open] summary::after {
+  transform: rotate(90deg);
+}
+
+.deepdive-content {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--bg-subtle, #f8fafc);
+  border-radius: var(--radius-sm, 6px);
+  font-size: 11.5px;
+  color: var(--text-muted, #64748b);
+  line-height: 1.5;
+}
+
+body.dark-mode .deepdive-content {
+  background: var(--bg-muted, #111827);
+}
+
+.deepdive-content p {
+  margin-bottom: 6px;
+}
+
+.deepdive-content p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ============================================================
+   LIQUID FIBER GLASS UI SYSTEM (CSS GLASSMORPHISM 2.0)
+   ============================================================ */
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-backdrop: blur(16px) saturate(180%);
+  --glass-border: 1px solid rgba(0, 45, 98, 0.08);
+  --glass-border-top: 1px solid rgba(56, 189, 248, 0.35);
+  --glass-shadow: 0 12px 36px -4px rgba(0, 45, 98, 0.12);
+}
+
+body.dark-mode {
+  --glass-bg: rgba(17, 24, 39, 0.65);
+  --glass-backdrop: blur(16px) saturate(180%);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-border-top: 1px solid rgba(56, 189, 248, 0.25);
+  --glass-shadow: 0 12px 36px -4px rgba(0, 45, 98, 0.25);
+}
+
+/* Fluid Shader Gradient Canvas */
+#shader-gradient-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.82;
+  border-radius: var(--radius-xl);
+}
+
+/* Hero Section Enhancement with Liquid Glass */
+.hero-banner {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-backdrop) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop) !important;
+  border: var(--glass-border) !important;
+  border-top: var(--glass-border-top) !important;
+  box-shadow: var(--glass-shadow) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-graphic {
+  position: relative;
+  z-index: 2;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+#liquid-logo-container {
+  width: 140px;
+  height: 140px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+#liquid-logo-container canvas {
+  width: 140px !important;
+  height: 140px !important;
+  filter: drop-shadow(0 10px 24px rgba(0, 97, 255, 0.35));
+}
+
+/* Liquid Glass Cards & Container Styling */
+.card,
+.stat-tile,
+.stride-card,
+.stride-flow-card,
+.topology-card,
+.portfolio-card,
+.benchmark-card,
+.metric-tile {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: var(--glass-border);
+  border-top: var(--glass-border-top);
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover,
+.stride-card:hover,
+.portfolio-card:hover {
+  box-shadow: 0 16px 40px -4px rgba(0, 97, 255, 0.22);
+}
+
+/* Ensure crisp, accessible typography contrast */
+.hero-title,
+.card-title,
+.stride-main-heading,
+.section-heading {
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
+}
+
+body.dark-mode .hero-title {
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .hero-subtitle {
+  color: #cbd5e1;
+}
+
+
+
+/* ============================================================
+   GODLY.WEBSITE / AWWWARDS-TIER DESIGN SYSTEM & VISUAL TOKENS
+   ============================================================ */
+
+:root {
+  /* Color Architecture: Deep Obsidian, Breathing Meshes, Liquid Glass */
+  --bg-canvas: #030712;
+  --bg-surface: rgba(15, 23, 42, 0.6);
+  --bg-subtle: rgba(30, 41, 59, 0.5);
+  --bg-muted: rgba(51, 65, 85, 0.4);
+
+  --brand-navy: #002d62;
+  --brand-blue: #0061ff;
+  --brand-cobalt: #0061ff;
+  --brand-cyan: #38bdf8;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-crimson: #ef4444;
+
+  --text-heading: #f8fafc;
+  --text-body: #94a3b8;
+  --text-muted: #64748b;
+  --text-subtle: #475569;
+
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-border-top: rgba(56, 189, 248, 0.3);
+  --card-shadow: 0 12px 36px -4px rgba(0, 45, 98, 0.25);
+  --glass-backdrop: blur(24px) saturate(190%);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+body.dark-mode {
+  --bg-canvas: #030712;
+  --bg-surface: rgba(15, 23, 42, 0.6);
+  --bg-subtle: rgba(30, 41, 59, 0.5);
+  --bg-muted: rgba(51, 65, 85, 0.4);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-border-top: rgba(56, 189, 248, 0.3);
+  --text-heading: #ffffff;
+  --text-body: #94a3b8;
+}
+
+/* Void Canvas with Radial Mesh Gradient */
+body {
+  background-color: var(--bg-canvas) !important;
+  background-image: 
+    radial-gradient(at 15% 15%, rgba(0, 45, 98, 0.14) 0px, transparent 60%),
+    radial-gradient(at 85% 85%, rgba(0, 97, 255, 0.10) 0px, transparent 60%) !important;
+  color: var(--text-body);
+  position: relative;
+  min-height: 100vh;
+}
+
+/* 24px Dot-Matrix Grid Overlay with Vignette */
+#dot-matrix-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(circle at center, black 50%, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 95%);
+}
+
+#webgl-liquid-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Hero Banner Godly Glassmorphism */
+.hero-banner {
+  position: relative !important;
+  overflow: hidden !important;
+  background: var(--bg-surface) !important;
+  backdrop-filter: var(--glass-backdrop) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop) !important;
+  border: 1px solid var(--card-border) !important;
+  border-top: 1px solid var(--card-border-top) !important;
+  box-shadow: var(--card-shadow) !important;
+  border-radius: var(--radius-xl) !important;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-graphic {
+  position: relative;
+  z-index: 2;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+#hero-glass-viewport {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#hero-glass-viewport canvas {
+  width: 120px !important;
+  height: 120px !important;
+  filter: drop-shadow(0 12px 30px rgba(0, 97, 255, 0.45));
+}
+
+/* 21ST.DEV & SHADCN BENTO GRID MODULES */
+.card,
+.stat-tile,
+.stride-card,
+.stride-flow-card,
+.portfolio-card,
+.panel-card,
+.bento-card,
+.tier-card {
+  position: relative;
+  background: var(--bg-surface) !important;
+  backdrop-filter: var(--glass-backdrop) !important;
+  -webkit-backdrop-filter: var(--glass-backdrop) !important;
+  border: 1px solid var(--card-border) !important;
+  border-top: 1px solid var(--card-border-top) !important;
+  box-shadow: var(--card-shadow) !important;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Dynamic Spotlight Hover Effect */
+.card::before,
+.stat-tile::before,
+.stride-card::before,
+.stride-flow-card::before,
+.portfolio-card::before,
+.panel-card::before,
+.bento-card::before,
+.tier-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px circle at var(--mouse-x, -600px) var(--mouse-y, -600px), rgba(56, 189, 248, 0.08), transparent 40%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.card:hover::before,
+.stat-tile:hover::before,
+.stride-card:hover::before,
+.stride-flow-card:hover::before,
+.portfolio-card:hover::before,
+.panel-card:hover::before,
+.bento-card:hover::before,
+.tier-card:hover::before {
+  opacity: 1;
+}
+
+.card:hover,
+.stride-card:hover,
+.tier-card:hover,
+.portfolio-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 16px 42px -6px rgba(0, 97, 255, 0.35) !important;
+}
+
+/* FLOATING HORIZONTAL GLASS NAVIGATION */
+.tabs-nav-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 10px !important;
+  margin: 20px 0 28px 0 !important;
+  background: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 1px solid rgba(56, 189, 248, 0.3) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.4) !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+}
+
+.tabs-nav-bar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.tabs-nav-bar .tab-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 9px 18px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 9999px !important;
+  color: var(--text-muted) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.tabs-nav-bar .tab-btn:hover {
+  color: var(--text-heading) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.tabs-nav-bar .tab-btn.active {
+  color: #38bdf8 !important;
+  background: rgba(0, 97, 255, 0.18) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 0 18px rgba(0, 97, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 5-TIER TOPOLOGY PIPELINE STEP-BAR */
+.tiers-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 14px !important;
+  position: relative !important;
+  margin: 20px 0 !important;
+}
+
+@media (max-width: 1024px) {
+  .tiers-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.tier-card {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 18px !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.tier-number-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 24px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  border-radius: var(--radius-sm) !important;
+  background: rgba(56, 189, 248, 0.12) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  margin-bottom: 10px !important;
+}
+
+.trust-boundary-tag {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 6px 10px !important;
+  border-radius: var(--radius-sm) !important;
+  background: rgba(0, 97, 255, 0.12) !important;
+  color: #93c5fd !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  margin-top: 12px !important;
+}
+
+/* TAMED COLLAPSIBLE TELEMETRY DOCK (GODLY SPEC) */
+.activity-log-dock {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 90 !important;
+  background: rgba(11, 15, 25, 0.90) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  border-top: 1px solid rgba(56, 189, 248, 0.3) !important;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5) !important;
+  color: #e2e8f0 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  max-height: 44px !important;
+  overflow: hidden !important;
+}
+
+.activity-log-dock:not(.collapsed) {
+  max-height: 204px !important; /* 44px header + 160px body */
+}
+
+.activity-dock-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 44px !important;
+  padding: 0 18px !important;
+  background: rgba(15, 23, 42, 0.75) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  font-size: 11.5px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+}
+
+.activity-dock-body {
+  height: 160px !important;
+  max-height: 160px !important;
+  overflow-y: auto !important;
+  background: rgba(3, 7, 18, 0.88) !important;
+  padding: 8px 16px !important;
+}
+
+.dock-title-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.dock-divider {
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0 4px;
+}
+
+.dock-status-label {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.dock-toggle-prompt {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+
   </style>
 </head>
 <body>
+  <!-- Fixed Full-Viewport WebGL Fluid Shader Background & Dot-Matrix Grid -->
+  <canvas id="webgl-liquid-bg" style="position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1;"></canvas>
+  <div id="dot-matrix-overlay" style="position: fixed; inset: 0; pointer-events: none; z-index: 0;"></div>
+
 
   <!-- ============================================================
        TOP APPLICATION NAVBAR (5-TAB ARCHITECTURE & CONTROLS)
@@ -3309,6 +4218,9 @@
 
     <!-- HERO HEADER WITH CYBER RADAR RETICLE HUD -->
     <section class="hero-banner" aria-label="System Overview">
+      <!-- WebGL Fluid Shader Gradient Canvas -->
+      <canvas id="shader-gradient-canvas"></canvas>
+
       <div class="hero-content">
         <div class="hero-meta">
           <span class="hero-pill">Unified Cybersecurity Workbench • v2.0 Architecture</span>
@@ -3324,7 +4236,10 @@
       </div>
 
       <div class="hero-graphic" aria-hidden="true">
-        <div class="sentry-radar-container">
+        <div id="hero-glass-viewport" style="width: 120px; height: 120px; position: relative;">
+          <!-- Graceful Fallback if WebGL/Three.js is unavailable -->
+          <div class="sentry-radar-container" id="liquid-logo-fallback" style="display: none;">
+
           <svg viewBox="0 0 100 100" width="84" height="84" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -3350,6 +4265,7 @@
             <circle cx="68" cy="36" r="2" fill="#ef4444" opacity="0.9"/>
             <circle cx="34" cy="62" r="1.5" fill="#38bdf8" opacity="0.7"/>
           </svg>
+                  </div>
         </div>
       </div>
     </section>
@@ -3386,7 +4302,7 @@
       <!-- ============================================================
            TAB 1: CREDENTIAL CRYPTANALYSIS (AUTHGUARD PORTED AS-IS)
            ============================================================ -->
-      <section id="panel-tab-1"><span id="tab-1" style="display:none"></span> data-tab="tab-1" class="tab-panel active" role="tabpanel" aria-labelledby="tab-btn-1">
+      <section id="panel-tab-1" class="tab-panel active" data-tab="tab-1" role="tabpanel" aria-labelledby="tab-btn-1"><span id="tab-1" style="display:none"></span>
     <section id="challenge-demo" class="page-section">
       <div class="lab-section-header">
         <h2>🔬 AuthGuard Cryptographic Testing Bench & Threat Rig</h2>
@@ -3702,7 +4618,7 @@
       <!-- ============================================================
            TAB 2: THREAT TOPOLOGY & VECTORS (PHASE 3 TARGET)
            ============================================================ -->
-      <section id="panel-tab-2"><span id="tab-2" style="display:none"></span> data-tab="tab-2" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-2">
+      <section id="panel-tab-2" class="tab-panel" data-tab="tab-2" role="tabpanel" aria-labelledby="tab-btn-2"><span id="tab-2" style="display:none"></span>
 
       <div class="sentrysim-container">
         <!-- 5-Tier Threat Architecture with Trust Boundaries -->
@@ -4090,7 +5006,7 @@
       <!-- ============================================================
            TAB 3: AI THREAT MODELING & LLM SECURITY (PHASE 4 TARGET)
            ============================================================ -->
-      <section id="panel-tab-3"><span id="tab-3" style="display:none"></span> data-tab="tab-3" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-3">
+      <section id="panel-tab-3" class="tab-panel" data-tab="tab-3" role="tabpanel" aria-labelledby="tab-btn-3"><span id="tab-3" style="display:none"></span>
 
       <div class="sentrysim-container">
         
@@ -4260,90 +5176,348 @@
     </section>
 
       <!-- ============================================================
-           TAB 4: STRIDE MATRIX & REPORTS (PHASE 5 TARGET)
+           TAB 4: STRIDE THREAT MODELING DASHBOARD
            ============================================================ -->
-      <section id="panel-tab-4"><span id="tab-4" style="display:none"></span> data-tab="tab-4" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-4">
+      <section id="panel-tab-4" class="tab-panel" data-tab="tab-4" role="tabpanel" aria-labelledby="tab-btn-4">
+<div id="tab-4" class="tab-pane-content">
+  <div class="stride-dashboard">
 
-      <div class="sentrysim-container">
-        
-        <div class="stride-matrix-card">
-          <div class="card-header-row">
-            <h3 class="card-title"><span>📋</span> Comprehensive STRIDE Threat Model &amp; Risk Matrix</h3>
-            <span class="card-badge">TECH 3498 Academic Security Architecture</span>
+    <!-- Header & Action Bar -->
+    <header class="stride-dashboard-header">
+      <div class="stride-header-text">
+        <div class="stride-badge-tag">Threat Surface & Control Matrix</div>
+        <h2 class="stride-main-heading">STRIDE Threat Modeling</h2>
+        <p class="stride-sub-heading">
+          Systematic decomposition of architectural trust boundaries, threat surfaces, and active defensive mitigations across the 5-tier system ecosystem.
+        </p>
+      </div>
+      <div class="stride-header-actions">
+        <button type="button" id="stride-export-btn" class="stride-action-btn" onclick="exportStrideReport()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Threat Model (.txt)
+        </button>
+      </div>
+    </header>
+
+    <!-- ARCHITECTURE PIPELINE FLOW -->
+    <section class="stride-flow-card" aria-label="System Architecture Flow">
+      <div class="stride-flow-meta">
+        <span class="flow-pill-label">Architecture Pipeline</span>
+        <span class="flow-pill-note">4 Inspected Trust Boundaries (TB-1 to TB-4)</span>
+      </div>
+      
+      <div class="stride-pipeline-grid">
+        <!-- Node 1: User -->
+        <div class="pipeline-node">
+          <div class="node-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
-
-          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5;">
-            Interactive threat catalog mapping potential system threats to the <strong>STRIDE model</strong> (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) across all 5 tiers, incorporating <strong>DREAD risk scoring</strong>. Mitigation status updates dynamically based on your active defense posture:
-          </p>
-
-          <!-- Filter Bar -->
-          <div class="stride-filter-bar">
-            <div class="stride-category-pills">
-              <button type="button" class="stride-filter-btn active" data-category="ALL">All Threats (10)</button>
-              <button type="button" class="stride-filter-btn" data-category="S">Spoofing (2)</button>
-              <button type="button" class="stride-filter-btn" data-category="T">Tampering (2)</button>
-              <button type="button" class="stride-filter-btn" data-category="R">Repudiation (1)</button>
-              <button type="button" class="stride-filter-btn" data-category="I">Info Disclosure (2)</button>
-              <button type="button" class="stride-filter-btn" data-category="D">DoS (2)</button>
-              <button type="button" class="stride-filter-btn" data-category="E">Elevation (1)</button>
-            </div>
-
-            <div>
-              <label for="stride-tier-filter" style="font-size: 12px; font-weight: 700; margin-right: 6px; color: var(--text-muted);">Tier Filter:</label>
-              <select id="stride-tier-filter" class="stride-tier-select" aria-label="Filter STRIDE matrix by architectural tier">
-                <option value="ALL">All Architectural Tiers</option>
-                <option value="Tier 1">Tier 1: Client Runtime</option>
-                <option value="Tier 2">Tier 2: Web Server &amp; WAF</option>
-                <option value="Tier 3">Tier 3: Application Core</option>
-                <option value="Tier 4">Tier 4: K.E.A.N. AI Sandbox</option>
-                <option value="Tier 5">Tier 5: Database Vault</option>
-              </select>
-            </div>
+          <div class="node-info">
+            <span class="node-tier">Tier 1</span>
+            <strong class="node-name">Client / User</strong>
+            <span class="node-desc">Untrusted Inputs & Audio</span>
           </div>
-
-          <!-- Dynamic STRIDE Table -->
-          <div class="stride-table-wrapper">
-            <table class="stride-table" id="stride-matrix-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Attack / Threat Vector</th>
-                  <th>Architectural Tier</th>
-                  <th>STRIDE Category</th>
-                  <th>CVSS / DREAD Score</th>
-                  <th>Exploitation Mechanics</th>
-                  <th>Live Mitigation Status</th>
-                </tr>
-              </thead>
-              <tbody id="stride-table-body">
-                <!-- Dynamically generated via JS -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Academic Report Exporter Box -->
-          <div class="export-report-box">
-            <div>
-              <strong style="color: #ffffff; font-size: 14px;">Academic Threat Model Audit Exporter:</strong>
-              <p style="color: #94a3b8; font-size: 12px; margin-top: 2px;">
-                Generates a structured, time-stamped academic audit report (.txt) of your complete threat model, DREAD scoring, active defenses, and calculated TTC metrics for submission.
-              </p>
-            </div>
-            <button type="button" id="btn-export-stride-report" class="btn-export-report">
-              <span>💾</span> Export Assignment 2 Report (.txt)
-            </button>
-          </div>
-
         </div>
 
-      </div>
+        <div class="pipeline-connector">
+          <span class="connector-line"></span>
+          <span class="connector-pill">TB-1: TLS 1.3</span>
+        </div>
 
+        <!-- Node 2: Web / Application -->
+        <div class="pipeline-node">
+          <div class="node-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="node-info">
+            <span class="node-tier">Tier 2</span>
+            <strong class="node-name">Web Application</strong>
+            <span class="node-desc">Client DOM & WAF Engine</span>
+          </div>
+        </div>
+
+        <div class="pipeline-connector">
+          <span class="connector-line"></span>
+          <span class="connector-pill">TB-2: Ingress / CSP</span>
+        </div>
+
+        <!-- Node 3: API / Agent Engine -->
+        <div class="pipeline-node">
+          <div class="node-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="node-info">
+            <span class="node-tier">Tier 3 & 4</span>
+            <strong class="node-name">API & Sentry AI</strong>
+            <span class="node-desc">Heuristics & LLM Sandbox</span>
+          </div>
+        </div>
+
+        <div class="pipeline-connector">
+          <span class="connector-line"></span>
+          <span class="connector-pill">TB-3: Param Bound</span>
+        </div>
+
+        <!-- Node 4: Database / Vault -->
+        <div class="pipeline-node">
+          <div class="node-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <div class="node-info">
+            <span class="node-tier">Tier 5</span>
+            <strong class="node-name">Database / Vault</strong>
+            <span class="node-desc">Zero-Retention & MySQL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 STRIDE THREAT POSTURE CARDS -->
+    <div class="stride-cards-grid">
+
+      <!-- CARD 1: SPOOFING -->
+      <article class="stride-card">
+        <header class="stride-card-top">
+          <div class="stride-tag-group">
+            <span class="stride-letter-badge letter-s">S</span>
+            <div>
+              <h3 class="stride-category-title">Spoofing Identity</h3>
+              <p class="stride-category-tagline">Pretending to be someone or something other than oneself.</p>
+            </div>
+          </div>
+          <div class="stride-icon-bubble" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
+          </div>
+        </header>
+        <div class="stride-comparison-block">
+          <div class="sub-block threat-block">
+            <div class="sub-label threat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Threat & Attack Vector
+            </div>
+            <p>Adversary executes credential stuffing, session token hijacking, or domain typosquatting to impersonate authorized students or system administrators.</p>
+          </div>
+          <div class="sub-block mitigation-block">
+            <div class="sub-label mitigation-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              Defensive Control
+            </div>
+            <p>Strict HSTS enforcement, DNSSEC verification, multi-factor authentication (MFA), and volatile client-side execution with zero long-lived auth sessions.</p>
+          </div>
+        </div>
+        <details class="stride-deepdive">
+          <summary>View architectural deep-dive</summary>
+          <div class="deepdive-content">
+            <p><strong>Affected Boundary:</strong> Trust Boundary 1 (User to Client Browser) and Edge DNS.</p>
+            <p><strong>Verification Standard:</strong> NIST SP 800-63B Identity Assurance Level 2 (IAL2/AAL2). Candidate password evaluations occur strictly in ephemeral memory with no persistent browser session tokens subject to cookie replay.</p>
+          </div>
+        </details>
+      </article>
+
+      <!-- CARD 2: TAMPERING -->
+      <article class="stride-card">
+        <header class="stride-card-top">
+          <div class="stride-tag-group">
+            <span class="stride-letter-badge letter-t">T</span>
+            <div>
+              <h3 class="stride-category-title">Tampering with Data</h3>
+              <p class="stride-category-tagline">Unauthorized modification of data in transit or at rest.</p>
+            </div>
+          </div>
+          <div class="stride-icon-bubble" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+        </header>
+        <div class="stride-comparison-block">
+          <div class="sub-block threat-block">
+            <div class="sub-label threat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Threat & Attack Vector
+            </div>
+            <p>Modifying JavaScript packages via compromised CDNs, injecting SQL syntax (<code>' OR '1'='1</code>), or altering DOM nodes via reflected XSS.</p>
+          </div>
+          <div class="sub-block mitigation-block">
+            <div class="sub-label mitigation-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              Defensive Control
+            </div>
+            <p>Subresource Integrity (SRI) on external scripts, parameterized prepared SQL statements, and strict DOM <code>textContent</code> sanitization over raw <code>innerHTML</code>.</p>
+          </div>
+        </div>
+        <details class="stride-deepdive">
+          <summary>View architectural deep-dive</summary>
+          <div class="deepdive-content">
+            <p><strong>Affected Boundary:</strong> Trust Boundary 2 (Browser to Server) and Trust Boundary 3 (Application to Storage).</p>
+            <p><strong>Technical Mechanism:</strong> Database queries use parameterized bindings to neutralize SQL metacharacters. External CDNs (zxcvbn) use cryptographic SHA-384 hashes to prevent upstream supply-chain injection.</p>
+          </div>
+        </details>
+      </article>
+
+      <!-- CARD 3: REPUDIATION -->
+      <article class="stride-card">
+        <header class="stride-card-top">
+          <div class="stride-tag-group">
+            <span class="stride-letter-badge letter-r">R</span>
+            <div>
+              <h3 class="stride-category-title">Repudiation</h3>
+              <p class="stride-category-tagline">Claiming you didn't do something or lack of proof of action.</p>
+            </div>
+          </div>
+          <div class="stride-icon-bubble" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+        </header>
+        <div class="stride-comparison-block">
+          <div class="sub-block threat-block">
+            <div class="sub-label threat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Threat & Attack Vector
+            </div>
+            <p>Users dispute security actions or allege candidate credentials were transmitted without audit logs demonstrating zero network telemetry.</p>
+          </div>
+          <div class="sub-block mitigation-block">
+            <div class="sub-label mitigation-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              Defensive Control
+            </div>
+            <p>Persistent Activity Log stream, deterministic cryptographic receipts with timestamped hashes, and client-side zero-retention attestations.</p>
+          </div>
+        </div>
+        <details class="stride-deepdive">
+          <summary>View architectural deep-dive</summary>
+          <div class="deepdive-content">
+            <p><strong>Affected Boundary:</strong> Cross-Tier Security State & Telemetry Dock.</p>
+            <p><strong>Technical Mechanism:</strong> <code>window.SecurityState.activityLog</code> records state transitions with monotonic timestamps. Receipts generate unique SHA-256 client-side execution proof without server roundtrips.</p>
+          </div>
+        </details>
+      </article>
+
+      <!-- CARD 4: INFORMATION DISCLOSURE -->
+      <article class="stride-card">
+        <header class="stride-card-top">
+          <div class="stride-tag-group">
+            <span class="stride-letter-badge letter-i">I</span>
+            <div>
+              <h3 class="stride-category-title">Information Disclosure</h3>
+              <p class="stride-category-tagline">Exposing confidential data to unauthorized individuals.</p>
+            </div>
+          </div>
+          <div class="stride-icon-bubble" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+        </header>
+        <div class="stride-comparison-block">
+          <div class="sub-block threat-block">
+            <div class="sub-label threat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Threat & Attack Vector
+            </div>
+            <p>Memory cache sniffing, unencrypted network transit, or public repository leaks exposing candidate passwords, API keys, or student PII.</p>
+          </div>
+          <div class="sub-block mitigation-block">
+            <div class="sub-label mitigation-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              Defensive Control
+            </div>
+            <p>Strict zero-retention memory models, PII omission policies, TLS 1.3 encryption, and session-only API keys stored strictly in volatile JS variables.</p>
+          </div>
+        </div>
+        <details class="stride-deepdive">
+          <summary>View architectural deep-dive</summary>
+          <div class="deepdive-content">
+            <p><strong>Affected Boundary:</strong> Volatile Browser Memory & External LLM Context.</p>
+            <p><strong>Technical Mechanism:</strong> BYOK API keys are stored only in <code>SecurityState.aiApiKey</code> and never written to <code>localStorage</code> or cookies. Clearing the bench invokes <code>resetDisplay()</code> to wipe variables.</p>
+          </div>
+        </details>
+      </article>
+
+      <!-- CARD 5: DENIAL OF SERVICE -->
+      <article class="stride-card">
+        <header class="stride-card-top">
+          <div class="stride-tag-group">
+            <span class="stride-letter-badge letter-d">D</span>
+            <div>
+              <h3 class="stride-category-title">Denial of Service</h3>
+              <p class="stride-category-tagline">Degrading or denying service to authorized users.</p>
+            </div>
+          </div>
+          <div class="stride-icon-bubble" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+        </header>
+        <div class="stride-comparison-block">
+          <div class="sub-block threat-block">
+            <div class="sub-label threat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Threat & Attack Vector
+            </div>
+            <p>Catastrophic regex backtracking (ReDoS) or massive input floods freezing the client JavaScript event loop and browser rendering threads.</p>
+          </div>
+          <div class="sub-block mitigation-block">
+            <div class="sub-label mitigation-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              Defensive Control
+            </div>
+            <p>Hard-clamped inputs (<code>maxlength="128"</code>), 150ms event debouncing, linear non-backtracking regex, and token-bucket rate limiting.</p>
+          </div>
+        </div>
+        <details class="stride-deepdive">
+          <summary>View architectural deep-dive</summary>
+          <div class="deepdive-content">
+            <p><strong>Affected Boundary:</strong> Trust Boundary 1 (Client Execution Loop) & WAF Edge.</p>
+            <p><strong>Technical Mechanism:</strong> The simulated WAF enforces a 5 req/sec burst clamp. Cryptographic pattern matching runs through pre-compiled, non-nested regex patterns with execution timeout guards.</p>
+          </div>
+        </details>
+      </article>
+
+      <!-- CARD 6: ELEVATION OF PRIVILEGE -->
+      <article class="stride-card">
+        <header class="stride-card-top">
+          <div class="stride-tag-group">
+            <span class="stride-letter-badge letter-e">E</span>
+            <div>
+              <h3 class="stride-category-title">Elevation of Privilege</h3>
+              <p class="stride-category-tagline">Gaining capabilities without proper authorization.</p>
+            </div>
+          </div>
+          <div class="stride-icon-bubble" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          </div>
+        </header>
+        <div class="stride-comparison-block">
+          <div class="sub-block threat-block">
+            <div class="sub-label threat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Threat & Attack Vector
+            </div>
+            <p>OWASP LLM01 direct prompt injection manipulating K.E.A.N. into calling privileged tool routines, or DOM XSS hijacking the Web Audio context.</p>
+          </div>
+          <div class="sub-block mitigation-block">
+            <div class="sub-label mitigation-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              Defensive Control
+            </div>
+            <p>Strict XML data delimiters (<code>&lt;user_data&gt;</code>), read-only agent sandboxing (least privilege), and two-tier user confirmation for sensitive state changes.</p>
+          </div>
+        </div>
+        <details class="stride-deepdive">
+          <summary>View architectural deep-dive</summary>
+          <div class="deepdive-content">
+            <p><strong>Affected Boundary:</strong> Trust Boundary 4 (Application Logic to AI Sentry).</p>
+            <p><strong>Technical Mechanism:</strong> The AI Agent lacks destructive system capabilities (zero write/delete methods). Prompt injection strings trigger the rule-based firewall without invoking downstream system commands.</p>
+          </div>
+        </details>
+      </article>
+
+    </div><!-- /.stride-cards-grid -->
+  </div><!-- /.stride-dashboard -->
+</div><!-- /#tab-4 -->
       </section>
 
       <!-- ============================================================
            TAB 5: ACADEMIC COURSEWORK PORTFOLIO (100% VERBATIM)
            ============================================================ -->
-      <section id="panel-tab-5"><span id="tab-5" style="display:none"></span> data-tab="tab-5" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-5">
+      <section id="panel-tab-5" class="tab-panel" data-tab="tab-5" role="tabpanel" aria-labelledby="tab-btn-5"><span id="tab-5" style="display:none"></span>
         
         <!-- Tab 5 Sub-Navigation Jumper -->
         <nav class="coursework-subnav" aria-label="Coursework Section Jumpers">
@@ -4712,11 +5886,15 @@
   <!-- ============================================================
        PERSISTENT ACTIVITY LOG DOCK (VISIBLE ACROSS ALL TABS)
        ============================================================ -->
-  <aside id="activity-log-dock" class="activity-log-dock" aria-label="Persistent System Activity Log">
+  <aside id="activity-log-dock" class="activity-log-dock collapsed" aria-label="Persistent System Activity Log">
     <div class="activity-dock-header">
       <div class="dock-title-group" id="dock-toggle-title" title="Click to Expand or Collapse Activity Stream">
         <span class="pulse-dot-green"></span>
-        <span class="dock-title">Activity Stream</span>
+        <span class="dock-title">Live Telemetry</span>
+        <span class="dock-divider">|</span>
+        <span class="dock-status-label">SecurityState Connected</span>
+        <span class="dock-divider">|</span>
+        <span id="dock-toggle-prompt" class="dock-toggle-prompt">Click to Expand ▲</span>
         <span id="dock-count-badge" class="dock-badge">0 events</span>
       </div>
 
@@ -4776,6 +5954,10 @@
        * @param {string} message - Descriptive event message
        * @param {string} level - 'info' | 'success' | 'warn' | 'danger'
        */
+      pushLog: function(source, message, level = 'info') {
+        return this.logEvent(source, message, level);
+      },
+      
       logEvent: function(source, message, level = 'info') {
         const entry = {
           id: 'log-' + Date.now() + '-' + Math.floor(Math.random() * 10000),
@@ -6970,6 +8152,74 @@
     }
 
     // Expose functions globally for cross-tab updates and testing
+    
+    /* ============================================================
+       TAB 4: STRIDE EXPORT HANDLER
+       ============================================================ */
+function exportStrideReport() {
+  const timestamp = new Date().toISOString().replace('T', ' ').substr(0, 19);
+  const report = [
+    "================================================================================",
+    "TECH 3498: IT COMPUTER SECURITY — STRIDE THREAT MODEL AUDIT REPORT",
+    "Student: Mawutorwu Klu | Semester: Fall 2026",
+    `Generated: ${timestamp} UTC | Client-Side Verification`,
+    "================================================================================",
+    "",
+    "1. ARCHITECTURAL TRUST BOUNDARIES:",
+    "   • TB-1: User <-> Client Web Browser (TLS 1.3 Ingress)",
+    "   • TB-2: Client Browser <-> Web Application (Ingress / CSP)",
+    "   • TB-3: Web Application <-> API & Sentry AI Context (Parameterized Boundary)",
+    "   • TB-4: Application Logic <-> Database / Target Storage (Zero-Retention Vault)",
+    "",
+    "2. STRIDE THREAT SURFACE & ACTIVE MITIGATION MATRIX:",
+    "",
+    "   [S] SPOOFING IDENTITY:",
+    "       - Threat: Credential stuffing, session hijacking, or DNS typosquatting.",
+    "       - Control: HSTS enforcement, DNSSEC verification, MFA, zero persistent sessions.",
+    "",
+    "   [T] TAMPERING WITH DATA:",
+    "       - Threat: Malicious CDN script injection, boolean SQL injection, reflected DOM XSS.",
+    "       - Control: Subresource Integrity (SRI), parameterized SQL statements, textContent encoding.",
+    "",
+    "   [R] REPUDIATION:",
+    "       - Threat: Disputing analysis requests or unauthorized transmission accusations.",
+    "       - Control: Chronological Activity Log stream, deterministic SHA-256 client receipts.",
+    "",
+    "   [I] INFORMATION DISCLOSURE:",
+    "       - Threat: Memory dumps, network sniffing, public repository API key exposure.",
+    "       - Control: Zero-retention memory guarantee, PII exclusion, volatile session-only API keys.",
+    "",
+    "   [D] DENIAL OF SERVICE:",
+    "       - Threat: Catastrophic regex backtracking (ReDoS), automated volumetric floods.",
+    "       - Control: 128-char input clamps, 150ms debouncing, linear regex, token-bucket rate limiting.",
+    "",
+    "   [E] ELEVATION OF PRIVILEGE:",
+    "       - Threat: OWASP LLM01 prompt injection, unauthorized tool execution, microphone API hijack.",
+    "       - Control: XML delimiter sandboxing (<user_data>), read-only agent scopes, opt-in voice controls.",
+    "",
+    "================================================================================",
+    "END OF AUDIT REPORT — AUTHGUARD // SENTRYSIM CORE"
+  ].join("\n");
+
+  const blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `STRIDE_Audit_Report_${new Date().toISOString().slice(0, 10)}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 200);
+
+  if (window.SecurityState && typeof window.SecurityState.pushLog === "function") {
+    window.SecurityState.pushLog("AUDIT", "Exported formal STRIDE Threat Model Report (.txt)");
+  }
+}
+
+    window.exportStrideReport = exportStrideReport;
+
     window.renderStrideTable = renderStrideTable;
     window.sentryStrideCatalog = strideCatalog;
     window.sentryGenerateReport = generateAssignment2ReportText;
@@ -7176,6 +8426,875 @@
       });
     }
   })();
+
+  
+    /* ============================================================
+       WEBGL LIQUID SHADER & 3D GLASS LOGO ENGINE
+       ============================================================ */
+/**
+ * ============================================================================
+ * WEBGL LIQUID GLASS SHADER & 3D FLUID GRADIENT ENGINE
+ * Features:
+ *   1. WebGL GLSL Fluid Shader (3D Simplex noise, 4-stop custom palette)
+ *   2. 3D Beveled Liquid Glass Shield Emblem (Three.js MeshPhysicalMaterial)
+ *   3. Dual Orbiting Point Lights & Interactive Mouse Physics (Tilt & Lerp)
+ *   4. IntersectionObserver & DevicePixelRatio Capping for 60 FPS Performance
+ * ============================================================================
+ */
+
+(function initWebGLLiquidEngine() {
+  // Guard check: Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWebGLLiquidEngine);
+    return;
+  }
+
+  // 1. FLUID SHADER GRADIENT CANVAS
+  function setupFluidShader() {
+    const canvas = document.getElementById('shader-gradient-canvas');
+    const heroBanner = document.querySelector('.hero-banner');
+    if (!canvas || !heroBanner) return;
+
+    // Check for Three.js
+    if (typeof THREE === 'undefined') {
+      console.warn('[WebGL Engine] Three.js not detected; fluid shader suspended.');
+      return;
+    }
+
+    let renderer, scene, camera, material, mesh;
+    let isVisible = true;
+    let animationFrameId = null;
+
+    const mouse = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 };
+
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      uniform float u_time;
+      uniform vec2 u_resolution;
+      uniform vec2 u_mouse;
+      varying vec2 vUv;
+
+      // 3D Simplex Noise by Ian McEwan, Ashima Arts
+      vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+      vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
+
+      float snoise(vec3 v){
+        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+        vec3 i  = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+
+        vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+        vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+        vec3 x3 = x0 - 1.0 + 3.0 * C.xxx;
+
+        i = mod(i, 289.0);
+        vec4 p = permute(permute(permute(
+                   i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                 + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                 + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+
+        float n_ = 0.142857142857;
+        vec3  ns = n_ * D.wyz - D.xzx;
+
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+
+        vec4 x = x_ *ns.x + ns.yyyy;
+        vec4 y = y_ *ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+
+        vec4 s0 = floor(b0)*2.0 + 1.0;
+        vec4 s1 = floor(b1)*2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+
+        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+        p0 *= norm.x;
+        p1 *= norm.y;
+        p2 *= norm.z;
+        p3 *= norm.w;
+
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+      }
+
+      void main() {
+        vec2 st = gl_FragCoord.xy / u_resolution.xy;
+        vec2 aspectCoord = st;
+        aspectCoord.x *= u_resolution.x / u_resolution.y;
+
+        // Interactive mouse displacement with smooth radial falloff
+        vec2 mouseAspect = u_mouse;
+        mouseAspect.x *= u_resolution.x / u_resolution.y;
+        float mouseDist = length(aspectCoord - mouseAspect);
+        float mouseWave = smoothstep(0.9, 0.0, mouseDist) * 0.35;
+
+        // Multi-scale 3D fluid displacement
+        float t = u_time * 0.22;
+        vec3 p1 = vec3(aspectCoord * 1.6, t);
+        float n1 = snoise(p1);
+
+        vec3 p2 = vec3(aspectCoord * 2.8 + vec2(n1 * 0.5) + vec2(mouseWave), t * 1.25);
+        float n2 = snoise(p2);
+
+        vec3 p3 = vec3(aspectCoord * 4.5 - vec2(n2 * 0.35), t * 0.65);
+        float n3 = snoise(p3);
+
+        float fluidVal = (n1 * 0.52 + n2 * 0.33 + n3 * 0.15) + mouseWave * 0.25;
+        float val = clamp((fluidVal + 1.0) * 0.5, 0.0, 1.0);
+
+        // Color Palette: Deep Slate (#0b0f19), Kean Navy (#002d62), Electric Blue (#0061ff), Cyan Accent (#38bdf8)
+        vec3 c_deepSlate    = vec3(0.043, 0.059, 0.098);
+        vec3 c_keanNavy     = vec3(0.000, 0.176, 0.384);
+        vec3 c_electricBlue = vec3(0.000, 0.380, 1.000);
+        vec3 c_cyanAccent   = vec3(0.220, 0.741, 0.973);
+
+        vec3 col = c_deepSlate;
+        if (val < 0.32) {
+          col = mix(c_deepSlate, c_keanNavy, smoothstep(0.0, 0.32, val));
+        } else if (val < 0.68) {
+          col = mix(c_keanNavy, c_electricBlue, smoothstep(0.32, 0.68, val));
+        } else {
+          col = mix(c_electricBlue, c_cyanAccent, smoothstep(0.68, 1.0, val));
+        }
+
+        // Vignette falloff to keep text crisp & readable
+        float vignette = smoothstep(1.35, 0.25, length(st - vec2(0.5, 0.5)));
+        col = mix(c_deepSlate * 0.65, col, vignette);
+
+        gl_FragColor = vec4(col, 0.88);
+      }
+    `;
+
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: false,
+        powerPreference: 'high-performance'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      scene = new THREE.Scene();
+      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+      material = new THREE.ShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: {
+          u_time: { value: 0 },
+          u_resolution: { value: new THREE.Vector2() },
+          u_mouse: { value: new THREE.Vector2(0.5, 0.5) }
+        },
+        depthWrite: false,
+        depthTest: false
+      });
+
+      mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+      scene.add(mesh);
+
+      function resize() {
+        const width = heroBanner.clientWidth || canvas.clientWidth || 800;
+        const height = heroBanner.clientHeight || canvas.clientHeight || 200;
+        renderer.setSize(width, height, false);
+        material.uniforms.u_resolution.value.set(width * renderer.getPixelRatio(), height * renderer.getPixelRatio());
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      // Interactive mouse response with dampening
+      heroBanner.addEventListener('mousemove', (e) => {
+        const rect = heroBanner.getBoundingClientRect();
+        mouse.targetX = (e.clientX - rect.left) / rect.width;
+        mouse.targetY = 1.0 - (e.clientY - rect.top) / rect.height;
+      }, { passive: true });
+
+      heroBanner.addEventListener('mouseleave', () => {
+        mouse.targetX = 0.5;
+        mouse.targetY = 0.5;
+      }, { passive: true });
+
+      // IntersectionObserver: Pause rendering when Hero is scrolled out of view
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+            if (isVisible && !animationFrameId) {
+              renderLoop(performance.now());
+            }
+          });
+        }, { threshold: 0.05 });
+        observer.observe(heroBanner);
+      }
+
+      const clock = new THREE.Clock();
+      function renderLoop() {
+        if (!isVisible) {
+          animationFrameId = null;
+          return;
+        }
+
+        // Smooth mouse dampening
+        mouse.x += (mouse.targetX - mouse.x) * 0.06;
+        mouse.y += (mouse.targetY - mouse.y) * 0.06;
+
+        material.uniforms.u_time.value = clock.getElapsedTime();
+        material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
+
+        renderer.render(scene, camera);
+        animationFrameId = requestAnimationFrame(renderLoop);
+      }
+      renderLoop();
+
+    } catch (err) {
+      console.warn('[WebGL Engine] Could not initialize fluid shader:', err);
+    }
+  }
+
+  // 2. 3D LIQUID GLASS EMBLEM (THE LOGO)
+  function setupLiquidLogo() {
+    const container = document.getElementById('liquid-logo-container');
+    const fallback = document.getElementById('liquid-logo-fallback');
+    if (!container) return;
+
+    if (typeof THREE === 'undefined') {
+      if (fallback) fallback.style.display = 'block';
+      return;
+    }
+
+    let renderer, scene, camera, shieldMesh;
+    let lightCyan, lightBlue;
+    let isVisible = true;
+    let animId = null;
+
+    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    const width = 140;
+    const height = 140;
+
+    try {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 50);
+      camera.position.set(0, 0, 4.3);
+
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.35;
+      container.appendChild(renderer.domElement);
+
+      // Create 3D Shield Geometry with beveled contours
+      const shape = new THREE.Shape();
+      shape.moveTo(0, 1.15);
+      shape.bezierCurveTo(-0.45, 1.28, -0.92, 1.12, -0.92, 0.92);
+      shape.bezierCurveTo(-0.92, 0.22, -0.68, -0.45, 0, -1.18);
+      shape.bezierCurveTo(0.68, -0.45, 0.92, 0.22, 0.92, 0.92);
+      shape.bezierCurveTo(0.92, 1.12, 0.45, 1.28, 0, 1.15);
+
+      const extrudeSettings = {
+        steps: 1,
+        depth: 0.26,
+        bevelEnabled: true,
+        bevelThickness: 0.12,
+        bevelSize: 0.08,
+        bevelOffset: 0,
+        bevelSegments: 5
+      };
+
+      const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      geometry.center();
+
+      // High-transmission physical glass shader
+      const glassMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x38bdf8,
+        transmission: 0.92,
+        opacity: 1,
+        transparent: true,
+        roughness: 0.12,
+        ior: 1.5,
+        thickness: 2.2,
+        specularIntensity: 1.0,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.1
+      });
+
+      shieldMesh = new THREE.Mesh(geometry, glassMaterial);
+      scene.add(shieldMesh);
+
+      // Inner Core Emblem (Subtle inner glowing ring)
+      const coreGeo = new THREE.TorusGeometry(0.38, 0.05, 16, 32);
+      const coreMat = new THREE.MeshStandardMaterial({
+        color: 0x0061ff,
+        emissive: 0x0061ff,
+        emissiveIntensity: 0.6,
+        roughness: 0.2,
+        metalness: 0.8
+      });
+      const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+      coreMesh.position.z = 0.02;
+      shieldMesh.add(coreMesh);
+
+      // Lighting: 2 soft colored point lights (Cyan & Blue) that rotate around the glass core
+      lightCyan = new THREE.PointLight(0x38bdf8, 3.2, 8);
+      lightBlue = new THREE.PointLight(0x0061ff, 3.2, 8);
+      scene.add(lightCyan);
+      scene.add(lightBlue);
+
+      // Ambient fill & Directional rim highlight
+      scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+      const rimLight = new THREE.DirectionalLight(0xffffff, 1.4);
+      rimLight.position.set(2, 3, 4);
+      scene.add(rimLight);
+
+      const backRimLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+      backRimLight.position.set(-2, -2, -3);
+      scene.add(backRimLight);
+
+      // Mouse tracking on container / hero
+      const heroBanner = document.querySelector('.hero-banner');
+      const targetElement = heroBanner || container;
+
+      targetElement.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        mouse.targetX = ((e.clientX - centerX) / window.innerWidth) * 2.5;
+        mouse.targetY = ((e.clientY - centerY) / window.innerHeight) * 2.5;
+      }, { passive: true });
+
+      targetElement.addEventListener('mouseleave', () => {
+        mouse.targetX = 0;
+        mouse.targetY = 0;
+      }, { passive: true });
+
+      // IntersectionObserver: Pause rendering when out of view
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+            if (isVisible && !animId) {
+              animate(performance.now());
+            }
+          });
+        }, { threshold: 0.05 });
+        observer.observe(container);
+      }
+
+      let clock = new THREE.Clock();
+
+      function animate() {
+        if (!isVisible) {
+          animId = null;
+          return;
+        }
+
+        const t = clock.getElapsedTime();
+
+        // Rotate point lights around glass core
+        lightCyan.position.x = Math.cos(t * 1.6) * 1.8;
+        lightCyan.position.y = Math.sin(t * 1.6) * 1.4;
+        lightCyan.position.z = Math.sin(t * 1.2) * 1.2 + 0.5;
+
+        lightBlue.position.x = Math.cos(t * 1.6 + Math.PI) * 1.8;
+        lightBlue.position.y = Math.sin(t * 1.6 + Math.PI) * 1.4;
+        lightBlue.position.z = Math.sin(t * 1.2 + Math.PI) * 1.2 - 0.5;
+
+        // Subtle 3D tilt tracking (lerp toward normalized mouse pointer)
+        mouse.x += (mouse.targetX - mouse.x) * 0.08;
+        mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+        shieldMesh.rotation.y = mouse.x * 0.85 + Math.sin(t * 0.8) * 0.08;
+        shieldMesh.rotation.x = -mouse.y * 0.75 + Math.cos(t * 0.8) * 0.05;
+
+        // Gentle floating idle bob
+        shieldMesh.position.y = Math.sin(t * 1.7) * 0.07;
+
+        renderer.render(scene, camera);
+        animId = requestAnimationFrame(animate);
+      }
+      animate();
+
+    } catch (err) {
+      console.warn('[WebGL Engine] Could not initialize 3D liquid logo:', err);
+      if (fallback) fallback.style.display = 'block';
+    }
+  }
+
+  // Initialize both components
+  setupFluidShader();
+  setupLiquidLogo();
+})();
+
+
+  
+    /* ============================================================
+       GODLY.WEBSITE VISUAL & FLUID SHADER ENGINE
+       ============================================================ */
+/**
+ * ============================================================================
+ * GODLY.WEBSITE ENGINE: FULL-VIEWPORT FLUID SHADER + 3D GLASS RETICLE + SPOTLIGHT
+ * ============================================================================
+ */
+
+(function initGodlyEngine() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGodlyEngine);
+    return;
+  }
+
+  // 1. FULL-VIEWPORT WEBGL FLUID SHADER BACKGROUND
+  function setupGlobalFluidBackground() {
+    const canvas = document.getElementById('webgl-liquid-bg');
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    let renderer, scene, camera, material, mesh;
+    let animId = null;
+    const mouse = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 };
+
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      uniform float u_time;
+      uniform vec2 u_resolution;
+      uniform vec2 u_mouse;
+      varying vec2 vUv;
+
+      // 3D Simplex noise
+      vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+      vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
+
+      float snoise(vec3 v){
+        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+        vec3 i  = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+
+        vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+        vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+        vec3 x3 = x0 - 1.0 + 3.0 * C.xxx;
+
+        i = mod(i, 289.0);
+        vec4 p = permute(permute(permute(
+                   i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                 + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                 + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+
+        float n_ = 0.142857142857;
+        vec3  ns = n_ * D.wyz - D.xzx;
+
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+
+        vec4 x = x_ *ns.x + ns.yyyy;
+        vec4 y = y_ *ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+
+        vec4 s0 = floor(b0)*2.0 + 1.0;
+        vec4 s1 = floor(b1)*2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+
+        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+        p0 *= norm.x;
+        p1 *= norm.y;
+        p2 *= norm.z;
+        p3 *= norm.w;
+
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+      }
+
+      void main() {
+        vec2 st = gl_FragCoord.xy / u_resolution.xy;
+        vec2 aspect = st;
+        aspect.x *= u_resolution.x / u_resolution.y;
+
+        // Damped interactive ripple coordinates
+        vec2 m = u_mouse;
+        m.x *= u_resolution.x / u_resolution.y;
+        float d = length(aspect - m);
+        float ripple = smoothstep(0.85, 0.0, d) * 0.4;
+
+        // Multi-octave fluid flow
+        float t = u_time * 0.16;
+        vec3 coord1 = vec3(aspect * 1.2, t);
+        float n1 = snoise(coord1);
+
+        vec3 coord2 = vec3(aspect * 2.4 + vec2(n1 * 0.5) + vec2(ripple), t * 1.2);
+        float n2 = snoise(coord2);
+
+        vec3 coord3 = vec3(aspect * 4.0 - vec2(n2 * 0.3), t * 0.6);
+        float n3 = snoise(coord3);
+
+        float val = clamp(((n1 * 0.52 + n2 * 0.34 + n3 * 0.14) + ripple * 0.3 + 1.0) * 0.5, 0.0, 1.0);
+
+        // Fluid color morphing: #030712, #002d62, #0061ff, #0284c7
+        vec3 c0 = vec3(0.012, 0.027, 0.071); // Deep Obsidian #030712
+        vec3 c1 = vec3(0.000, 0.176, 0.384); // Kean Navy #002d62
+        vec3 c2 = vec3(0.000, 0.380, 1.000); // Electric Cobalt #0061ff
+        vec3 c3 = vec3(0.008, 0.518, 0.780); // Sky Cyan #0284c7
+
+        vec3 color = c0;
+        if (val < 0.35) {
+          color = mix(c0, c1, smoothstep(0.0, 0.35, val));
+        } else if (val < 0.72) {
+          color = mix(c1, c2, smoothstep(0.35, 0.72, val));
+        } else {
+          color = mix(c2, c3, smoothstep(0.72, 1.0, val));
+        }
+
+        // Soft peripheral vignette
+        float vig = smoothstep(1.4, 0.2, length(st - vec2(0.5)));
+        color = mix(c0 * 0.7, color, vig);
+
+        gl_FragColor = vec4(color, 0.85);
+      }
+    `;
+
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      scene = new THREE.Scene();
+      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+      material = new THREE.ShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: {
+          u_time: { value: 0 },
+          u_resolution: { value: new THREE.Vector2() },
+          u_mouse: { value: new THREE.Vector2(0.5, 0.5) }
+        },
+        depthWrite: false,
+        depthTest: false
+      });
+
+      mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+      scene.add(mesh);
+
+      function resize() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        renderer.setSize(w, h, false);
+        material.uniforms.u_resolution.value.set(w * renderer.getPixelRatio(), h * renderer.getPixelRatio());
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.targetX = e.clientX / window.innerWidth;
+        mouse.targetY = 1.0 - (e.clientY / window.innerHeight);
+      }, { passive: true });
+
+      const clock = new THREE.Clock();
+      function render() {
+        // Damped lerp physics
+        mouse.x += (mouse.targetX - mouse.x) * 0.05;
+        mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+        material.uniforms.u_time.value = clock.getElapsedTime();
+        material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
+
+        renderer.render(scene, camera);
+        animId = requestAnimationFrame(render);
+      }
+      render();
+
+    } catch (e) {
+      console.warn('[Godly WebGL] Background shader initialization bypassed:', e);
+    }
+  }
+
+  // 2. 3D LIQUID GLASS SENTRY RETICLE (HERO EMBLEM)
+  function setupHeroGlassReticle() {
+    const container = document.getElementById('hero-glass-viewport') || document.getElementById('liquid-logo-container');
+    if (!container || typeof THREE === 'undefined') return;
+
+    // Clear previous children if any
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    const width = 120;
+    const height = 120;
+    let renderer, scene, camera, reticleGroup;
+    let lightCyan, lightCobalt;
+
+    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+
+    try {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 50);
+      camera.position.set(0, 0, 4.2);
+
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.4;
+      container.appendChild(renderer.domElement);
+
+      reticleGroup = new THREE.Group();
+      scene.add(reticleGroup);
+
+      // Glass Material with Godly spec
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x38bdf8,
+        transmission: 0.95,
+        opacity: 1,
+        transparent: true,
+        roughness: 0.08,
+        ior: 1.52,
+        thickness: 2.2,
+        specularIntensity: 1.0,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.08
+      });
+
+      // Ring 1: Outer beveled reticle ring
+      const outerRingGeo = new THREE.TorusGeometry(1.15, 0.09, 16, 64);
+      const outerRing = new THREE.Mesh(outerRingGeo, glassMat);
+      reticleGroup.add(outerRing);
+
+      // Ring 2: Inner reticle ring
+      const innerRingGeo = new THREE.TorusGeometry(0.72, 0.06, 16, 48);
+      const innerRing = new THREE.Mesh(innerRingGeo, glassMat);
+      reticleGroup.add(innerRing);
+
+      // Central Shield Prism Core
+      const shieldShape = new THREE.Shape();
+      shieldShape.moveTo(0, 0.55);
+      shieldShape.bezierCurveTo(-0.25, 0.62, -0.48, 0.52, -0.48, 0.42);
+      shieldShape.bezierCurveTo(-0.48, 0.1, -0.32, -0.22, 0, -0.58);
+      shieldShape.bezierCurveTo(0.32, -0.22, 0.48, 0.1, 0.48, 0.42);
+      shieldShape.bezierCurveTo(0.48, 0.52, 0.25, 0.62, 0, 0.55);
+
+      const shieldGeo = new THREE.ExtrudeGeometry(shieldShape, {
+        steps: 1,
+        depth: 0.18,
+        bevelEnabled: true,
+        bevelThickness: 0.08,
+        bevelSize: 0.05,
+        bevelSegments: 4
+      });
+      shieldGeo.center();
+      const shieldCore = new THREE.Mesh(shieldGeo, glassMat);
+      reticleGroup.add(shieldCore);
+
+      // 4 Precision crosshair markers
+      const tickGeo = new THREE.BoxGeometry(0.04, 0.22, 0.04);
+      const tickMat = new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        emissive: 0x0061ff,
+        emissiveIntensity: 0.5,
+        metalness: 0.9,
+        roughness: 0.2
+      });
+
+      const topTick = new THREE.Mesh(tickGeo, tickMat);
+      topTick.position.set(0, 1.15, 0.05);
+      reticleGroup.add(topTick);
+
+      const bottomTick = new THREE.Mesh(tickGeo, tickMat);
+      bottomTick.position.set(0, -1.15, 0.05);
+      reticleGroup.add(bottomTick);
+
+      const leftTick = new THREE.Mesh(tickGeo, tickMat);
+      leftTick.rotation.z = Math.PI / 2;
+      leftTick.position.set(-1.15, 0, 0.05);
+      reticleGroup.add(leftTick);
+
+      const rightTick = new THREE.Mesh(tickGeo, tickMat);
+      rightTick.rotation.z = Math.PI / 2;
+      rightTick.position.set(1.15, 0, 0.05);
+      reticleGroup.add(rightTick);
+
+      // Orbiting Point Lights: Cyan & Cobalt
+      lightCyan = new THREE.PointLight(0x38bdf8, 3.5, 8);
+      lightCobalt = new THREE.PointLight(0x0061ff, 3.5, 8);
+      scene.add(lightCyan);
+      scene.add(lightCobalt);
+
+      // Ambient fill & Directional rim highlights
+      scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+      const rimLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
+      rimLight1.position.set(3, 4, 4);
+      scene.add(rimLight1);
+
+      const rimLight2 = new THREE.DirectionalLight(0x38bdf8, 1.2);
+      rimLight2.position.set(-3, -3, -3);
+      scene.add(rimLight2);
+
+      // Mouse tracking with spring damping
+      window.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        mouse.targetX = ((e.clientX - cx) / window.innerWidth) * 2.8;
+        mouse.targetY = ((e.clientY - cy) / window.innerHeight) * 2.8;
+      }, { passive: true });
+
+      const clock = new THREE.Clock();
+      function animate() {
+        const t = clock.getElapsedTime();
+
+        // Orbit point lights
+        lightCyan.position.x = Math.cos(t * 1.8) * 1.9;
+        lightCyan.position.y = Math.sin(t * 1.8) * 1.5;
+        lightCyan.position.z = Math.sin(t * 1.4) * 1.2 + 0.4;
+
+        lightCobalt.position.x = Math.cos(t * 1.8 + Math.PI) * 1.9;
+        lightCobalt.position.y = Math.sin(t * 1.8 + Math.PI) * 1.5;
+        lightCobalt.position.z = Math.sin(t * 1.4 + Math.PI) * 1.2 - 0.4;
+
+        // Subtle spring damping tilt & pan
+        mouse.x += (mouse.targetX - mouse.x) * 0.08;
+        mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+        reticleGroup.rotation.y = mouse.x * 0.75 + Math.sin(t * 0.7) * 0.06;
+        reticleGroup.rotation.x = -mouse.y * 0.65 + Math.cos(t * 0.7) * 0.05;
+
+        // Idle floating bob
+        reticleGroup.position.y = Math.sin(t * 1.6) * 0.05;
+
+        // Slowly counter-rotate inner ring for high-tech HUD effect
+        innerRing.rotation.z = t * 0.25;
+
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+    } catch (e) {
+      console.warn('[Godly WebGL] 3D Reticle initialization bypassed:', e);
+    }
+  }
+
+  // 3. 21ST.DEV BENTO SPOTLIGHT TRACKER
+  function setupBentoSpotlightTracker() {
+    window.addEventListener('mousemove', (e) => {
+      const cards = document.querySelectorAll('.card, .stat-tile, .stride-card, .stride-flow-card, .portfolio-card, .hero-banner, .panel-card, .bento-card, .tier-card');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (e.clientX >= rect.left - 40 && e.clientX <= rect.right + 40 &&
+            e.clientY >= rect.top - 40 && e.clientY <= rect.bottom + 40) {
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        }
+      });
+    }, { passive: true });
+  }
+
+  // 4. TAMED ACTIVITY DOCK COLLAPSIBLE CONTROLLER
+  function setupTamedActivityDock() {
+    const dock = document.getElementById('activity-log-dock');
+    const header = document.getElementById('activity-dock-header') || (dock ? dock.querySelector('.activity-dock-header') : null);
+    const toggleIcon = document.getElementById('dock-toggle-icon');
+    const togglePrompt = document.getElementById('dock-toggle-prompt');
+
+    if (!dock) return;
+
+    // Ensure initial collapsed state
+    dock.classList.add('collapsed');
+
+    function toggle() {
+      dock.classList.toggle('collapsed');
+      const isCollapsed = dock.classList.contains('collapsed');
+      if (toggleIcon) toggleIcon.textContent = isCollapsed ? '▲' : '▼';
+      if (togglePrompt) togglePrompt.textContent = isCollapsed ? 'Click to Expand ▲' : 'Click to Collapse ▼';
+    }
+
+    if (header) {
+      header.addEventListener('click', (e) => {
+        // Prevent toggle if clicking buttons or filters
+        if (e.target.closest('button') || e.target.closest('.dock-filter-group')) return;
+        toggle();
+      });
+    }
+
+    const toggleBtn = document.getElementById('btn-toggle-activity-dock');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggle();
+      });
+    }
+  }
+
+  // Launch modules
+  setupGlobalFluidBackground();
+  setupHeroGlassReticle();
+  setupBentoSpotlightTracker();
+  setupTamedActivityDock();
+})();
+
 
   </script>
 </body>
