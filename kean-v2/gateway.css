@@ -1,0 +1,55 @@
+/* Owns the existing login component. Core workbench theme and legacy fallback are separate. */
+#simulated-login-overlay {
+  --gate-bg:#0b0e13;--gate-text:#f2f0e9;--gate-muted:#adb7b0;--gate-line:#37433c;--gate-accent:#b6f5d1;
+  position:fixed;inset:0;z-index:20000;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
+  width:100%;height:100dvh;max-height:none;overflow:auto;overscroll-behavior:contain;padding:0;
+  background:radial-gradient(ellipse at 18% 57%,#172a233b,transparent 55%),var(--gate-bg);
+  color:var(--gate-text);color-scheme:dark;backdrop-filter:none;opacity:1;visibility:visible;
+  transition:opacity .18s ease,visibility .18s ease;font-family:var(--sans);
+}
+#simulated-login-overlay.hidden {opacity:0;pointer-events:none;visibility:hidden}
+#simulated-login-overlay[inert] {pointer-events:none}
+body.v2-gateway-open {overflow:hidden}
+#simulated-login-overlay .gateway-header {display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px clamp(22px,5vw,80px);border-bottom:1px solid var(--gate-line);flex:none}
+#simulated-login-overlay a {color:var(--gate-text);text-decoration:none}
+#simulated-login-overlay a:hover {color:var(--gate-accent)}
+#simulated-login-overlay .gateway-brand {display:flex;align-items:center;gap:12px;min-height:44px;font:600 23px var(--sans);letter-spacing:-1px}
+#simulated-login-overlay .gateway-back {font:11px var(--sans);color:var(--gate-muted);display:inline-flex;align-items:center;min-height:44px}
+#simulated-login-overlay .gateway-layout {display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:clamp(38px,7vw,110px);align-items:center;max-width:1460px;width:100%;margin:auto;padding:clamp(24px,3vh,44px) clamp(22px,5vw,80px);flex:1}
+#simulated-login-overlay .gateway-story {min-width:0}
+#simulated-login-overlay .gateway-eyebrow {font:9px/1.8 var(--mono);color:var(--gate-muted);letter-spacing:.16em;margin:0 0 20px}
+#simulated-login-overlay h1 {font:500 clamp(46px,5.8vw,88px)/1.02 var(--sans);letter-spacing:-.06em;margin:0 0 26px;color:var(--gate-text)}
+#simulated-login-overlay h1 em {font-family:Georgia,'Times New Roman',serif;font-weight:400;color:var(--gate-accent);letter-spacing:-.055em}
+#simulated-login-overlay .gateway-intro {font:14px/1.8 var(--sans);color:var(--gate-muted);max-width:390px;margin:0}
+#simulated-login-overlay .gateway-field {color:var(--gate-accent);margin:24px 0 14px;max-width:480px;opacity:.75}
+#simulated-login-overlay .gateway-field svg {width:100%;display:block;height:130px}
+#simulated-login-overlay .gateway-field text {font:9px var(--mono);letter-spacing:.15em;fill:var(--gate-accent)}
+#simulated-login-overlay .gateway-facts {display:flex;gap:36px;flex-wrap:wrap;border-top:1px solid var(--gate-line);padding-top:20px;max-width:480px}
+#simulated-login-overlay .gateway-facts strong {display:block;font:500 22px var(--sans);color:var(--gate-text);letter-spacing:-.04em}
+#simulated-login-overlay .gateway-facts span {display:block;margin-top:8px;font:9px var(--mono);color:var(--gate-muted)}
+#simulated-login-overlay .sim-login-card {width:100%;max-width:430px;min-width:0;justify-self:end;margin:0;padding:0 0 0 36px;border:0;border-left:1px solid var(--gate-line);border-radius:0;background:transparent;box-shadow:none;animation:gateway-arrive .3s ease-out;transform:none}
+#simulated-login-overlay .sim-login-header {margin-bottom:18px}
+#simulated-login-overlay .sim-login-badge-row {display:block}
+#simulated-login-overlay .sim-login-title {font:500 32px/1.2 var(--sans);letter-spacing:-.045em;color:var(--gate-text);margin:0 0 12px}
+#simulated-login-overlay .sim-login-subtitle {font:9px/1.8 var(--mono);color:var(--gate-accent);letter-spacing:.12em}
+#simulated-login-overlay .gateway-disclaimer {font:12px/1.8 var(--sans);color:var(--gate-muted);margin:0 0 26px}
+#simulated-login-overlay .sim-login-form {display:flex;flex-direction:column;gap:12px}
+#simulated-login-overlay .sim-login-field-group {margin:0}
+#simulated-login-overlay .sim-login-label {display:block;font:12px/1.5 var(--sans);color:var(--gate-text);margin:0 0 9px}
+#simulated-login-overlay .sim-login-input {width:100%;min-width:0;height:49px;padding:12px 14px;background:#10171b;border:1px solid #687a6d;border-radius:4px;color:var(--gate-text);font:14px/1.5 var(--sans);box-shadow:none;transition:border-color .15s}
+#simulated-login-overlay .sim-login-input::placeholder {color:#9baaa0}
+#simulated-login-overlay .sim-login-input:focus {border-color:var(--gate-accent);outline:2px solid var(--gate-accent);outline-offset:3px}
+#simulated-login-overlay .sim-login-form>.sim-login-field-group:nth-of-type(3) .sim-login-label {font-size:10px;color:var(--gate-muted);margin:0}
+#simulated-login-overlay .sim-login-btn {min-height:49px;padding:13px 18px;border:0;border-radius:4px;background:var(--gate-accent);color:#0b1710;font:600 12px var(--sans);box-shadow:none;transition:background .15s;letter-spacing:0}
+#simulated-login-overlay .sim-login-btn:hover {background:#d3ffe5;transform:none}
+#simulated-login-overlay .sim-login-btn:disabled {opacity:.6;cursor:progress}
+#simulated-login-overlay .sim-login-note {padding:18px 0 0;border-top:1px solid var(--gate-line);margin:2px 0 0;font:10px/1.9 var(--sans);color:var(--gate-muted);text-align:left;background:transparent;overflow-wrap:anywhere}
+#simulated-login-overlay .sim-login-note code {font:10px/1.9 var(--mono);color:var(--gate-text);background:transparent}
+#simulated-login-overlay #a4-login-status {margin:0;font:12px/1.7 var(--sans);color:var(--gate-accent);min-height:20px}
+#simulated-login-overlay :is(a,button):focus-visible {outline:2px solid var(--gate-accent);outline-offset:5px}
+#simulated-login-overlay .gateway-footer {display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:15px clamp(22px,5vw,80px);border-top:1px solid var(--gate-line);font:8px/1.8 var(--mono);letter-spacing:.1em;color:var(--gate-muted);flex:none}
+.nav-controls #v2-logout {border-color:var(--lab-control-line)}
+@keyframes gateway-arrive {from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px) {#simulated-login-overlay .gateway-layout {gap:36px;grid-template-columns:minmax(0,1fr) minmax(300px,1fr)}#simulated-login-overlay .gateway-facts {gap:22px}#simulated-login-overlay .gateway-field {margin:24px 0}#simulated-login-overlay .sim-login-card {padding-left:26px}}
+@media(max-width:700px) {#simulated-login-overlay .gateway-header {padding-top:20px;padding-bottom:20px}#simulated-login-overlay .gateway-layout {grid-template-columns:1fr;gap:30px;padding-top:30px;padding-bottom:36px;max-width:560px}#simulated-login-overlay h1 {font-size:48px;margin-bottom:18px}#simulated-login-overlay .gateway-eyebrow {margin-bottom:18px}#simulated-login-overlay .gateway-intro {font-size:13px}#simulated-login-overlay .gateway-field,#simulated-login-overlay .gateway-facts {display:none}#simulated-login-overlay .sim-login-card {border-left:0;border-top:1px solid var(--gate-line);padding:26px 0 0;justify-self:stretch;max-width:none}#simulated-login-overlay .gateway-disclaimer {margin-bottom:22px}#simulated-login-overlay .gateway-footer {font-size:8px}#simulated-login-overlay .gateway-brand {font-size:20px}#simulated-login-overlay .gateway-back {font-size:10px}}
+@media(prefers-reduced-motion:reduce) {#simulated-login-overlay,#simulated-login-overlay * {animation:none;transition:none;scroll-behavior:auto}}
