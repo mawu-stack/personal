@@ -1,0 +1,33 @@
+Running…
+PASS Tab 7 opens DDoS Guard
+PASS Old phishing scanner and controller removed
+PASS Two actual model results shown
+PASS Actual held-out row count displayed
+PASS Actual class chart populated
+PASS Two actual ROC curves and chance reference rendered
+PASS Feature selector renders nine log bins
+PASS Metric selector updates real recall
+PASS Actual tree prediction matches held-out record 0
+PASS Decision-path explanation rendered 0
+PASS Actual tree prediction matches held-out record 5
+PASS Decision-path explanation rendered 5
+PASS Actual tree prediction matches held-out record 15
+PASS Decision-path explanation rendered 15
+PASS Opt-in flow history saved
+PASS History revisit restores result
+PASS History clear works
+PASS Invalid protocol receives helpful error
+PASS Research export creates real JSON blob
+PASS Assignment 6 exports replacement DDoS results
+PASS Shared command router opens DDoS Guard
+PASS Assignment 6 now shows DDoS research
+PASS Ten XSS control checks preserved
+PASS Existing tab 1 accessible
+PASS Existing tab 2 accessible
+PASS Existing tab 3 accessible
+PASS Existing tab 4 accessible
+PASS Existing tab 5 accessible
+PASS Existing tab 6 accessible
+PASS Existing tab 8 accessible
+PASS Mobile input grid collapses to one column
+COMPLETE: 31 browser checks passed. Microphone and paid providers not exercised.

@@ -49,7 +49,7 @@ a {color:var(--lab-accent)} button {cursor:pointer}
 .v2-skip {position:fixed;top:-100px;left:20px;z-index:20000;background:var(--lab-accent);color:var(--lab-bg);padding:12px 20px}.v2-skip:focus {top:12px}
 body:has(.tab-panel.active) .wb-hero {display:none}
 .tab-panel {color:var(--lab-text);min-width:0;scroll-margin-top:120px}
-.tab-panel h2 {font:500 clamp(34px,4.3vw,64px)/1.08 var(--sans);letter-spacing:-.055em;color:var(--lab-text);text-shadow:none;margin-bottom:20px}
+.tab-panel h2 {font:500 clamp(24px,2.6vw,34px)/1.2 var(--sans);letter-spacing:-.055em;color:var(--lab-text);text-shadow:none;margin-bottom:20px}
 .tab-panel h3 {font:500 clamp(21px,2.2vw,30px)/1.25 var(--sans);letter-spacing:-.025em;color:var(--lab-text)}
 .tab-panel :is(.card-title,.stride-main-heading,.stride-sub-heading) {color:var(--lab-text)}
 .tab-panel :is(.wb-overline,.stride-badge-tag) {color:var(--lab-muted);background:transparent;border-color:var(--lab-line)}
@@ -114,3 +114,48 @@ body:has(.tab-panel.active) .wb-hero {display:none}
 @media(max-width:480px) {.nav-container {padding:12px 16px}.nav-controls {width:100%;margin:0;justify-content:space-between}.brand-sub {display:block}.brand-main {font-size:18px}.tab-panel h2 {font-size:36px}.tab-panel :is(.dg-card,.a4-card,.a6-card,.injection-card,.voice-assistant-card) {padding:20px}.arch-toolbar {gap:8px}.arch-toolbar button {font-size:11px;padding:10px 12px}.arch-controls .arch-node {font-size:11px;padding:10px}.a3-note {padding:14px 16px}.v2-scope {display:none}#pwd-input {font-size:17px}.v2-crack-hero {padding:22px}.arch-inspector p {font-size:13px}}
 @media(prefers-reduced-motion:reduce) {html {scroll-behavior:auto}*,*::before,*::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
+/* Research platform additions: scoped to new semantic controls, not legacy component overrides. */
+.research-platform {--research-radius:12px;--research-space:clamp(24px,4vw,56px)}
+.research-guide {padding:0 0 30px;margin:0 0 38px;border-bottom:1px solid var(--lab-line);max-width:1100px}
+.research-eyebrow {font:11px/1.6 var(--mono);letter-spacing:.1em;color:var(--lab-accent);text-transform:uppercase}
+.research-guide h3 {font-size:clamp(26px,3.4vw,46px);max-width:25ch;margin:12px 0;line-height:1.12;letter-spacing:-.04em}
+.research-guide>p:not(.research-eyebrow) {color:var(--lab-muted);max-width:78ch;font-size:15px}
+.research-route,.research-controls {display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+.research-button {min-height:44px;padding:10px 15px;border:1px solid var(--lab-control-line);border-radius:7px;background:var(--lab-panel);color:var(--lab-text);font:500 13px/1.5 var(--sans);text-align:left;box-shadow:none}
+.research-button:hover,.research-button[aria-pressed=true] {background:var(--lab-tint);border-color:var(--lab-accent);color:var(--lab-accent)}
+.research-route .research-button {background:transparent;border-color:var(--lab-line);font-size:12px}
+.research-overview {padding:40px 0 64px}.research-overview h1 {white-space:pre-line;font:500 clamp(40px,5.2vw,78px)/1.05 var(--sans);letter-spacing:-.055em;max-width:22ch;margin:24px 0}.research-overview>p {max-width:76ch;color:var(--lab-muted)}
+.research-projects {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:48px;border-top:1px solid var(--lab-line);border-bottom:1px solid var(--lab-line)}
+.research-projects a {padding:26px 22px;text-decoration:none;display:flex;flex-direction:column;gap:20px;color:var(--lab-text);border-right:1px solid var(--lab-line);min-width:0}.research-projects a:first-child {padding-left:0}.research-projects a:last-child {border:0}.research-projects strong {font-size:26px;line-height:1.25;letter-spacing:-.03em}.research-projects a:hover {background:var(--lab-tint)}
+.research-platform:not(:has(.tab-panel.active)) .wb-hero {display:none}
+.research-topology-tools {border-top:1px solid var(--lab-line);padding:24px;margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px}
+.research-topology-tools .research-controls {align-content:start;margin:0}.research-topology-tools label {width:100%;font-size:13px}.research-topology-tools select {max-width:100%;min-width:0;width:100%;padding:12px}
+.tier-card.research-selected {outline:2px solid var(--lab-accent);outline-offset:3px}.tier-card .research-button {margin-top:16px;font-size:11px;position:relative;z-index:1}
+.research-inspector {border-left:1px solid var(--lab-line);padding-left:28px}.research-inspector h4 {font-size:26px;margin:12px 0}.research-caption {font:12px/1.8 var(--sans);color:var(--lab-muted)}
+.research-boundary {font:11px/1.8 var(--mono);color:var(--lab-accent);border-bottom:1px dashed var(--lab-control-line);padding-bottom:14px}
+.arch-node::before {content:attr(data-component);display:inline-block;width:30px;font:11px var(--mono);opacity:.65}
+.research-errors,.research-movie {padding:clamp(22px,3vw,40px);border:1px solid var(--lab-line);border-radius:var(--research-radius);background:var(--lab-panel);margin:0 0 48px;min-width:0}
+.research-errors>label,.research-guide>label {display:block;font-size:13px;margin:18px 0 8px}.research-errors select,.research-guide>select {min-height:44px;padding:10px;max-width:100%}
+.research-confusion {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0}.research-confusion button {display:flex;flex-direction:column;gap:10px;padding:22px;background:var(--lab-bg)}.research-confusion strong {font:500 clamp(24px,3vw,42px)/1.2 var(--sans);letter-spacing:-.04em}.research-confusion span {font-size:12px;color:var(--lab-muted)}
+.research-error-detail {min-height:64px;border-left:2px solid var(--lab-accent);padding:12px 20px;background:var(--lab-tint)}
+.research-movie h3 {font-size:clamp(38px,6vw,76px);letter-spacing:-.06em;margin:18px 0}.research-movie-subtitle {font-size:22px}.research-video-empty {aspect-ratio:16/9;max-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:26px;background:repeating-linear-gradient(135deg,transparent,transparent 40px,var(--lab-tint) 40px,var(--lab-tint) 41px),var(--lab-bg);border:1px dashed var(--lab-control-line);border-radius:8px;margin:28px 0}.research-video-empty>span {font-size:28px;color:var(--lab-accent)}.research-video-empty p {max-width:55ch;color:var(--lab-muted);font-size:13px}
+.research-flow {display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:28px 0 0;counter-reset:boundary}.research-flow li {counter-increment:boundary;padding:12px 16px;border:1px solid var(--lab-line);border-radius:5px;font:12px var(--mono);background:var(--lab-panel)}.research-flow li:before {content:counter(boundary,decimal-leading-zero) ' / ';color:var(--lab-accent)}
+.research-archive {display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.research-resistance {padding:16px 20px;border-left:2px solid var(--lab-accent);background:var(--lab-tint);margin-top:24px}
+@media(max-width:850px){.research-topology-tools {grid-template-columns:1fr;padding:18px}.research-inspector {border-left:0;border-top:1px solid var(--lab-line);padding:20px 0 0}.research-projects {grid-template-columns:1fr}.research-projects a,.research-projects a:first-child {padding:22px 0;border-right:0;border-bottom:1px solid var(--lab-line)}.research-overview {padding:16px 0 40px}}
+@media(max-width:480px){.research-route {display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.research-button {font-size:12px}.research-confusion button {padding:16px}.research-guide {margin-bottom:28px}.research-video-empty {aspect-ratio:auto;min-height:240px}}
+.research-movie video {display:block;width:100%;aspect-ratio:16/9;background:#0b0c10;border:1px solid var(--lab-line);border-radius:8px;margin:28px 0}
+/* The original nine-column topology overallocated width to conduits inside the rail.
+   Keep five readable infrastructure nodes; boundary labels remain in their inspector. */
+#tracer-topology-section .tiers-pipeline-grid {grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:stretch}
+#tracer-topology-section .pipeline-conduit {display:none}
+#tracer-topology-section .tier-card {min-width:0;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--lab-panel);transform:none}
+#tracer-topology-section .tier-card::before {display:none}
+#tracer-topology-section .tier-title {font:500 16px/1.4 var(--sans);overflow-wrap:normal;word-break:normal;letter-spacing:-.02em;margin:4px 0}
+#tracer-topology-section .tier-desc {font:12px/1.65 var(--sans);color:var(--lab-muted);overflow-wrap:normal;word-break:normal}
+#tracer-topology-section .tier-header-badge-row {display:flex;flex-wrap:wrap;gap:6px}
+#tracer-topology-section .trust-boundary-tag {white-space:normal;font-size:9px;line-height:1.6;padding:6px;max-width:100%;overflow-wrap:normal}
+#tracer-topology-section .tier-card .research-button {width:100%;padding:10px 8px;margin-top:auto;white-space:normal}
+@media(max-width:1100px){#tracer-topology-section .tiers-pipeline-grid {grid-template-columns:repeat(2,minmax(0,1fr))}#tracer-topology-section .tier-card:last-child {grid-column:1/-1}}
+@media(max-width:480px){#tracer-topology-section .tiers-pipeline-grid {grid-template-columns:1fr}}
+#tracer-topology-section .tier-number-badge {width:auto;min-width:0;height:auto;padding:4px 7px;white-space:nowrap;border-radius:4px;background:var(--lab-tint);color:var(--lab-accent);font:10px/1.5 var(--mono)}
+#tracer-topology-section .tier-status-indicator {background:var(--lab-raised);color:var(--lab-muted);border-color:var(--lab-line);font:10px/1.5 var(--mono)}

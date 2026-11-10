@@ -1,0 +1,42 @@
+[
+  {
+    "check": "Gemini REST grounding structure matches current official docs",
+    "result": "PASS"
+  },
+  {
+    "check": "Local navigation, concepts, app-state and action commands never fetch",
+    "result": "PASS"
+  },
+  {
+    "check": "Current questions reach fallback rather than substring navigation",
+    "result": "PASS"
+  },
+  {
+    "check": "No-key and unsupported-provider responses are explicit and make no request",
+    "result": "PASS"
+  },
+  {
+    "check": "Ungrounded/empty responses never claim live search or invent an answer",
+    "result": "PASS"
+  },
+  {
+    "check": "Unsafe source URLs are rejected",
+    "result": "PASS"
+  },
+  {
+    "check": "HTTP and network failures are visible and do not expose the key",
+    "result": "PASS"
+  },
+  {
+    "check": "Timeout is reported honestly",
+    "result": "PASS"
+  },
+  {
+    "check": "A newer local command prevents stale remote speech",
+    "result": "PASS"
+  },
+  {
+    "check": "Disconnect cancels search without introducing persistent key storage",
+    "result": "PASS"
+  }
+]

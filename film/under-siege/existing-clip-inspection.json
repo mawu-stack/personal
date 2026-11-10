@@ -1,0 +1,19 @@
+{
+  "file": "film/under-siege/under-siege-ltx-draft.mp4",
+  "bytes": 933923,
+  "sha256": "d09f5b93ed477bc0ce35645976aec57bc7a89041ad51d9f6d4c340973285819e",
+  "durationSeconds": 5.042,
+  "tracks": [
+    {
+      "type": "vide",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "type": "soun",
+      "width": 0,
+      "height": 0
+    }
+  ],
+  "inspection": "Container metadata only. No frame decoding, audio transcription, editing or rendering. Existing preview screenshot was reviewed previously; continuity approval remains pending."
+}

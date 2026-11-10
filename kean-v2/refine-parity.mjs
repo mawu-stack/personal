@@ -1,0 +1,3 @@
+import fs from 'node:fs';let h=fs.readFileSync('kean-v2/migration-check.html','utf8');
+const start=h.indexOf("const telemetry=w=>"),end=h.indexOf("}\nfor(const w of windows){$(w,'toggle-paramsql')",start);
+if(start<0||end<0)throw Error('Parity fixture boundary missing');h=h.slice(0,start)+`const telemetry=w=>$(w,'telemetry-terminal-body').textContent.replace(/\\[\\d{1,2}:\\d{2}:\\d{2}(?: [AP]M)?\\]/g,'[TIME]');const a=telemetry(windows[0]),b=telemetry(windows[1]);assert(a.includes('VECTOR '+i),'Vector '+i+' emits its actual telemetry');assert(a===b,'Vector '+i+' telemetry matches original (timestamp normalized)');`+h.slice(end);fs.writeFileSync('kean-v2/migration-check.html',h);

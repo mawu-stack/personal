@@ -1,0 +1,29 @@
+PASS Existing login and role
+PASS Direct Tab 7 hash
+PASS Real source stats
+PASS Two model rows
+PASS URL results match export
+PASS Full-feature switch matches export
+PASS Confusion matrices
+PASS ROC curves
+PASS Heatmap generated
+PASS Feature explorer
+PASS Held-out error filter
+PASS Error example really misclassified
+PASS URL parsed without verdict
+PASS Reject executable scheme
+PASS Markup safely rejected
+PASS No URL network requests
+PASS Shared voice/palette route
+PASS Preserved tab 1
+PASS Preserved tab 2
+PASS Preserved tab 3
+PASS Preserved tab 4
+PASS Preserved tab 5
+PASS Preserved tab 6
+PASS Ctrl+K preserved
+PASS Light theme inherited
+PASS Dark theme inherited
+PASS Final presentation marked Planned
+PASS Results download created
+COMPLETE: 28 checks passed. No live API or microphone testing.

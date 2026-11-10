@@ -1,0 +1,3 @@
+import fs from 'node:fs';
+let p='kean-v2/migrate.mjs',s=fs.readFileSync(p,'utf8');s=s.replace('<script src="workbench.js"></script>\\n</body>','<script src="workbench.js"></script>\\n<link rel="stylesheet" href="integration.css">\\n<script src="architecture.js"></script>\\n</body>');s=s.replace(".replaceAll('legacy/index-cmdk.html#','workbench.html#')", ".replaceAll('legacy/index-cmdk.html#','workbench.html#').replace('href=\"workbench.html#overview\">Original workbench','href=\"legacy/index-cmdk.html#overview\">Original workbench')");fs.writeFileSync(p,s);
+p='kean-v2/build.mjs';s=fs.readFileSync(p,'utf8').replace("const files=[","const files=['workbench-integration-report.md','docs/workbench-content-checklist.json',");fs.writeFileSync(p,s);

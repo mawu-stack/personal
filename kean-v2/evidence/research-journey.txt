@@ -1,0 +1,61 @@
+PASS Homepage has real Workbench link
+PASS Homepage Workbench link preserves overview destination
+PASS Workbench presents gateway before session
+PASS Exactly one existing authentication form
+PASS Gateway honestly identifies client-side demo
+PASS Initial focus enters username
+PASS Workbench background is inert while signed out
+PASS Ctrl+K cannot open background palette through login
+PASS Tab wraps inside gateway
+PASS Shift+Tab wraps inside gateway
+PASS Empty form uses native required validation
+PASS Incomplete password cannot start session
+PASS 390px gateway fits without horizontal overflow
+PASS 390px input styling owns legacy theme
+PASS 768px gateway fits without horizontal overflow
+PASS 768px input styling owns legacy theme
+PASS 1280px gateway fits without horizontal overflow
+PASS 1280px input styling owns legacy theme
+PASS Unknown user is rejected
+PASS Wrong password and unknown user give same generic error
+PASS Password field clears after failed verification
+PASS Third failure starts actual 30-second lockout
+PASS Correct credentials are denied during lockout
+PASS All three failed attempts are logged
+WAIT: observing real 30-second lockout; no clock override.
+PASS Student signs in after lockout expires
+PASS Existing session token generated
+PASS Original 20-minute timer starts
+PASS Background focus restored after login
+PASS Focus exits closed gateway
+PASS Lab 1 navigates with original URL hash
+PASS Lab 2 navigates with original URL hash
+PASS Lab 3 navigates with original URL hash
+PASS Lab 4 navigates with original URL hash
+PASS Lab 5 navigates with original URL hash
+PASS Lab 6 navigates with original URL hash
+PASS Lab 7 navigates with original URL hash
+PASS Lab 8 navigates with original URL hash
+PASS Lab 9 navigates with original URL hash
+PASS Top-bar logout revokes original in-memory session
+PASS Logout restores gateway focus boundary
+PASS Logout removes stale success text
+PASS Administrator uses same unchanged verifier
+PASS Administrator authorization still works
+PASS Browser back restores earlier lab
+PASS Browser forward restores architecture
+PASS Refresh requires demo sign-in again, preserving zero-persistence session
+PASS Refresh keeps requested lab hash
+PASS Saved light theme survives legacy dark startup
+PASS Branded gateway stays dark without changing saved workbench theme
+PASS Fresh direct Tab 1 remains behind demo gateway
+PASS Fresh direct Tab 2 remains behind demo gateway
+PASS Fresh direct Tab 3 remains behind demo gateway
+PASS Fresh direct Tab 4 remains behind demo gateway
+PASS Fresh direct Tab 5 remains behind demo gateway
+PASS Fresh direct Tab 6 remains behind demo gateway
+PASS Fresh direct Tab 7 remains behind demo gateway
+PASS Fresh direct Tab 8 remains behind demo gateway
+PASS Fresh direct Tab 9 remains behind demo gateway
+PASS No duplicate IDs after gateway enhancement
+COMPLETE: 59 gateway/journey checks passed. Actual PBKDF2 and wall-clock lockout used. No paid provider/microphone test.

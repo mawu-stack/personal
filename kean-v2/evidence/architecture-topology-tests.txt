@@ -1,0 +1,84 @@
+PASS Runtime library version is 3.34.4
+PASS Pinned local Cytoscape engine actually initialized
+PASS Nine component graph nodes
+PASS Five labeled compound trust zones
+PASS Sixteen directed request and security-control edges
+PASS Single set of existing next/reset/read plus previous/play controls
+PASS Original Tab 5 text preserved exactly
+PASS Original Tab 6 text preserved exactly
+PASS Graph node browser selects original explanation
+PASS Graph selection synchronizes native selector browser
+PASS Graph node proxy selects original explanation
+PASS Graph selection synchronizes native selector proxy
+PASS Graph node application selects original explanation
+PASS Graph selection synchronizes native selector application
+PASS Graph node database selects original explanation
+PASS Graph selection synchronizes native selector database
+PASS Graph node identity selects original explanation
+PASS Graph selection synchronizes native selector identity
+PASS Graph node authorization selects original explanation
+PASS Graph selection synchronizes native selector authorization
+PASS Graph node encryption selects original explanation
+PASS Graph selection synchronizes native selector encryption
+PASS Graph node session selects original explanation
+PASS Graph selection synchronizes native selector session
+PASS Graph node validation selects original explanation
+PASS Graph selection synchronizes native selector validation
+PASS Request step 1 highlights one current edge
+PASS Request step 1 selects its component
+PASS Request step 2 highlights one current edge
+PASS Request step 2 selects its component
+PASS Request step 3 highlights one current edge
+PASS Request step 3 selects its component
+PASS Request step 4 highlights one current edge
+PASS Request step 4 selects its component
+PASS Request step 5 highlights one current edge
+PASS Request step 5 selects its component
+PASS Request step 6 highlights one current edge
+PASS Request step 6 selects its component
+PASS Request step 7 highlights one current edge
+PASS Request step 7 selects its component
+PASS Request step 8 highlights one current edge
+PASS Request step 8 selects its component
+PASS Request step 9 highlights one current edge
+PASS Request step 9 selects its component
+PASS Request step 10 highlights one current edge
+PASS Request step 10 selects its component
+PASS Request step 11 highlights one current edge
+PASS Request step 11 selects its component
+PASS Request step 12 highlights one current edge
+PASS Request step 12 selects its component
+PASS Request step 13 highlights one current edge
+PASS Request step 13 selects its component
+PASS Complete route returns to browser with prior edges highlighted
+PASS Previous request step works
+PASS Reset clears request path
+PASS Zoom in changes actual graph viewport
+PASS Zoom out reverses zoom
+PASS Pan left changes actual viewport
+PASS Pan right changes actual viewport
+PASS Pan up changes actual viewport
+PASS Pan down changes actual viewport
+PASS Fit includes complete graph
+PASS Native selector reaches encryption boundaries
+PASS Graph arrow key selects next component
+PASS Keyboard fit retains graph focus
+PASS Playback advances edges and has pause state
+PASS Pause stops request progression
+PASS light theme updates graph node palette
+PASS dark theme updates graph node palette
+PASS 1440px page has no horizontal overflow
+PASS 1440px complete diagram fits
+PASS 1024px page has no horizontal overflow
+PASS 1024px complete diagram fits
+PASS 768px page has no horizontal overflow
+PASS 768px complete diagram fits
+PASS 390px page has no horizontal overflow
+PASS 390px complete diagram fits
+PASS Mobile assistant does not overlay graph
+PASS Existing assignment action opens research and focuses original heading
+PASS All original nine component articles accessible
+PASS Original assignment navigation still works
+PASS Return to graph lab works
+PASS No runtime errors during interactions
+COMPLETE: 83 checks passed. Node event tests use the actual rendered Cytoscape instance. Physical pointer test is recorded separately.

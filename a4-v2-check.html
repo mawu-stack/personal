@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Assignment 4 verification</title><style>body{font:16px system-ui;background:#101a29;color:#e8f0ff;padding:24px}button{padding:12px}pre{white-space:pre-wrap}iframe{width:100%;height:550px}</style><h1>Assignment 4 verification</h1><p>Local fixture: actual WebCrypto and shared routes. Provider self-test uses no key. No microphone or live paid AI request is used.</p><button id="run">Run checks</button><pre id="out" role="status">Not run.</pre><iframe id="site" src="/index-cmdk.html#tab-8"></iframe><script>
+const out=document.getElementById('out'),frame=document.getElementById('site');
+document.getElementById('run').onclick=async()=>{out.textContent='Running…\n';let count=0;const assert=(v,m)=>{if(!v)throw Error(m);count++;out.textContent+='PASS '+m+'\n';};const wait=async f=>{const until=performance.now()+8000;while(!f()){if(performance.now()>until)throw Error('Timed out waiting for UI');await new Promise(r=>setTimeout(r,40));}};
+try{const w=frame.contentWindow,d=w.document,$=id=>d.getElementById(id);await wait(()=>w.A4Auth&&w.Assignment4&&w.keanCommandRegistry);w.speechSynthesis.speak=()=>{};
+assert($('panel-tab-8')&&$('tab-btn-8'),'Tab 8 exists once');assert($('assignment4').closest('.tab-panel').id==='panel-tab-8','Assignment 4 moved out of Tab 3');
+const login=async(name,password)=>{$('sim-login-username').value=name;$('sim-login-password').value=password;await w.handleSimulatedLoginSubmit();await wait(()=>getComputedStyle($('simulated-login-overlay')).display==='none');};
+$('sim-login-username').value='student';$('sim-login-password').value='wrong';await w.handleSimulatedLoginSubmit();assert(!w.currentSessionToken,'Incorrect password creates no session');
+await login('student','StudentDemo!2026');assert(w.currentSession.role==='user','Credential record assigns Regular User role');assert(w.currentSession.expiresAt-Date.now()>1195000,'Existing 20-minute session retained');assert(w.authorize('profile.view')&&w.authorize('profile.edit'),'Regular User personal permissions');assert(!w.authorize('logs.view'),'Regular User cannot view security logs');
+$('a4-try-admin').click();assert(/Authenticated: yes\. Authorized: no/.test($('a4-decision').textContent),'Teaching action distinguishes authentication and authorization');
+w.routeCommand('show security logs');assert(/Authorized: no/.test($('a4-decision').textContent)&&$('a4-logs').hidden,'Shared router denies protected action');
+w.routeCommand('open assignment 4');assert($('panel-tab-8').classList.contains('active'),'Palette/voice alias routes to new tab');
+for(let i=1;i<=7;i++){w.switchTab('tab-'+i);await wait(()=>$('panel-tab-'+i).classList.contains('active'));assert($('panel-tab-'+i).classList.contains('active'),'Existing tab '+i+' remains accessible');}
+w.switchTab('tab-8');await wait(()=>$('panel-tab-8').classList.contains('active'));$('a4-question').value='What is authentication?';$('a4-question-form').requestSubmit();await wait(()=>$('a4-chat-history').textContent.includes('No AI is connected'));assert($('a4-chat-history').textContent.includes('You:'),'Typed chat retains safe message history and honest local fallback');
+$('a4-chat-selftest').click();await wait(()=>$('a4-test-rows').children.length===5);assert([...$('a4-test-rows').rows].every(r=>r.cells[1].textContent==='Yes'&&r.cells[3].textContent.includes('Local fallback')),'Five measured self-test responses identify no-key fallback');assert([...$('a4-test-rows').rows].every(r=>/\d+\.\d{3} s/.test(r.cells[2].textContent)),'Self-test response times measured at runtime');
+w.handleSessionExpired();assert(!w.currentSession&&!w.authorize('profile.view'),'Logout revokes in-memory session');
+await login('administrator','AdminDemo!2026');for(const p of ['profile.view','profile.edit','users.manage','logs.view','content.manage'])assert(w.authorize(p),'Administrator permission '+p);
+w.A4Auth.execute('logs.view');assert(!$('a4-logs').hidden&&$('a4-log-output').textContent.includes('Login attempt failed'),'Admin log includes login failures');
+w.A4Auth.execute('users.manage');assert($('a4-user-list').rows.length===2,'Real in-memory demo accounts populate management list');
+w.A4Auth.execute('content.manage');$('a4-content-text').value='<img src=x onerror=alert(1)>';$('a4-content-save').click();assert($('a4-content-preview').textContent.includes('<img')&&!$('a4-content-preview').querySelector('img'),'Announcement renders untrusted text safely');
+assert($('a4-announcement-banner').textContent===$('a4-content-preview').textContent,'Protected update changes in-memory announcement banner');
+assert(!await w.Assignment4.selectPhoto(new w.File(['bad'],'wrong.png',{type:'image/png'})),'Photo file signature is validated');
+assert(!await w.Assignment4.selectPhoto(new w.File([new Uint8Array(5*1024*1024+1)],'large.png',{type:'image/png'})),'Photos above 5 MB are rejected');
+const raw=atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a5XQAAAAASUVORK5CYII=');const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+assert(await w.Assignment4.selectPhoto(new w.File([bytes],'portrait.png',{type:'image/png'})),'Valid local image preview loads');assert($('a4-generate').disabled,'Generation waits for required permission checkbox');
+$('a4-photo-consent').checked=true;$('a4-photo-consent').dispatchEvent(new w.Event('change'));$('a4-generate').click();assert(w.Assignment4.generated,'Consented local demo generation works');$('a4-clear').click();assert(!$('a4-photo').hasAttribute('src')&&!w.Assignment4.generated&&!$('a4-photo-consent').checked,'Remove clears photo, consent and generated state');
+w.__simulateSessionElapsed(1200);assert(!w.authorize('content.manage'),'Session expiry blocks protected action');
+out.textContent+='COMPLETE: '+count+' checks passed. No live provider or physical microphone claims.\n';
+}catch(e){out.textContent+='FAIL '+e.message+'\n';console.error(e);}};
+</script></html>

@@ -1,0 +1,39 @@
+Running…
+PASS Tab 8 exists once
+PASS Assignment 4 moved out of Tab 3
+PASS Incorrect password creates no session
+PASS Credential record assigns Regular User role
+PASS Existing 20-minute session retained
+PASS Regular User personal permissions
+PASS Regular User cannot view security logs
+PASS Teaching action distinguishes authentication and authorization
+PASS Shared router denies protected action
+PASS Palette/voice alias routes to new tab
+PASS Existing tab 1 remains accessible
+PASS Existing tab 2 remains accessible
+PASS Existing tab 3 remains accessible
+PASS Existing tab 4 remains accessible
+PASS Existing tab 5 remains accessible
+PASS Existing tab 6 remains accessible
+PASS Existing tab 7 remains accessible
+PASS Typed chat retains safe message history and honest local fallback
+PASS Five measured self-test responses identify no-key fallback
+PASS Self-test response times measured at runtime
+PASS Logout revokes in-memory session
+PASS Administrator permission profile.view
+PASS Administrator permission profile.edit
+PASS Administrator permission users.manage
+PASS Administrator permission logs.view
+PASS Administrator permission content.manage
+PASS Admin log includes login failures
+PASS Real in-memory demo accounts populate management list
+PASS Announcement renders untrusted text safely
+PASS Protected update changes in-memory announcement banner
+PASS Photo file signature is validated
+PASS Photos above 5 MB are rejected
+PASS Valid local image preview loads
+PASS Generation waits for required permission checkbox
+PASS Consented local demo generation works
+PASS Remove clears photo, consent and generated state
+PASS Session expiry blocks protected action
+COMPLETE: 37 checks passed. No live provider or physical microphone claims.

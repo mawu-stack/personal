@@ -1,0 +1,38 @@
+[
+  {
+    "check": "Interim results enabled; ten isolated wake words detected without finals",
+    "result": "PASS"
+  },
+  {
+    "check": "Interim duplicate wake fragments do not trigger repeated acknowledgments",
+    "result": "PASS"
+  },
+  {
+    "check": "Only final commands execute; revised interims and replayed finals are deduplicated",
+    "result": "PASS"
+  },
+  {
+    "check": "All event results examined, including wake word before the final list entry",
+    "result": "PASS"
+  },
+  {
+    "check": "Dropped interim wake arms a later final command without repeating the wake",
+    "result": "PASS"
+  },
+  {
+    "check": "Presentation approvals wait for final recognition",
+    "result": "PASS"
+  },
+  {
+    "check": "Immediate restart plus one watchdog retry after two seconds",
+    "result": "PASS"
+  },
+  {
+    "check": "Failed retry is bounded; manual stop prevents watchdog restarts",
+    "result": "PASS"
+  },
+  {
+    "check": "Protected source, coursework, JavaScript syntax and 10 CSS blocks",
+    "result": "PASS"
+  }
+]

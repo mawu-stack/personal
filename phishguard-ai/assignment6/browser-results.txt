@@ -1,0 +1,31 @@
+Running…
+PASS Tab 9 opens through URL hash
+PASS Ten actual text-rendering/validation/encoding checks pass
+PASS User input is literal text, with no parsed elements
+PASS Encoded source uses HTML text encoding
+PASS No payload marker executes
+PASS Application rejects programmatically oversized input
+PASS Corrected local AI sink stays inert with prompt guard on
+PASS Corrected local AI sink stays inert with prompt guard off
+PASS Fixed parsing demo is sandboxed and never receives user input
+PASS Four measured methods populate results table
+PASS Displayed hybrid F1 matches real JSON
+PASS Actual historical test size shown
+PASS Validation-selected weight shown
+PASS Embedded write-up contains measured results and evaluation caveat
+PASS Write-up download produces local Markdown blob
+PASS Result download produces measured JSON
+PASS Shared voice/palette alias opens Assignment 6
+PASS Existing tab 1 remains accessible
+PASS Existing tab 2 remains accessible
+PASS Existing tab 3 remains accessible
+PASS Existing tab 4 remains accessible
+PASS Existing tab 5 remains accessible
+PASS Existing tab 6 remains accessible
+PASS Existing tab 7 remains accessible
+PASS Existing tab 8 remains accessible
+PASS Assignment 4 authorization still denies student
+PASS SecurityState and shared command router remain available
+PASS Assignment 6 cards use one column at mobile width
+PASS Assignment 6 panel fits the mobile viewport
+COMPLETE: 29 browser checks passed, plus 10 renderer subchecks. Physical microphone and paid providers not exercised.

@@ -1,0 +1,11 @@
+import fs from 'node:fs';import vm from 'node:vm';import assert from 'node:assert/strict';import {parse} from '../.html-audit/node_modules/parse5/dist/index.js';
+const current=fs.readFileSync('index-cmdk.html','utf8'),backup=fs.readFileSync('index-phishguard-backup.html','utf8');
+const ids=new Set(),errors=[];let main=0;
+function walk(n){if(n.tagName==='main')main++;for(const a of n.attrs||[])if(a.name==='id'){assert(!ids.has(a.value),'Duplicate ID '+a.value);ids.add(a.value);}for(const c of n.childNodes||[])walk(c);}
+walk(parse(current,{onParseError:e=>errors.push(e)}));assert.equal(main,1);assert.equal(errors.length,0);
+const academic=s=>s.slice(s.indexOf('<section id="panel-tab-6"'),s.indexOf('<!-- MIGRATED AI CONNECT MODAL -->'));assert.equal(academic(current),academic(backup));
+for(const [full,code] of current.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)){if(full.startsWith('<script type="application/json"'))JSON.parse(code);else new vm.Script(code);}
+for(const [,css] of current.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)){let depth=0;for(const c of css.replace(/\/\*[\s\S]*?\*\//g,'').replace(/"[^"\n]*"|'[^'\n]*'/g,'')){if(c==='{')depth++;if(c==='}')depth--;assert(depth>=0);}assert.equal(depth,0);}
+let stripped=current.replace(/<!-- PHISHGUARD PANEL START -->[\s\S]*?<!-- PHISHGUARD PANEL END -->\n/,'').replace(/<!-- PHISHGUARD BUNDLE START -->[\s\S]*?<!-- PHISHGUARD BUNDLE END -->\n/,'').replace(/\n<button[^>]*id="tab-btn-7"[\s\S]*?<\/button>/,'').replace("'tab-5', 'tab-7'];","'tab-5'];").replace("'#overview':'overview', '#tab-7':'tab-7', '#tab7':'tab-7',","'#overview':'overview',").replace('/^#tab-?[1-7]$/','/^#tab-?[1-6]$/');assert.equal(stripped,backup,'Unexpected existing-source modification');
+const data=JSON.parse(current.match(/<script type="application\/json" id="phishguard-results">([\s\S]*?)<\/script>/)[1]);assert.equal(data.status,'complete');for(const e of Object.values(data.experiments)){assert.equal(e.split.group_overlap,0);for(const m of Object.values(e.models))assert.equal(m.confusion.flat().reduce((a,b)=>a+b),e.split.test);}
+console.log('PASS: academic bytes identical; original source restored exactly after removing declared additions; unique IDs; one main; HTML5 parse; all JS syntax; CSS braces; embedded metrics and confusion totals.');

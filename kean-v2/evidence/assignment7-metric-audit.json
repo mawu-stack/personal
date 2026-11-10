@@ -1,0 +1,68 @@
+{
+  "checks": [
+    "PASS Lab 07 inline results equal ddos-guard/results/metrics.json exactly",
+    "PASS Precision, recall, F1, accuracy and false-positive rate independently recomputed from both confusion matrices",
+    "PASS Retained class counts sum to held-out total",
+    "PASS 17 recorded source paths exist and contain SHA-256 provenance entries (not rehashed in this light audit)",
+    "PASS Original workbench, controllers, other labs, themes, gateway and research data unchanged",
+    "PASS Source, integrated and built MP4 copies byte-identical; no rendering or compression",
+    "PASS Only the Lab 07 movie block changed in shared adapter; JS syntax valid",
+    "PASS Scoped movie CSS braces balanced, no priority overrides",
+    "PASS Preview MP4 MIME, partial-content range, invalid range and HEAD response logic pass without opening a socket"
+  ],
+  "source": "https://www.kaggle.com/datasets/dhoogla/cicddos2019",
+  "sourceRecords": 431371,
+  "train": 93696,
+  "test": 185117,
+  "overlapRemoved": 26328,
+  "sourceFiles": 17,
+  "models": [
+    {
+      "model": "Decision tree",
+      "precision": 0.9989292780385615,
+      "recall": 0.8650608076328697,
+      "f1": 0.9271879444754515,
+      "accuracy": 0.8907663801811827,
+      "fpr": 0.0038030148538043926,
+      "confusion": [
+        [
+          36149,
+          138
+        ],
+        [
+          20083,
+          128747
+        ]
+      ],
+      "stored_auc": 0.9587625499454069
+    },
+    {
+      "model": "Random forest",
+      "precision": 0.9997957195386404,
+      "recall": 0.8550023516764094,
+      "f1": 0.9217474448219162,
+      "accuracy": 0.8832846253990719,
+      "fpr": 0.0007165100449196682,
+      "confusion": [
+        [
+          36261,
+          26
+        ],
+        [
+          21580,
+          127250
+        ]
+      ],
+      "stored_auc": 0.9992967319238748
+    }
+  ],
+  "media": {
+    "bytes": 933923,
+    "sha256": "d09f5b93ed477bc0ce35645976aec57bc7a89041ad51d9f6d4c340973285819e"
+  },
+  "limits": [
+    "No training or dataset processing performed",
+    "Raw score vectors are absent; ROC-AUC was traced to stored experiment code but not independently recomputed",
+    "No professor approval for non-Google tool or publication verified"
+  ]
+}

@@ -1,0 +1,2 @@
+import fs from 'node:fs';
+let s=fs.readFileSync('kean-v2/migration-check.html','utf8');s=s.replace("assert(w.getComputedStyle(w.document.querySelector('.tabs-nav-bar')).position!=='fixed'","assert(w.document.documentElement.scrollWidth<=w.innerWidth+1,'Migrated AuthGuard fits 390px without page overflow');assert(w.getComputedStyle(w.document.querySelector('.tabs-nav-bar')).position!=='fixed'");fs.writeFileSync('kean-v2/migration-check.html',s);

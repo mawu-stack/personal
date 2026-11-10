@@ -1,0 +1,1 @@
+window.KeanResearchPreview=Object.freeze({"source":"https://www.kaggle.com/datasets/dhoogla/cicddos2019","train_rows":93696,"test_rows":185117,"models":{"Decision tree":{"f1":0.9271879444754515,"confusion":[[36149,138],[20083,128747]]},"Random forest":{"f1":0.9217474448219162,"confusion":[[36261,26],[21580,127250]]}}});

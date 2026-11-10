@@ -1,0 +1,3 @@
+import fs from 'node:fs';
+let fixture=fs.readFileSync('kean-v2/browser-check.html','utf8');fixture=fixture.replace("$('close-explorer').click();check(!$('explorer').open&&d.activeElement===opener", "$('close-explorer').click();await wait(()=>!$('explorer').open&&d.activeElement===opener);check(!$('explorer').open&&d.activeElement===opener");fs.writeFileSync('kean-v2/browser-check.html',fixture);
+let html=fs.readFileSync('kean-v2/index.html','utf8').replace('<sup>® LAB</sup>','<sup>02 / LAB</sup>').replace('Better is a trade-off,<br>not a bigger number.','Every prediction<br>has a cost.');fs.writeFileSync('kean-v2/index.html',html);

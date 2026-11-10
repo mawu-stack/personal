@@ -1,0 +1,79 @@
+PASS Original demo sign-in releases workbench
+PASS All nine labs have field guides
+PASS 1440px lab 1 has no page overflow
+PASS 1440px lab 2 has no page overflow
+PASS 1440px Sentry nodes remain readable, not narrow strips
+PASS 1440px lab 3 has no page overflow
+PASS 1440px lab 4 has no page overflow
+PASS 1440px lab 5 has no page overflow
+PASS 1440px lab 6 has no page overflow
+PASS 1440px lab 7 has no page overflow
+PASS 1440px lab 8 has no page overflow
+PASS 1440px lab 9 has no page overflow
+PASS 1440px navigation orientation matches CSS breakpoint
+PASS 1024px lab 1 has no page overflow
+PASS 1024px lab 2 has no page overflow
+PASS 1024px Sentry nodes remain readable, not narrow strips
+PASS 1024px lab 3 has no page overflow
+PASS 1024px lab 4 has no page overflow
+PASS 1024px lab 5 has no page overflow
+PASS 1024px lab 6 has no page overflow
+PASS 1024px lab 7 has no page overflow
+PASS 1024px lab 8 has no page overflow
+PASS 1024px lab 9 has no page overflow
+PASS 1024px navigation orientation matches CSS breakpoint
+PASS 768px lab 1 has no page overflow
+PASS 768px lab 2 has no page overflow
+PASS 768px Sentry nodes remain readable, not narrow strips
+PASS 768px lab 3 has no page overflow
+PASS 768px lab 4 has no page overflow
+PASS 768px lab 5 has no page overflow
+PASS 768px lab 6 has no page overflow
+PASS 768px lab 7 has no page overflow
+PASS 768px lab 8 has no page overflow
+PASS 768px lab 9 has no page overflow
+PASS 768px navigation orientation matches CSS breakpoint
+PASS 390px lab 1 has no page overflow
+PASS 390px lab 2 has no page overflow
+PASS 390px Sentry nodes remain readable, not narrow strips
+PASS 390px lab 3 has no page overflow
+PASS 390px lab 4 has no page overflow
+PASS 390px lab 5 has no page overflow
+PASS 390px lab 6 has no page overflow
+PASS 390px lab 7 has no page overflow
+PASS 390px lab 8 has no page overflow
+PASS 390px lab 9 has no page overflow
+PASS 390px navigation orientation matches CSS breakpoint
+PASS Tier 1 inspector uses original component text
+PASS Tier 2 inspector uses original component text
+PASS Tier 3 inspector uses original component text
+PASS Tier 4 inspector uses original component text
+PASS Tier 5 inspector uses original component text
+PASS All eight original vector actions available
+PASS Sentry walkthrough reset
+PASS Sentry next boundary
+PASS Sentry previous boundary
+PASS Playback advances illustrative path
+PASS Leaving lab cancels playback
+PASS Nine proposed architecture components retained
+PASS Architecture playback reuses original request step
+PASS Architecture reset stops playback
+PASS Decision tree error cells equal actual experiment
+PASS Decision tree missed attack explanation
+PASS Random forest error cells equal actual experiment
+PASS Random forest missed attack explanation
+PASS Movie honestly marked missing
+PASS No fabricated movie/player
+PASS Original measured charts/table preserved
+PASS Credential summary reads original engine
+PASS STRIDE inspector changes explanation
+PASS Coursework original section links available
+PASS Single overview lead visible
+PASS Competing legacy overview hero suppressed
+PASS Overview project link uses original routing
+PASS Existing light theme control exercised
+PASS Existing dark theme control exercised
+PASS Existing auto theme control exercised
+PASS No duplicate IDs
+PASS No errors during new interactions
+COMPLETE: 78 checks passed. Local simulations/artifacts only. No provider key, microphone or movie supplied.

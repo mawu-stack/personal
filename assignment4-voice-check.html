@@ -1,0 +1,69 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Voice command coverage verification</title>
+<style>body{font:16px system-ui;background:#111c2d;color:#edf5ff;padding:24px}button{padding:12px 20px}iframe{width:100%;height:420px;border:1px solid #41536b}pre{white-space:pre-wrap}</style>
+<h1>Voice command coverage verification</h1><p>Local test fixture. Feeds transcripts through the existing wake-word helper; does not test a physical microphone. Speech and downloads are captured in this fixture only.</p>
+<button id="run">Run verification</button><pre id="results" role="status">Ready</pre><iframe id="site" src="/index-cmdk.html" title="Website under test"></iframe>
+<script>
+const frame=document.getElementById('site'),results=document.getElementById('results');
+if(location.search==='?baseline')frame.src='/baseline.html';
+document.getElementById('run').onclick=async()=>{
+ document.getElementById('run').disabled=true;results.textContent='Running…\n';
+ const w=frame.contentWindow,d=w.document,$=id=>d.getElementById(id),checks=[];
+ const report=(name,ok)=>{checks.push({name,ok});results.textContent+=`${ok?'PASS':'FAIL'} ${name}\n`;if(!ok)throw Error(name);};
+ const wait=async(fn,timeout=7000)=>{const end=Date.now()+timeout;while(!fn()){if(Date.now()>end)throw Error('Timed out waiting for expected state');await new Promise(r=>setTimeout(r,40));}};
+ const voice=text=>w.simulateKeanVoiceInput('Kean, '+text);
+ try {
+  await wait(()=>w.keanCommandRegistry&&w.simulateKeanVoiceInput);
+  const spoken=[],downloads=[];
+  w.AudioContext=undefined;w.webkitAudioContext=undefined;
+  w.speechSynthesis.speak=utter=>{spoken.push(utter.text);queueMicrotask(()=>utter.onend?.());};
+  const originalCreate=w.URL.createObjectURL.bind(w.URL);w.URL.createObjectURL=blob=>{downloads.push(blob);return originalCreate(blob);};
+  const originalClick=w.HTMLAnchorElement.prototype.click;
+  w.HTMLAnchorElement.prototype.click=function(){if(this.download)return;return originalClick.call(this);};
+  $('sim-login-username').value='demo';$('sim-login-password').value='demo';$('btn-sim-login-submit').click();
+  await wait(()=>w.getComputedStyle($('simulated-login-overlay')).display==='none');
+  results.textContent+='COMMAND AUDIT: '+JSON.stringify(w.keanCommandRegistry.audit().filter(c=>!c.covered))+'\n';
+  for(const [i,name] of ['authguard','sentrysim','ai terminal','stride','secure architecture','academic coursework'].entries()){
+   voice('open '+name);await wait(()=>$('panel-tab-'+(i+1)).classList.contains('active'));report('Voice navigation: '+name,true);
+  }
+  const controls=[['waf','waf'],['ratelimit','rate limiter'],['paramsql','parameterized sql'],['domsafe','safe dom'],['pbkdf2','pbkdf2']];
+  for(const [id,name] of controls){
+   const el=$('toggle-'+id);voice('turn off the '+name);await wait(()=>!el.checked);
+   const voiceState=JSON.stringify(w.SecurityState.defenses);el.click();el.click();
+   report('Voice/click defense parity: '+name,voiceState===JSON.stringify(w.SecurityState.defenses));
+   voice('turn on the '+name);await wait(()=>el.checked);
+   let clicks=0;const count=()=>clicks++;el.addEventListener('click',count);voice('turn on the '+name);el.removeEventListener('click',count);report('Idempotent enable: '+name,clicks===0&&el.checked);
+  }
+  // Use the same preset for both paths; SQL is enabled only in the simulated test.
+  $('toggle-paramsql').click();
+  const names=['credential stuffing','idor','sql injection','stored dom xss','redos','gpu mask crack','cache sniffing','webrtc audio probe'];
+  const outcome=()=>$('telemetry-terminal-body').textContent.split('\n').filter(line=>line.includes('RESULT:')).map(line=>line.slice(line.indexOf('RESULT:'))).join('\n');
+  for(const [i,name] of names.entries()){
+   const el=$('btn-attack-'+(i+1));await wait(()=>!el.disabled);$('btn-clear-telemetry').click();
+   let clicks=0;const count=()=>clicks++;el.addEventListener('click',count);
+   voice('run '+name);await wait(()=>clicks===1&&outcome().length>0);const routed=outcome();await wait(()=>!el.disabled);
+   $('btn-clear-telemetry').click();el.click();await wait(()=>outcome().length>0);const clicked=outcome();await wait(()=>!el.disabled);
+   el.removeEventListener('click',count);report('Voice/click attack parity: '+name,routed===clicked&&clicks===2);
+  }
+  $('toggle-paramsql').click();
+  const gen=$('generate-passphrase-btn');let generated=0;gen.addEventListener('click',()=>generated++);
+  voice('generate a secure password');await wait(()=>generated===1);report('Generated via original button',Number($('real-entropy-bits').textContent)>0);
+  voice('check entropy');report('Reads current entropy',spoken.at(-1).includes($('real-entropy-bits').textContent));
+  voice('check ttc');report('Reads current crack time',spoken.at(-1).includes($('zxcvbn-time').textContent));
+  for(const [key,name] of [['s','spoofing'],['t','tampering'],['r','repudiation'],['i','information disclosure'],['d','denial of service'],['e','elevation of privilege']]){
+   voice('filter stride '+name);await wait(()=>$('kean-filter-'+key).getAttribute('aria-pressed')==='true');
+   report('Filter '+name,Array.from(d.querySelectorAll('.stride-bento-card:not([hidden])')).map(e=>e.id).join()==='stride-card-'+key);
+   voice('explain '+name);report('Explain '+name,spoken.at(-1).toLowerCase().includes(name));
+  }
+  voice('show all stride');await wait(()=>d.querySelectorAll('.stride-bento-card:not([hidden])').length===6);
+  voice('export audit report');await wait(()=>downloads.length===1);const audit=await downloads[0].text();
+  $('btn-download-receipt').click();await wait(()=>downloads.length===2);const auditClick=await downloads[1].text();
+  const stripTime=text=>text.replace(/\d{4}-\d\d-\d\dT[^\s]+/g,'TIME');
+  report('Audit export uses same report generator',stripTime(audit)===stripTime(auditClick));
+  voice('export stride report');await wait(()=>downloads.length===3);report('STRIDE export',(await downloads[2].text()).includes('ASSIGNMENT 2 AUDIT REPORT'));
+  voice('what can you do');report('Capability summary',spoken.at(-1).includes('eight simulated attacks'));
+  const entry=w.keanCommandRegistry.catalog().find(e=>e.command==='use password sample 1');report('Palette shares registry',!!entry);
+  results.textContent+=`\nCOMPLETE: ${checks.length} checks passed.\n`;
+ }catch(error){results.textContent+='\nFAILED: '+error.message+'\n';console.error(error);}
+ document.getElementById('run').disabled=false;
+};
+</script></html>

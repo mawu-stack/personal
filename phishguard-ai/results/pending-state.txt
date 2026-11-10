@@ -1,0 +1,2 @@
+Ready
+PASS Missing-results state: no fake stats; result controls disabled.

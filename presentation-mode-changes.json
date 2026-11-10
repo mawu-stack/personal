@@ -1,0 +1,34 @@
+[
+  {
+    "before": "      function updateVoiceStatusPill(state, text) {",
+    "after": "      function updateVoiceStatusPill(state, text) {\n        document.dispatchEvent(new CustomEvent('kean:voice-status', {detail:{state, text, micActive:isWakeWordListening}}));"
+  },
+  {
+    "before": "      window.routeCommand = function routeCommand(rawCmd) {",
+    "after": "      window.keanSpeak = speakSentryResponse;\n      window.routeCommand = function routeCommand(rawCmd) {"
+  },
+  {
+    "before": "        // Both speech and the palette resolve the same exact command entry.",
+    "after": "        document.dispatchEvent(new CustomEvent('kean:command-start'));\n        if (window.PresentationMode?.handleCommand(cmd)) return;\n\n        // Both speech and the palette resolve the same exact command entry."
+  },
+  {
+    "before": "\n          const wake = parseKeanWake(transcript);",
+    "after": "\n          if (window.PresentationMode?.acceptsReply(transcript)) {\n            if (window.speechSynthesis?.speaking) window.speechSynthesis.cancel();\n            window.routeCommand(transcript);\n            return;\n          }\n          const wake = parseKeanWake(transcript);"
+  },
+  {
+    "before": "\n        const wake = parseKeanWake(transcript);",
+    "after": "\n        if (window.PresentationMode?.acceptsReply(transcript)) {\n          if (window.speechSynthesis?.speaking) window.speechSynthesis.cancel();\n          window.routeCommand(transcript);\n          return;\n        }\n        const wake = parseKeanWake(transcript);"
+  },
+  {
+    "before": "    catalog:()=>entries.map(({run,...entry})=>entry),",
+    "after": "    register:add,\n    catalog:()=>entries.map(({run,...entry})=>entry),"
+  },
+  {
+    "before": "      if(label)say(label,'action');",
+    "after": "      if(label&&!window.PresentationMode?.pendingFor(element))say(label,'action');"
+  },
+  {
+    "before": "          const userConfirmed = confirm('SECURITY PROMPT (Human-in-the-Loop Gate):\\n\\nAgent requests permission to execute mutating action:\\nrotate_session_credentials()\\n\\nDo you authorize this operation?');\n          if (userConfirmed) {\n            permOutput.innerHTML = '<span style=\"color: #10b981; font-weight: 700;\">[AUTHORIZED]</span> Tier 2 Action approved and executed safely with verified human consent.';\n            window.SecurityState.logEvent('AI-ENGINE', 'Tier 2 action approved by human operator: rotate_session_credentials()', 'success');\n          } else {\n            permOutput.innerHTML = '<span style=\"color: #f59e0b; font-weight: 700;\">[BLOCKED]</span> Tier 2 Action was blocked by the human operator. System integrity preserved.';\n            window.SecurityState.logEvent('AI-ENGINE', 'Tier 2 action blocked by human operator', 'warn');\n          }",
+    "after": "          window.PresentationMode.request({\n            title: 'Rotate simulated session credentials',\n            description: 'The agent proposes the local Tier 2 credential-rotation demonstration. This updates the simulated permission result; it does not change real credentials.',\n            control: tier2Btn,\n            onResolve(userConfirmed, source) {\n          if (userConfirmed) {\n            permOutput.innerHTML = source === 'countdown'\n              ? '<span style=\"color: #10b981; font-weight: 700;\">[AUTO-CONFIRMED DEMO]</span> Tier 2 simulation executed after the visible Presentation Mode countdown.'\n              : '<span style=\"color: #10b981; font-weight: 700;\">[AUTHORIZED]</span> Tier 2 Action approved and executed safely with verified human consent.';\n            window.SecurityState.logEvent('AI-ENGINE', source === 'countdown' ? 'Tier 2 simulation auto-confirmed by presentation countdown' : 'Tier 2 action approved by human operator: rotate_session_credentials()', 'success');\n          } else {\n            permOutput.innerHTML = '<span style=\"color: #f59e0b; font-weight: 700;\">[BLOCKED]</span> Tier 2 Action was blocked by the human operator. System integrity preserved.';\n            window.SecurityState.logEvent('AI-ENGINE', 'Tier 2 action blocked by human operator', 'warn');\n          }\n              window.keanSpeak?.(userConfirmed ? (source === 'countdown' ? 'Tier two simulation auto-confirmed.' : 'Tier two simulation approved.') : 'Tier two simulation denied.');\n            }\n          });"
+  }
+]

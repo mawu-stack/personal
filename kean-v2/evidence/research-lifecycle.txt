@@ -1,0 +1,35 @@
+PASS CSS order: compatibility, shared system, gateway
+PASS Every compatibility rule is contained in @layer legacy
+PASS hidden class releases workbench and disables invisible overlay
+PASS hidden class reopens focus boundary
+PASS visibility releases workbench and disables invisible overlay
+PASS visibility reopens focus boundary
+PASS opacity releases workbench and disables invisible overlay
+PASS opacity reopens focus boundary
+PASS hidden attribute releases workbench and disables invisible overlay
+PASS hidden attribute reopens focus boundary
+PASS display releases workbench and disables invisible overlay
+PASS display reopens focus boundary
+PASS Dynamically added background controls become inert
+PASS Controller starts with hidden class before delayed display update
+PASS Session start clears gateway-owned inert immediately
+PASS Keyboard focus restored before delayed display update
+PASS All normal background siblings restored
+PASS Rapid logout remains visible after stale login timer
+PASS Login cycle 1 restores workbench
+PASS Cycle 1 navigation works
+PASS Logout cycle 1 revokes session and traps focus
+PASS Login cycle 2 restores workbench
+PASS Cycle 2 navigation works
+PASS Logout cycle 2 revokes session and traps focus
+PASS Login cycle 3 restores workbench
+PASS Cycle 3 navigation works
+PASS Logout cycle 3 revokes session and traps focus
+PASS Login cycle 4 restores workbench
+PASS Cycle 4 navigation works
+PASS Logout cycle 4 revokes session and traps focus
+PASS Original expiration helper revokes session and reopens gateway
+PASS Sign-in after expiration restores interaction
+PASS Missing original logout control disables alias without throwing
+PASS No runtime errors in exercised lifecycle states
+COMPLETE: 34 checks passed. Expiration uses the original helper, not a 20-minute wall-clock wait.

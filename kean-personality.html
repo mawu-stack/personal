@@ -1,0 +1,48 @@
+<style id="kean-personality-style">
+#kean-personality-settings{margin:24px 0;padding:24px;border:1px solid var(--card-border);border-radius:16px;background:var(--bg-surface)}
+#kean-personality-select{padding:10px;border-radius:8px;background:var(--bg-surface);color:var(--text-body)}
+#kean-stealth-banner{position:fixed;inset:35% 10% auto;z-index:12000;text-align:center;padding:24px;background:#14213d;color:white;border-radius:16px;pointer-events:none;font:bold 24px system-ui}
+body.kean-stealth main{animation:kean-stealth-fade 2.4s ease-in-out}
+@keyframes kean-stealth-fade{0%,100%{opacity:1}40%,60%{opacity:.3}}
+@media(prefers-reduced-motion:reduce){body.kean-stealth main{animation:none}}
+</style>
+<script id="kean-personality-controller">
+(()=>{
+  let mode='professional',timer;
+  const variants={
+    blocked:['AND STILL UNDEFEATED! Defense wins this round.','Denied at the ropes! The defense holds.','The champion stands tall! Attack stopped.','No pinfall today! The defense takes this round.'],
+    setback:['A setback in the ring! Time to regroup.','The challenger landed a hit. Time to suit up.','Down this round, ready to learn.','A tough round! Review the defenses and come back stronger.'],
+    password:['Championship preparation! Keep that credential private.','Strength in the ring! Keep your passphrase unique.','Never give up on strong entropy!','The password corner is ready! Protect that credential.'],
+    wake:['The champ is here. What do you need?','K.E.A.N. is ringside. Call the next move!','Ready for the next round. What do you need?','The announcer is ready. Call your command!'],
+    general:['Let’s go!','Ready for the next round!','Coming to you from ringside!','Here comes the call!']
+  };
+  function flavor(text,category){
+    if(mode!=='hype'||/session|login|log.in|sign.in|authenticat|API|Gemini|live search|quota|permission|approv|confirm|denied|deny/i.test(text))return text;
+    const kind=category || (/Yes\? How can I assist/.test(text)?'wake':/BLOCKED|MITIGATED/.test(text)?'blocked':/COMPROMISED|attack reached its target/.test(text)?'setback':/passphrase|strong entropy threshold|password.*generated/i.test(text)?'password':'general');
+    const choices=variants[kind]||variants.general;
+    return choices[Math.floor(Math.random()*choices.length)]+' '+text;
+  }
+  function setMode(next){mode=next==='hype'?'hype':'professional';document.getElementById('kean-personality-select').value=mode;if(mode==='professional'){clearGag();document.getElementById('kean-hype-result')?.remove();}document.getElementById('kean-personality-feedback').textContent='Personality: '+(mode==='hype'?'Hype Mode':'Professional');}
+  function clearGag(){clearTimeout(timer);document.body.classList.remove('kean-stealth');document.getElementById('kean-stealth-banner')?.remove();}
+  function stealth(){if(mode!=='hype')return;clearGag();const banner=document.createElement('div');banner.id='kean-stealth-banner';banner.textContent='STEALTH MODE ENGAGED';banner.setAttribute('role','status');document.body.append(banner);document.body.classList.add('kean-stealth');timer=setTimeout(clearGag,2400);}
+  window.KeanPersonality={flavor,setMode,get mode(){return mode;}};
+  function boot(){
+    const panel=document.createElement('section');panel.id='kean-personality-settings';panel.setAttribute('aria-label','Settings');
+    panel.innerHTML='<h3>Settings</h3><label for="kean-personality-select">Personality </label><select id="kean-personality-select"><option value="professional">Professional</option><option value="hype">Hype Mode</option></select><p id="kean-personality-feedback" role="status">Personality: Professional</p>';
+    document.getElementById('panel-tab-3').append(panel);
+    panel.querySelector('select').addEventListener('change',e=>setMode(e.target.value));
+    const registry=window.keanCommandRegistry;
+    registry.register('Professional personality',['professional mode'],say=>{setMode('professional');say('Professional mode enabled.');},'Settings');
+    registry.register('Hype personality',['hype mode'],say=>{setMode('hype');say('Hype Mode enabled.');},'Settings');
+    registry.register('Stealth visual gag',["you can't see me",'you cannot see me'],say=>{if(mode==='hype'){stealth();say('Stealth effect engaged. Cosmetic only.');}else say('That visual effect is available in Hype Mode.');},'Settings');
+    document.addEventListener('kean:activity',e=>{
+      if(mode!=='hype'||e.detail.source!=='SENTRY-SIM'||!/(BLOCKED|MITIGATED|COMPROMISED)/.test(e.detail.message))return;
+      let result=document.getElementById('kean-hype-result');
+      if(!result){result=document.createElement('p');result.id='kean-hype-result';result.setAttribute('role','status');document.getElementById('telemetry-terminal-body').before(result);}
+      result.textContent=flavor(e.detail.message);
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+

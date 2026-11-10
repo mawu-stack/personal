@@ -1,0 +1,157 @@
+<style id="presentation-mode-style">
+  #kean-presentation-bar {position:fixed;left:20px;bottom:106px;z-index:1002;display:flex;align-items:center;gap:20px;max-width:calc(100vw - 40px);box-sizing:border-box;padding:12px 18px;background:var(--ui-card-bg,#111c2d);color:var(--ui-value,#edf5ff);border:1px solid var(--ui-card-border,#304055);border-radius:16px;box-shadow:var(--ui-card-shadow);font-family:var(--font-sans);}
+  #kean-presentation-bar label {display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;}
+  #kean-presentation-toggle {width:20px;height:20px;accent-color:var(--ui-brand-blue);}
+  .kean-present-status {display:flex;flex-direction:column;gap:2px;}
+  .kean-present-status small {color:var(--ui-muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;}
+  #kean-present-state {font-size:18px;line-height:1.2;font-weight:750;}
+  body.presentation-mode {padding-bottom:220px;}
+  body.presentation-mode #kean-present-state {font-size:clamp(30px,3.5vw,44px);}
+  body.presentation-mode #kean-presentation-bar {padding:18px 24px;}
+  #kean-present-note {max-width:230px;font-size:11px;color:var(--ui-muted);}
+  #kean-approval {position:fixed;inset:0;margin:auto;width:min(560px,calc(100vw - 32px));max-height:85vh;overflow:auto;box-sizing:border-box;padding:28px;border:1px solid var(--ui-card-border);border-radius:16px;background:var(--ui-card-bg);color:var(--ui-value);box-shadow:var(--ui-card-shadow);font-family:var(--font-sans);}
+  #kean-approval::backdrop {background:rgba(2,7,17,.72);}
+  #kean-approval h2 {font-size:26px;line-height:1.2;margin:12px 0;}
+  #kean-approval p {line-height:1.6;}
+  #kean-approval-countdown {display:block;font-size:clamp(24px,3vw,36px);font-weight:750;margin:24px 0 8px;}
+  #kean-approval-reason,#kean-approval-help {color:var(--ui-muted);font-size:13px;}
+  #kean-approval-actions {display:flex;gap:12px;margin:24px 0;}
+  #kean-approve {background:var(--ui-primary)!important;color:white!important;box-shadow:var(--ui-primary-shadow);}
+  #kean-approval-voice {font-size:20px;font-weight:700;}
+  #cmdk-launch {z-index:1003;}
+  #cmdk-feedback {bottom:210px;}
+  @media(max-width:650px){#kean-presentation-bar {left:12px;bottom:108px;max-width:calc(100vw - 24px);gap:12px;}body.presentation-mode #kean-presentation-bar {padding:14px;}#kean-present-note {max-width:145px;}#kean-approval {padding:20px;}}
+  @media(prefers-reduced-motion:reduce){#kean-presentation-bar,#kean-approval {animation:none!important;transition:none!important;}}
+</style>
+<aside id="kean-presentation-bar" aria-label="K.E.A.N. presentation controls">
+  <label><input id="kean-presentation-toggle" type="checkbox">Presentation Mode</label>
+  <div class="kean-present-status"><small>K.E.A.N.</small><strong id="kean-present-state" role="status" aria-live="polite">Idle</strong><span id="kean-present-note">Microphone off</span></div>
+</aside>
+<dialog id="kean-approval" aria-labelledby="kean-approval-title" aria-describedby="kean-approval-description kean-approval-help" data-lenis-prevent>
+  <span>LOCAL SIMULATION · PROPOSED ACTION</span>
+  <h2 id="kean-approval-title">Review action</h2>
+  <p id="kean-approval-description"></p>
+  <strong id="kean-approval-countdown" role="timer" aria-live="off">Waiting for approval</strong>
+  <p id="kean-approval-reason"></p>
+  <div id="kean-approval-actions"><button type="button" id="kean-approve">Approve</button><button type="button" id="kean-deny" autofocus>Deny</button></div>
+  <p id="kean-approval-help">Approve or deny this simulated action.</p>
+  <span id="kean-approval-voice">K.E.A.N. · Idle</span>
+</dialog>
+<script id="presentation-mode-controller">
+(() => {
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const normalize=text=>String(text).trim().toLowerCase().replace(/[.,!?;:]/g,'');
+  const approveWords=new Set(['confirm','yes','approve']);
+  const denyWords=new Set(['deny','no','cancel']);
+  const response=text=>approveWords.has(normalize(text))||denyWords.has(normalize(text));
+  let enabled=false,pending=null,timer=null,processingTimer=null,voiceState='idle',micActive=false,replaying=false;
+  const dialog=$('kean-approval'),toggle=$('kean-presentation-toggle');
+  const speak=text=>window.keanSpeak?.(text);
+  const log=(text,level='info')=>window.SecurityState?.logEvent('PRESENTATION',text,level);
+  const sessionValid=job=>Boolean(job.session)&&window.currentSessionToken===job.session&&getComputedStyle($('simulated-login-overlay')).display==='none';
+  function renderVoice() {
+    const labels={idle:'Idle',listening:'Listening',awaiting:'Listening',processing:'Processing',speaking:'Speaking'};
+    const label=labels[voiceState]||'Idle';
+    $('kean-present-state').textContent=label;
+    $('kean-approval-voice').textContent='K.E.A.N. · '+label;
+    $('kean-present-note').textContent=micActive?(pending?'Action awaiting a decision':'Say “Kean” and a command'):'Microphone off · Ctrl+K available';
+  }
+  function resolve(approved,source='button') {
+    if(!pending)return false;
+    const job=pending;
+    if(approved&&!sessionValid(job)){approved=false;source='expired session';}
+    pending=null;clearInterval(timer);timer=null;
+    dialog.close();
+    if(job.opener?.isConnected&&job.opener.getClientRects().length)job.opener.focus({preventScroll:true});
+    log(job.title+': '+(approved?'approved':'denied')+' via '+source,approved?'success':'info');
+    job.onResolve(approved,source);
+    renderVoice();
+    return true;
+  }
+  function tick() {
+    if(!pending)return;
+    if(!sessionValid(pending)){resolve(false,'expired session');return;}
+    if(document.hidden){resolve(false,'page hidden');return;}
+    const now=performance.now(),elapsed=now-pending.lastTick;pending.lastTick=now;
+    let paused='';
+    if(!enabled)paused='Presentation Mode is off. Use Approve or Deny.';
+    else if(!micActive)paused='Microphone is not listening. Use Ctrl+K, or restore voice to continue.';
+    else if($('cmdk-dialog').open)paused='Countdown paused while backup controls are open.';
+    else if(window.speechSynthesis?.speaking)paused='Countdown begins after K.E.A.N. finishes speaking.';
+    if(!paused)pending.remaining=Math.max(0,pending.remaining-elapsed);
+    $('kean-approval-countdown').textContent=enabled?'Auto-confirming in '+Math.ceil(pending.remaining/1000)+'…':'Waiting for approval';
+    $('kean-approval-reason').textContent=paused||'Presentation Mode will approve this local simulation if no decision is spoken.';
+    if(!paused&&pending.remaining===0)resolve(true,'countdown');
+  }
+  function request({title,description,onResolve,control=null}) {
+    if(pending){speak('An action is already waiting. Confirm or cancel it first.');return false;}
+    const job={title,description,onResolve,control,session:window.currentSessionToken,remaining:5000,lastTick:performance.now(),opener:document.activeElement};
+    if(!sessionValid(job)){speak('Start a demo session before proposing an action.');return false;}
+    pending=job;
+    $('kean-approval-title').textContent=title;
+    $('kean-approval-description').textContent=description;
+    $('kean-approval-help').textContent=enabled?'Say confirm / yes / approve, or deny / no / cancel. Escape denies. Ctrl+K / ⌘K for backup control.':'Choose Approve or Deny. Escape denies. Ctrl+K / ⌘K for backup control.';
+    dialog.showModal();tick();timer=setInterval(tick,100);
+    log('Proposed: '+title);renderVoice();
+    if(enabled)speak(title+' proposed. Five-second auto-confirmation is enabled for this simulation. Say cancel to stop.');
+    return true;
+  }
+  window.PresentationMode={
+    request,resolve,
+    pendingFor:element=>pending?.control===element,
+    acceptsReply:transcript=>enabled&&Boolean(pending)&&response(transcript),
+    handleCommand(command) {
+      if(response(command)) {
+        if(!pending){speak('There is no action waiting for approval.');return true;}
+        if(!enabled){speak('Use the approval buttons, or enable Presentation Mode for spoken decisions.');return true;}
+        resolve(approveWords.has(normalize(command)),'voice or keyboard command');return true;
+      }
+      if(pending&&!['open commands','open command palette','close commands','close command palette'].includes(normalize(command)))resolve(false,'replaced by another command');
+      return false;
+    }
+  };
+  $('kean-approve').addEventListener('click',()=>resolve(true,'button'));
+  $('kean-deny').addEventListener('click',()=>resolve(false,'button'));
+  dialog.addEventListener('cancel',event=>{event.preventDefault();resolve(false,'escape');});
+  toggle.addEventListener('change',()=>{
+    enabled=toggle.checked;document.body.classList.toggle('presentation-mode',enabled);
+    if(!enabled&&pending)resolve(false,'presentation mode disabled');
+    if(enabled){const mic=$('toggle-wake-word');if(mic&&!mic.checked)mic.click();}
+    log('Presentation Mode '+(enabled?'enabled':'disabled'));renderVoice();
+  });
+  // Only these local simulation toggles gain a proposal gate, and only in presentation mode.
+  // The approved replay calls the original click/change handlers exactly once.
+  document.addEventListener('click',event=>{
+    const control=event.target;
+    if(!enabled||replaying||!control.matches?.('#toggle-waf,#toggle-ratelimit,#toggle-paramsql,#toggle-domsafe,#toggle-pbkdf2,#toggle-autonomy-mode'))return;
+    const desired=control.checked;
+    if(control.id==='toggle-autonomy-mode'?!desired:desired)return;
+    event.preventDefault();event.stopImmediatePropagation();
+    const title=control.id==='toggle-autonomy-mode'?'Enable simulated autonomy':('Turn off '+(control.closest('.defense-toggle-card')?.querySelector('.defense-title')?.textContent.trim()||'this defense'));
+    request({title,description:'This changes the local lab simulation only. The original control remains unchanged until the proposal is approved.',control,onResolve(approved,source){
+      if(approved&&control.checked!==desired){replaying=true;try{control.click();}finally{replaying=false;}}
+      speak(approved?(source==='countdown'?'Simulation auto-confirmed. ':'Simulation approved. ')+title+'.':'Simulation cancelled. No defense change applied.');
+    }});
+  },true);
+  document.addEventListener('kean:voice-status',event=>{
+    clearTimeout(processingTimer);voiceState=event.detail.state;micActive=event.detail.micActive;renderVoice();
+  });
+  document.addEventListener('kean:command-start',()=>{
+    voiceState='processing';renderVoice();clearTimeout(processingTimer);
+    processingTimer=setTimeout(()=>{if(voiceState==='processing'){voiceState=micActive?'listening':'idle';renderVoice();}},1500);
+  });
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&pending)resolve(false,'page hidden');});
+  function boot() {
+    const registry=window.keanCommandRegistry;
+    for(const on of [true,false])registry.register((on?'Enable':'Disable')+' Presentation Mode',[(on?'enable':'disable')+' presentation mode',(on?'start':'stop')+' presentation mode'],say=>{
+      if(toggle.checked!==on)toggle.click();say('Presentation Mode '+(on?'enabled':'disabled')+'.');
+    },'Action',toggle);
+    for(const word of [...approveWords,...denyWords])registry.register(word[0].toUpperCase()+word.slice(1)+' pending action',[word],()=>window.PresentationMode.handleCommand(word),'Approval');
+    const hint=$('cmdk-launch');hint.textContent=(/Mac|iPhone|iPad/.test(navigator.platform)?'⌘K':'Ctrl+K')+' for backup control';
+    $('cmdk-dialog').querySelector('footer').textContent+=' · Backup control: type confirm or cancel for a pending proposal.';
+    renderVoice();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>

@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>K.E.A.N. wake and search verification</title>
+<style>body{font:16px system-ui;background:#111c2d;color:#edf5ff;padding:24px}button{padding:12px 20px}iframe{width:100%;height:480px;border:1px solid #41536b}pre{white-space:pre-wrap}</style>
+<h1>K.E.A.N. wake and search verification</h1><p>Interim/final recognition events and Gemini responses are mocked inside this test iframe. No real API key, microphone, or paid request is used.</p>
+<button id="run">Run wake and search verification</button><pre id="results" role="status">Ready</pre><iframe id="site" src="/index-cmdk.html" title="Website under test"></iframe>
+<script>
+const frame=document.getElementById('site'),out=document.getElementById('results');
+document.getElementById('run').onclick=async()=>{
+ document.getElementById('run').disabled=true;out.textContent='Running…\n';
+ const w=frame.contentWindow,d=w.document,$=id=>d.getElementById(id),checks=[];let rec;
+ const report=(name,ok)=>{checks.push({name,ok});out.textContent+=`${ok?'PASS':'FAIL'} ${name}\n`;if(!ok)throw Error(name);};
+ const wait=async fn=>{const end=Date.now()+7000;while(!fn()){if(Date.now()>end)throw Error('Expected state did not arrive');await new Promise(r=>setTimeout(r,30));}};
+ try {
+  await wait(()=>w.routeCommand&&w.keanCommandRegistry);
+  const spoken=[],requests=[];w.AudioContext=undefined;w.webkitAudioContext=undefined;
+  w.speechSynthesis.speak=utter=>{spoken.push(utter.text);queueMicrotask(()=>utter.onend?.());};
+  w.SpeechRecognition=w.webkitSpeechRecognition=class{constructor(){rec=this;}start(){this.onstart?.();}stop(){this.onend?.();}};
+  $('sim-login-username').value='demo';$('sim-login-password').value='demo';$('btn-sim-login-submit').click();
+  await wait(()=>w.getComputedStyle($('simulated-login-overlay')).display==='none');
+  $('toggle-wake-word').click();
+  await wait(()=>rec);report('Browser recognizer requests interim results',rec.interimResults===true);
+  const interim=()=>rec.onresult({resultIndex:0,results:[Object.assign([{transcript:'Kean'}],{isFinal:false})]});
+  const before=spoken.length;
+  for(let i=0;i<10;i++){rec.onspeechstart();interim();interim();interim();}
+  report('Ten interim-only wake utterances, one acknowledgment each',spoken.length-before===10);
+  const result=Object.assign([{transcript:'Kean open authguard'}],{isFinal:true});
+  rec.onresult({resultIndex:0,results:[result]});rec.onresult({resultIndex:0,results:[result]});
+  await wait(()=>$('panel-tab-1').classList.contains('active'));report('Final command navigates after interim wake',true);
+  $('toggle-wake-word').click();
+  const grounded={candidates:[{content:{parts:[{text:'Mock verified answer. <script>not executable<\/script>'}]},groundingMetadata:{webSearchQueries:['test question'],groundingChunks:[{web:{uri:'https://example.com/source',title:'Example source'}}],searchEntryPoint:{renderedContent:'<style>body{font:14px system-ui}</style><a href="https://www.google.com/search?q=test">Google search suggestions</a>'}}}]};
+  w.fetch=async(url,options)=>{requests.push({url,options});return {ok:true,status:200,json:async()=>grounded};};
+  w.SecurityState.aiProvider='gemini';w.SecurityState.aiApiKey='TEST_ONLY_NOT_A_REAL_KEY';
+  await w.routeCommand('Who won the latest tournament?');
+  report('Browser builds native Google Search tool request',JSON.stringify(JSON.parse(requests[0].options.body).tools)==='[{"google_search":{}}]');
+  report('Live-search label is spoken',spoken.at(-1).startsWith('Based on a live search:'));
+  report('Source links rendered safely',$('kean-web-results').querySelector('a').href==='https://example.com/source'&&!$('kean-web-results').querySelector('script'));
+  report('Google suggestions rendered in restricted iframe',$('kean-web-results').querySelector('iframe').getAttribute('sandbox')==='allow-popups allow-popups-to-escape-sandbox');
+  report('Activity log tags grounded output',w.SecurityState.activityLog.some(e=>e.source==='WEB SEARCH'&&e.level==='success'));
+  const count=requests.length;
+  for(const cmd of ['open stride','explain entropy','check entropy','check ttc','what can you do'])await w.routeCommand(cmd);
+  report('Local commands do not invoke search',requests.length===count);
+  w.SecurityState.aiApiKey=null;await w.routeCommand('What is the weather today?');report('No-key path is honest',spoken.at(-1).includes('No live search was performed')&&requests.length===count);
+  w.SecurityState.aiProvider='unsupported';await w.routeCommand('What is the weather today?');report('Unsupported provider is honest',spoken.at(-1)==="Web search isn't available for the connected AI provider"&&requests.length===count);
+  w.SecurityState.aiProvider='gemini';w.SecurityState.aiApiKey='TEST_ONLY_NOT_A_REAL_KEY';
+  w.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:'UNVERIFIED'}]}}]})});
+  await w.routeCommand('Who won yesterday?');report('Ungrounded reply never masquerades as live search',spoken.at(-1).includes('did not return a verifiable')&&!$('kean-web-results').textContent.includes('UNVERIFIED'));
+  w.SecurityState.aiApiKey=null;
+  out.textContent+=`\nCOMPLETE: ${checks.length} checks passed. Microphone and credentialed network call not tested.\n`;
+ }catch(error){out.textContent+='\nFAILED: '+error.message+'\n';console.error(error);}
+ document.getElementById('run').disabled=false;
+};
+</script></html>

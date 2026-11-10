@@ -1,0 +1,202 @@
+[
+  {
+    "path": "app.js",
+    "sha256": "126debd1b3c60fc89314c3931b61554731fd13a13cb1c401c87c5a604cef3c37"
+  },
+  {
+    "path": "audit.mjs",
+    "sha256": "398fbae1e28700728a03221391e2aada9f77a3926b7d35044b352b5f91eff503"
+  },
+  {
+    "path": "browser-check.html",
+    "sha256": "3fd6bd13416b88fc694ab29bf3ed44d8eeac6ece0c3c644abf2dc9e995eade00"
+  },
+  {
+    "path": "build.mjs",
+    "sha256": "fd25d24b0b150985947566db20a41b4592e9a6ef24a53aae0bc808656203e899"
+  },
+  {
+    "path": "docs/01-audit-and-preservation.md",
+    "sha256": "832d33d28bc6a1ff5fb198b603009648e2ad171e552a8c1c0affa2dd7e46d35a"
+  },
+  {
+    "path": "docs/02-reference-analysis.md",
+    "sha256": "69baadfafd179145bd688f6e5692f5362f2d8185312f4c8d5e9c3b1bd2b5ac78"
+  },
+  {
+    "path": "docs/03-design-and-architecture.md",
+    "sha256": "504c9e444808889643ec9db9bb3277958caf9af82ad4c2b48606a8fe40314c11"
+  },
+  {
+    "path": "docs/04-plan-validation-and-rollback.md",
+    "sha256": "2f4c39a282aebed08cce8704bf2c0d2142f31d1df3952d56f4986d45004e63c9"
+  },
+  {
+    "path": "docs/backup-manifest.json",
+    "sha256": "cad4a473d28f75d9d9ef362d66ed850357d8701be780e435acd4940a538da8a3"
+  },
+  {
+    "path": "docs/inventory.json",
+    "sha256": "fcf4c92c930c677ac06087ef5f992da51e06318dd0e33e4fc73fe269aa2eaefd"
+  },
+  {
+    "path": "docs/source-manifest.json",
+    "sha256": "ee7afa9348dac5f49f6139ab6b9432185516f746cc8b397fb71b58994e6efd71"
+  },
+  {
+    "path": "explorer.js",
+    "sha256": "84d9943ea3a0351a7c93bb36c0467f895d9924e56b548e1033341b4e41e527ce"
+  },
+  {
+    "path": "field-motion.js",
+    "sha256": "b1de8af1953de5202c1eddead16c2cd04aa81716b659ead4ecb0def4d06820f8"
+  },
+  {
+    "path": "field.svg",
+    "sha256": "550ab2af1a4c206ff830123c709fb301cbf24a2141b59e504beb91b9924b21b5"
+  },
+  {
+    "path": "generate-assets.mjs",
+    "sha256": "5fa98ec5404a3329ed49ea6575a1919dde2012c4173c30749b5c72bec3856776"
+  },
+  {
+    "path": "index.html",
+    "sha256": "f4396edcc4b054f75d5ebdb07614f27d7bb915d6946231fb8ef0178d7f979f90"
+  },
+  {
+    "path": "integrate-phase2.mjs",
+    "sha256": "12711fe12583714411bf1d7fe6ac55ed0d23fff42a777d6adfdfa5c4c3c027f5"
+  },
+  {
+    "path": "legacy/index-cmdk.html",
+    "sha256": "c3e0df0bafed1e819b4eda933b43711dfd8ce3cdc73d334b2e21bab5a70ae987"
+  },
+  {
+    "path": "legacy/index-original.html",
+    "sha256": "d847abfe7a02a38e8cb930dad466006ca6c9d65f90d043521bd46a68b94bc3c4"
+  },
+  {
+    "path": "mark.svg",
+    "sha256": "e33a199b3151216f9f5d69548d3ba3735bc1cfb2c0dffbd65d601ebdb32a65f1"
+  },
+  {
+    "path": "migrate.mjs",
+    "sha256": "f0d079a18b58733528330f6ab47bbda7ea986f0fc25c32e769971134651cf2fd"
+  },
+  {
+    "path": "migration-check.html",
+    "sha256": "be786e61adb83dfd5e83a8b07ccd5d9fe9e407e62208c0d170c324014279a641"
+  },
+  {
+    "path": "motion-check.html",
+    "sha256": "b5609373adc44bed1c2882cafb8baf399c12bb4ef230eb98db86cc80aa6572bf"
+  },
+  {
+    "path": "motion.js",
+    "sha256": "1c69f899da043e6c46268bb9cade5b69a733554f5590ddb4fd09346496e74b05"
+  },
+  {
+    "path": "p2-refinements.mjs",
+    "sha256": "6042e07ab5443d97c13ae96967bbdbac04b613afd7729b6b21b0d75b94e9be97"
+  },
+  {
+    "path": "phase2/app-before.js",
+    "sha256": "9dc144203f83b1fb91907ab7bf9eb9d2717fdef72f927c3a291ba0c3dfc1edcd"
+  },
+  {
+    "path": "phase2/index-before.html",
+    "sha256": "1f7771ef32c8089c3f15efa1ed2fae17073ebb80629b0a80d88223998b322bc0"
+  },
+  {
+    "path": "phase2/migration.json",
+    "sha256": "b8a2ad47c32da27eeeb50a355523df14f7c5ec38ee3b50d98f6f68655c79eda1"
+  },
+  {
+    "path": "phase2/styles-before.css",
+    "sha256": "23cbd0d42dcd3290a3ea1067221fa696ff3909d804a481b3fd1862c0169959be"
+  },
+  {
+    "path": "phase2-docs.mjs",
+    "sha256": "124a02990f5d623d5cd00a3b8fde114f9519f8627c3f2aae6c4949d8dcdcf8e7"
+  },
+  {
+    "path": "phase2-finalize.mjs",
+    "sha256": "8a74576fc8f0a9c7a412fe278d94a938f2ca11bcf1b8150f7fd55f554a9293e8"
+  },
+  {
+    "path": "phase2-finish.mjs",
+    "sha256": "4eaa81c1aa5cbdade109731caad8d184ec9a77688be50c57aa565cbb6cdb4fd7"
+  },
+  {
+    "path": "phase2-report.md",
+    "sha256": "13dc32ce2ba3c9fe2d1a4c9405f58078a91f9bfbd1581f7831b2c60349d2ff81"
+  },
+  {
+    "path": "phase2-test-polish.mjs",
+    "sha256": "f992035ceb67bced1c1ecc59c0b1f7fb95cd53673e9c7538b9d4875b4f14c229"
+  },
+  {
+    "path": "phase2.css",
+    "sha256": "6a91ff38551fc8262d15aee9942e26f465234095610af2f5eb31380e6cdd1bbd"
+  },
+  {
+    "path": "polish.mjs",
+    "sha256": "264a2307dca100b8e2370850c714d6e85413487dab4c29cd76e7f977b8629040"
+  },
+  {
+    "path": "preview.cjs",
+    "sha256": "64439727eab0edd64fed85d35f8c2e74d394fd86d52c66c094ac02f046ede8ab"
+  },
+  {
+    "path": "README.md",
+    "sha256": "47c3d6e8abca30fcc450ecdc67588ae3c4fd5161198fe451ed2cbf478add948d"
+  },
+  {
+    "path": "refine-parity.mjs",
+    "sha256": "ec98bfcde92e0e6efc5dd50cb70acab35d76619d9e1257f6c8d45ce8975b19c2"
+  },
+  {
+    "path": "refine.mjs",
+    "sha256": "81c9ebc4bdab9d52c2343ce8e3ff755ffc67e7550e63539b68d160a5866472ac"
+  },
+  {
+    "path": "research-data.js",
+    "sha256": "280b891450fce24988e3b43f6f497f2ca3364e7e0034975d2dcb1a7d1d4b45a7"
+  },
+  {
+    "path": "styles.css",
+    "sha256": "23cbd0d42dcd3290a3ea1067221fa696ff3909d804a481b3fd1862c0169959be"
+  },
+  {
+    "path": "VALIDATION.md",
+    "sha256": "1bc76ca0575056378285e246b97ca8bf672c5094aeb301368b081cee02bd0afa"
+  },
+  {
+    "path": "vendor/GSAP-README.txt",
+    "sha256": "aac9caec70ceaf7fa340a64f4ebf454237b094352bd6d1206b819729826020e7"
+  },
+  {
+    "path": "vendor/gsap.min.js",
+    "sha256": "28033e449a31ebcc396e5be8b13b63152bf03094288fb5867034321927bce087"
+  },
+  {
+    "path": "verify-migration.mjs",
+    "sha256": "5dc1f8c18ac0caf94e99d63fb12c45045f1d0a7c69e473e1e6d67ae43d9e93c0"
+  },
+  {
+    "path": "verify.mjs",
+    "sha256": "e4fed45ff7ead7a65fedd5fee3a19c7c5c469ede0d6ac3cfcb6f6e3413488171"
+  },
+  {
+    "path": "workbench.css",
+    "sha256": "c34ac3ee578186ad4cd409bc47abe917baf4e470bb112390b26968159a54082f"
+  },
+  {
+    "path": "workbench.html",
+    "sha256": "4513f49a0091ee436872fdba1198433f7553fb3bf2f95334b08fc719a4fd6122"
+  },
+  {
+    "path": "workbench.js",
+    "sha256": "d5a9ee5c608d2e3a972dd2b6ad4bb7b36bde325beb62b4b6a737a1df563aa249"
+  }
+]

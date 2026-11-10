@@ -1,0 +1,1 @@
+import fs from 'node:fs';const h=fs.readFileSync('kean-v2/workbench.html','utf8');fs.writeFileSync('kean-v2/a7-check.html',h.replace('</body>','<script src="a7-browser-test.js"></script></body>'));console.log('Prepared local-file browser fixture. No server or background process.');

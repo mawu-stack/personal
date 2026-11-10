@@ -1,0 +1,42 @@
+[
+  {
+    "date": "2026-10-13",
+    "task": "Dataset and tool verification",
+    "status": "Completed",
+    "completed": "Installed local Flutter 3.47.7/Dart 3.13.5. Verified Kaggle CC0 metadata and downloaded version 1 raw-URL CSV with checksum.",
+    "issues": "Previous precomputed dataset could not support faithful live URL inference.",
+    "next": "Train a separate raw-URL experiment; preserve K.E.A.N."
+  },
+  {
+    "date": "2026-10-13",
+    "task": "Shared feature pipeline and training",
+    "status": "Completed",
+    "completed": "Extracted 19 network-free lexical features. Trained Logistic Regression and Random Forest on 407,908 rows with a 101,978-row domain-disjoint test set; exported actual metrics and saved pipelines.",
+    "issues": "Class imbalance, conflicting labels and historical source bias. RF false-positive rate remains 13.52%.",
+    "next": "Validate API and Flutter behavior without substituting mock predictions."
+  },
+  {
+    "date": "2026-10-13",
+    "task": "Standalone application and documents",
+    "status": "Verification in progress",
+    "completed": "Implemented FastAPI endpoints and seven Flutter sections; generated measured proposal, report draft, outline and original notebook.",
+    "issues": "Flutter compilation and end-to-end verification are still in progress.",
+    "next": "Run API tests, Flutter tests, release build and browser verification."
+  },
+  {
+    "date": "2026-10-13",
+    "task": "Presentation and K.E.A.N. integration",
+    "status": "Planned",
+    "completed": "Prepared a 13-minute rehearsal outline and integration plan; website remains unchanged.",
+    "issues": "Presentation delivery and integration approval have not happened.",
+    "next": "Review the research, rehearse on the presentation machine, obtain approval before integration."
+  },
+  {
+    "date": "2026-10-15",
+    "task": "Cybersecurity tool features",
+    "status": "Implemented; browser verification in progress",
+    "completed": "Added URL findings, rule-based message checker with shared model link checks, browser-local URL history, and next-step guidance. 30 backend tests and 7 Flutter tests passed; analyzer clean.",
+    "issues": "Uncalibrated scores are hidden. Message rules are limited and do not authenticate senders.",
+    "next": "Finish built-browser verification and record results."
+  }
+]

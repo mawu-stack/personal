@@ -1,0 +1,39 @@
+Running…
+PASS Setup enables shared microphone and large Listening status
+PASS No-mouse navigation: authguard
+PASS No-mouse navigation: sentrysim
+PASS No-mouse navigation: ai terminal
+PASS No-mouse navigation: stride
+PASS No-mouse navigation: secure architecture
+PASS No-mouse navigation: academic coursework
+PASS No-mouse attack launch
+PASS Proposal leaves defense unchanged
+PASS Visible five-second countdown
+PASS Bare spoken confirm executes original toggle
+PASS Spoken yes
+PASS Spoken approve
+PASS Spoken deny
+PASS Spoken no
+PASS Spoken cancel
+PASS Tier 2 uses shared approval handler
+PASS Tier 2 denial preserves blocked result
+PASS Countdown visibly advances
+PASS Silence auto-confirms once after five seconds
+PASS Auto-confirm is not labeled human consent
+PASS Countdown pauses for Ctrl+K
+PASS Keyboard cancellation uses same handler
+PASS Ctrl+K fallback after unrecognized speech
+PASS Microphone failure pauses auto-approval
+PASS Keyboard can disable Presentation Mode after microphone failure
+PASS Normal mode keeps immediate defense control
+PASS Normal mode waits for explicit approval
+PASS Deny button shares handler
+PASS Approve button shares handler
+PASS Disabling Presentation Mode cancels pending actions
+PASS Hidden page cancels pending action
+PASS Expired session cancels pending action
+PASS Escape-style dialog cancellation preserves defense
+PASS Speaking and listening statuses exercised
+PASS Persistent backup hint
+
+COMPLETE: 36 checks passed. Recognized-transcript no-mouse run complete; live microphone untested.

@@ -1,0 +1,37 @@
+<script id="kean-prime-controller">
+(()=>{
+  const synth=window.speechSynthesis;
+  let voices=[],selected=null,manual=null,pitch=.85,rate=.92;
+  const identity=v=>v.voiceURI+'|'+v.name+'|'+v.lang;
+  const male=v=>/\bmale\b/i.test(v.gender||'')||/\bmale\b|Daniel|Arthur|Oliver|David|Mark|Guy|Alex/i.test(v.name);
+  function choose(list){
+    const uk=list.filter(v=>/en[-_]GB/i.test(v.lang)||/\bUK\b|British/i.test(v.name));
+    return uk.find(male)||uk[0]||list.find(v=>/Daniel|Arthur|Oliver|Google UK English Male/i.test(v.name))||list.find(v=>/en[-_]US/i.test(v.lang)&&male(v))||list.find(v=>v.default)||list[0]||null;
+  }
+  function discover(){
+    try{voices=synth?.getVoices()||[];}catch(_){voices=[];}
+    selected=(manual&&voices.find(v=>identity(v)===manual))||choose(voices);
+    const select=document.getElementById('kean-prime-voice');
+    if(!select)return;
+    select.replaceChildren();
+    const auto=document.createElement('option');auto.value='';auto.textContent='Automatic — '+(choose(voices)?.name||'system default (voices loading)');select.append(auto);
+    voices.forEach(v=>{const o=document.createElement('option');o.value=identity(v);o.textContent=v.name+' · '+v.lang;select.append(o);});
+    select.value=manual&&voices.some(v=>identity(v)===manual)?manual:'';
+  }
+  function apply(utter){if(selected)utter.voice=selected;utter.pitch=pitch;utter.rate=rate;return utter;}
+  window.KeanPrime={apply,discover,choose,get selected(){return selected;},get pitch(){return pitch;},get rate(){return rate;}};
+  discover();
+  if(synth?.addEventListener)synth.addEventListener('voiceschanged',discover);
+  else if(synth){const previous=synth.onvoiceschanged;synth.onvoiceschanged=e=>{previous?.call(synth,e);discover();};}
+  function boot(){
+    const panel=document.createElement('fieldset');panel.id='kean-prime-settings';panel.style.cssText='margin-top:24px;padding:20px;border:1px solid var(--card-border);border-radius:16px';
+    panel.innerHTML='<legend>K.E.A.N. Prime</legend><label for="kean-prime-voice">System voice</label> <select id="kean-prime-voice" style="max-width:100%"></select><p><label for="kean-prime-pitch">Pitch <output id="kean-prime-pitch-value">0.85</output></label> <input id="kean-prime-pitch" type="range" min="0.7" max="1.2" step="0.01" value="0.85"></p><p><label for="kean-prime-rate">Rate <output id="kean-prime-rate-value">0.92</output></label> <input id="kean-prime-rate" type="range" min="0.7" max="1.2" step="0.01" value="0.92"></p><p>Changes apply to the next spoken response. Available voices depend on your browser and device.</p><button type="button" id="kean-prime-test">Test K.E.A.N. Prime</button>';
+    document.getElementById('kean-personality-settings').append(panel);
+    document.getElementById('kean-prime-voice').addEventListener('change',e=>{manual=e.target.value||null;discover();});
+    for(const name of ['pitch','rate'])document.getElementById('kean-prime-'+name).addEventListener('input',e=>{const value=Math.max(.7,Math.min(1.2,Number(e.target.value)));if(name==='pitch')pitch=value;else rate=value;document.getElementById('kean-prime-'+name+'-value').textContent=value.toFixed(2);});
+    document.getElementById('kean-prime-test').addEventListener('click',()=>window.keanSpeak?.('K.E.A.N. Prime online. Ready when you are.'));
+    discover();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>

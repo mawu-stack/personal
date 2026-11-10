@@ -1,0 +1,11 @@
+{
+  "phase": 2,
+  "sourceSha256": "c3e0df0bafed1e819b4eda933b43711dfd8ce3cdc73d334b2e21bab5a70ae987",
+  "changes": [
+    "Appended external workbench.css stylesheet",
+    "Appended external workbench.js presentation adapter"
+  ],
+  "controllerChanges": 0,
+  "panelChanges": 0,
+  "scope": "AuthGuard and SentrySim presentation migration; other panels retained in baseline presentation"
+}

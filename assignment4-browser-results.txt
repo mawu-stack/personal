@@ -1,0 +1,45 @@
+Running…
+PASS Existing login / Regular User identity and timer
+PASS Role is bound to session, not editable login selector
+PASS Regular User can view demo profile
+PASS Regular User can edit in-memory profile
+PASS Regular User denied Manage Users
+PASS Regular User denied Security Logs
+PASS Grant and denial events use SecurityState
+PASS Existing expiry invalidates RBAC
+PASS Administrator login works
+PASS Administrator can Manage Users
+PASS View demo user
+PASS Change demo role without changing active session
+PASS Disable demo account
+PASS Administrator views existing telemetry
+PASS Content simulation uses safe text rendering
+PASS Valid upload and decoded local preview
+PASS Generate local simulation and workflow stages
+PASS Shared voice event drives LISTENING
+PASS Command event drives THINKING
+PASS Shared voice event drives SPEAKING
+PASS Digital Person typed question uses existing router and local fallback
+PASS Voice completion returns IDLE
+PASS Question and response workflow stages
+PASS Reject invalid file type
+PASS Reject oversized photo
+PASS Reject spoofed image
+PASS Clear photo/reset removes preview and generation
+PASS gemini provider controls preserved
+PASS claude provider controls preserved
+PASS Live answer source badge (mock response only)
+PASS Disconnect retained
+PASS Ctrl+K opens existing palette
+PASS Palette routes existing navigation
+PASS STRIDE tier filter preserved
+PASS Assignment 2 export creates download (intercepted)
+PASS AuthGuard generation preserved
+PASS Personality mode preserved
+PASS Professional switch preserved
+PASS Light theme works
+PASS Dark theme works
+PASS Expired administrator cannot mutate or view
+PASS Expired session ignores late AI response
+
+COMPLETE: 42 checks passed. Mock speech/API/event checks; no live microphone/provider verification.

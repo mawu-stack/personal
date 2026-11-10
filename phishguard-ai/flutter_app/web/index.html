@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="PhishGuard AI: local URL analysis, message checks and phishing research.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="phishguard_ai">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>PhishGuard AI</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <div id="file-help" hidden style="max-width:680px;margin:10vh auto;padding:32px;font:18px/1.6 system-ui;color:#e9f0fc;background:#131f31;border-radius:18px">
+    <h1>PhishGuard AI</h1>
+    <p>This Flutter application needs its local web server and Python model API. Opening this HTML file directly will not run the scanner.</p>
+    <p>Run <strong>START-PHISHGUARD.cmd</strong> in the phishguard-ai folder, then <a href="http://127.0.0.1:8080/" style="color:#8fbdff">open PhishGuard at localhost:8080</a>.</p>
+    <p>Source: flutter_app/lib/main.dart. Setup instructions: phishguard-ai/README.md.</p>
+  </div>
+  <script>
+    if (location.protocol === 'file:') {
+      document.body.style.background = '#0a1220';
+      document.getElementById('file-help').hidden = false;
+    } else {
+      const loader = document.createElement('script');
+      loader.src = 'flutter_bootstrap.js'; loader.async = true;
+      document.body.appendChild(loader);
+    }
+  </script>
+</body>
+</html>

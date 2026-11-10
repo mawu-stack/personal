@@ -1,0 +1,8 @@
+/* Lab 07 only. Native playback, no autoplay, external scripts or rendering. */
+#panel-tab-7 #research-movie .a7-movie-frame{display:flex;justify-content:center;background:var(--lab-bg,#0b0c10);border:1px solid var(--lab-line,#30363d);border-radius:12px;padding:16px;margin:28px 0 20px;min-width:0}
+#panel-tab-7 #research-movie video{display:block;width:auto;max-width:100%;height:min(60vh,560px);aspect-ratio:2/3;object-fit:contain;background:#080b10;border:0;border-radius:6px;margin:0}
+#panel-tab-7 #research-movie h3{font-size:clamp(28px,4.5vw,56px);line-height:1.08;overflow-wrap:anywhere}
+#panel-tab-7 #a7-movie-status{color:var(--lab-accent,#b5f5d4);line-height:1.6}
+#panel-tab-7 .a7-movie-error{color:var(--lab-text);border-left:3px solid var(--lab-accent);padding:12px}
+#panel-tab-7 .a7-movie-error[hidden]{display:none}
+@media(max-width:480px){#panel-tab-7 #research-movie .a7-movie-frame{padding:8px}#panel-tab-7 #research-movie video{height:auto;width:100%;max-height:65vh}}

@@ -1,0 +1,102 @@
+[
+  {
+    "path": "add-gateway-check.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "add-gateway-motion.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "architecture-check.html",
+    "status": "Changed"
+  },
+  {
+    "path": "audit-gateway.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "build.mjs",
+    "status": "Changed"
+  },
+  {
+    "path": "check-local-assets.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "consolidate.mjs",
+    "status": "Changed"
+  },
+  {
+    "path": "docs/gateway-dependency-audit.json",
+    "status": "Added"
+  },
+  {
+    "path": "docs/gateway-stabilization-report.md",
+    "status": "Added"
+  },
+  {
+    "path": "gateway-check.html",
+    "status": "Added"
+  },
+  {
+    "path": "gateway-motion-check.html",
+    "status": "Added"
+  },
+  {
+    "path": "gateway.css",
+    "status": "Added"
+  },
+  {
+    "path": "gateway.js",
+    "status": "Added"
+  },
+  {
+    "path": "integrate-gateway.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "package-gateway-report.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "refine-gateway-focus.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "refine-gateway.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "stabilization-check.html",
+    "status": "Added"
+  },
+  {
+    "path": "stabilize-shell.mjs",
+    "status": "Added"
+  },
+  {
+    "path": "verify-migration.mjs",
+    "status": "Changed"
+  },
+  {
+    "path": "workbench.css",
+    "status": "Changed"
+  },
+  {
+    "path": "workbench.html",
+    "status": "Changed"
+  },
+  {
+    "path": "workbench.js",
+    "status": "Changed"
+  },
+  {
+    "path": "docs/gateway-change-manifest.json",
+    "status": "Added"
+  },
+  {
+    "path": "README.md",
+    "status": "Changed"
+  }
+]

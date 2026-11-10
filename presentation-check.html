@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Presentation Mode verification</title>
+<style>body{font:16px system-ui;background:#111c2d;color:#edf5ff;padding:24px}button{padding:12px 20px}iframe{width:100%;height:520px;border:1px solid #41536b}pre{white-space:pre-wrap}</style>
+<h1>Presentation Mode verification</h1><p>Local test fixture. Recognized transcripts enter the real recognition result handler. No physical microphone is tested. Speech output is captured in this fixture.</p>
+<button id="run">Run presentation verification</button><pre id="results" role="status">Ready</pre><iframe id="site" src="/index-cmdk.html" title="Website under test"></iframe>
+<script>
+const frame=document.getElementById('site'),out=document.getElementById('results');
+document.getElementById('run').onclick=async()=>{
+ document.getElementById('run').disabled=true;out.textContent='Running…\n';
+ const w=frame.contentWindow,d=w.document,$=id=>d.getElementById(id),checks=[];let rec;
+ const report=(name,ok)=>{checks.push({name,ok});out.textContent+=`${ok?'PASS':'FAIL'} ${name}\n`;if(!ok)throw Error(name);};
+ const wait=async(fn,timeout=9000)=>{const end=Date.now()+timeout;while(!fn()){if(Date.now()>end)throw Error('Timed out waiting for expected state');await new Promise(r=>setTimeout(r,40));}};
+ const recognizedResults=[];
+ const emit=text=>{rec.onspeechstart?.();const result=Object.assign([{transcript:text}],{isFinal:true});recognizedResults.push(result);rec.onresult({resultIndex:recognizedResults.length-1,results:recognizedResults});};
+ const voice=text=>emit('Kean, '+text);
+ const proposed=()=>wait(()=>$('kean-approval').open);
+ const close=()=>wait(()=>!$('kean-approval').open);
+ const palette=async command=>{
+  d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'k',ctrlKey:true,bubbles:true}));await wait(()=>$('cmdk-dialog').open);
+  $('cmdk-input').value=command;$('cmdk-input').dispatchEvent(new w.Event('input',{bubbles:true}));
+  $('cmdk-input').dispatchEvent(new w.KeyboardEvent('keydown',{key:'Enter',bubbles:true}));
+ };
+ try {
+  await wait(()=>w.PresentationMode&&w.keanCommandRegistry);
+  const spoken=[],states=[];
+  w.AudioContext=undefined;w.webkitAudioContext=undefined;
+  w.speechSynthesis.speak=utter=>{spoken.push(utter.text);queueMicrotask(()=>utter.onend?.());};
+  w.SpeechRecognition=w.webkitSpeechRecognition=class{constructor(){rec=this;}start(){recognizedResults.length=0;this.onstart?.();}stop(){this.onend?.();}};
+  d.addEventListener('kean:voice-status',event=>states.push(event.detail.state));
+  $('sim-login-username').value='demo';$('sim-login-password').value='demo';$('btn-sim-login-submit').click();
+  await wait(()=>w.getComputedStyle($('simulated-login-overlay')).display==='none');
+  // One-time setup; all navigation and decisions below use recognition or keyboard events.
+  $('kean-presentation-toggle').click();await wait(()=>rec&&$('kean-present-state').textContent==='Listening');
+  report('Setup enables shared microphone and large Listening status',d.body.classList.contains('presentation-mode'));
+  for(const [i,name] of ['authguard','sentrysim','ai terminal','stride','secure architecture','academic coursework'].entries()){
+   voice('open '+name);await wait(()=>$('panel-tab-'+(i+1)).classList.contains('active'));report('No-mouse navigation: '+name,true);
+  }
+  voice('run credential stuffing');await wait(()=>$('telemetry-terminal-body').textContent.includes('RESULT: [BLOCKED]'));
+  report('No-mouse attack launch',true);await wait(()=>!$('btn-attack-1').disabled);
+  voice('turn off the waf');await proposed();report('Proposal leaves defense unchanged',$('toggle-waf').checked);
+  report('Visible five-second countdown',$('kean-approval-countdown').textContent.includes('5'));
+  emit('confirm');await close();report('Bare spoken confirm executes original toggle',!$('toggle-waf').checked&&!w.SecurityState.defenses.waf);
+  voice('turn on the waf');await wait(()=>$('toggle-waf').checked);
+  for(const word of ['yes','approve','deny','no','cancel']){
+   voice('turn off the waf');await proposed();emit(word);await close();
+   const approved=['yes','approve'].includes(word);report('Spoken '+word,$('toggle-waf').checked===!approved);
+   if(approved){voice('turn on the waf');await wait(()=>$('toggle-waf').checked);}
+  }
+  voice('rotate simulated credentials');await proposed();emit('approve');await close();
+  report('Tier 2 uses shared approval handler',$('permission-action-output').textContent.includes('[AUTHORIZED]'));
+  voice('rotate simulated credentials');await proposed();emit('deny');await close();
+  report('Tier 2 denial preserves blocked result',$('permission-action-output').textContent.includes('[BLOCKED]'));
+  voice('turn off the waf');await proposed();const started=Date.now();
+  await wait(()=>$('kean-approval-countdown').textContent.includes('4'));
+  report('Countdown visibly advances',true);await close();
+  report('Silence auto-confirms once after five seconds',!$('toggle-waf').checked&&Date.now()-started>=4500);
+  voice('turn on the waf');await wait(()=>$('toggle-waf').checked);
+  voice('rotate simulated credentials');await proposed();await close();
+  report('Auto-confirm is not labeled human consent',$('permission-action-output').textContent.includes('[AUTO-CONFIRMED DEMO]'));
+  voice('turn off the waf');await proposed();
+  d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'k',ctrlKey:true,bubbles:true}));await wait(()=>$('cmdk-dialog').open);
+  await wait(()=>$('kean-approval-reason').textContent.includes('paused'));
+  const countdown=$('kean-approval-countdown').textContent;await new Promise(r=>setTimeout(r,1100));
+  report('Countdown pauses for Ctrl+K',countdown===$('kean-approval-countdown').textContent&&$('toggle-waf').checked);
+  $('cmdk-input').value='cancel';$('cmdk-input').dispatchEvent(new w.Event('input',{bubbles:true}));$('cmdk-input').dispatchEvent(new w.KeyboardEvent('keydown',{key:'Enter',bubbles:true}));await close();
+  report('Keyboard cancellation uses same handler',$('toggle-waf').checked);
+  emit('unintelligible mumble');await palette('open secure architecture');await wait(()=>$('panel-tab-5').classList.contains('active'));
+  report('Ctrl+K fallback after unrecognized speech',true);
+  voice('turn off the waf');await proposed();rec.onerror({error:'no-speech'});await wait(()=>$('kean-approval-reason').textContent.includes('not listening'));
+  report('Microphone failure pauses auto-approval',$('toggle-waf').checked);
+  await palette('cancel');await close();
+  await palette('disable presentation mode');report('Keyboard can disable Presentation Mode after microphone failure',!$('kean-presentation-toggle').checked);
+  // Explicit control parity checks outside the no-mouse run.
+  $('toggle-waf').click();report('Normal mode keeps immediate defense control',!$('toggle-waf').checked);$('toggle-waf').click();
+  $('btn-test-tier2-action').click();await proposed();report('Normal mode waits for explicit approval',$('kean-approval-countdown').textContent==='Waiting for approval');
+  $('kean-deny').click();await close();report('Deny button shares handler',$('permission-action-output').textContent.includes('[BLOCKED]'));
+  $('btn-test-tier2-action').click();await proposed();$('kean-approve').click();await close();report('Approve button shares handler',$('permission-action-output').textContent.includes('[AUTHORIZED]'));
+  $('kean-presentation-toggle').click();await wait(()=>$('kean-present-state').textContent==='Listening');
+  voice('turn off the waf');await proposed();voice('disable presentation mode');await close();report('Disabling Presentation Mode cancels pending actions',$('toggle-waf').checked);
+  $('kean-presentation-toggle').click();
+  voice('turn off the waf');await proposed();d.dispatchEvent(new w.Event('visibilitychange'));
+  Object.defineProperty(d,'hidden',{configurable:true,value:true});d.dispatchEvent(new w.Event('visibilitychange'));await close();delete d.hidden;
+  report('Hidden page cancels pending action',$('toggle-waf').checked);
+  voice('turn off the waf');await proposed();const session=w.currentSessionToken;w.currentSessionToken='expired-test-session';await close();w.currentSessionToken=session;
+  report('Expired session cancels pending action',$('toggle-waf').checked);
+  voice('turn off the waf');await proposed();$('kean-approval').dispatchEvent(new w.Event('cancel',{cancelable:true}));await close();report('Escape-style dialog cancellation preserves defense',$('toggle-waf').checked);
+  voice('disable presentation mode');
+  report('Speaking and listening statuses exercised',states.includes('speaking')&&states.includes('listening'));
+  report('Persistent backup hint',$('cmdk-launch').textContent.includes('for backup control'));
+  out.textContent+=`\nCOMPLETE: ${checks.length} checks passed. Recognized-transcript no-mouse run complete; live microphone untested.\n`;
+ }catch(error){out.textContent+='\nFAILED: '+error.message+'\n';console.error(error);}
+ document.getElementById('run').disabled=false;
+};
+</script></html>

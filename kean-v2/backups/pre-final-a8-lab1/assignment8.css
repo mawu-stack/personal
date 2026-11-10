@@ -1,0 +1,32 @@
+.a8 { color:var(--lab-text); min-width:0; }
+.a8-hero { margin-bottom:2rem; max-width:55rem; }
+.a8-hero h2 { margin:.35em 0; }
+.a8-card { background:var(--lab-panel); border:1px solid var(--lab-line); border-radius:12px; padding:clamp(16px,3vw,28px); margin:0 0 20px; min-width:0; }
+.a8-card h3 { margin-top:0; }
+.a8-actions { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:.75rem 0; }
+.a8 input,.a8 select { color:var(--lab-text); background:var(--lab-bg); border:1px solid var(--lab-control-line); border-radius:5px; padding:.65em .8em; min-width:0; }
+.a8 input { flex:1 1 260px; }
+.a8-muted { color:var(--lab-muted); }
+.a8-banner { border-left:3px solid var(--lab-accent); padding:.65em .8em; background:var(--lab-tint); }
+.a8-lesson { min-height:8rem; padding:1rem; border:1px solid var(--lab-line); border-radius:8px; background:var(--lab-bg); }
+.a8-lesson strong { color:var(--lab-accent); }
+.a8 video { display:block; max-width:100%; max-height:52vh; margin:auto; }
+.a8 [hidden], #a8-toast:empty { display:none; }
+.a8-metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; }
+.a8-metrics article { display:grid; gap:.35rem; background:var(--lab-bg); border:1px solid var(--lab-line); border-radius:7px; padding:.9rem; }
+.a8-metrics strong { font-size:1.45rem; color:var(--lab-accent); }
+#a8-timeline svg { display:block; width:100%; height:auto; }
+.a8-table { max-width:100%; overflow:auto; max-height:25rem; }
+.a8-table table { width:100%; border-collapse:collapse; }
+.a8-table :is(th,td) { text-align:left; padding:.65em; border-bottom:1px solid var(--lab-line); vertical-align:top; }
+#a8-ips,#a8-status,#a8-alert-detail { overflow-wrap:anywhere; }
+#a8-toast { position:fixed; inset:auto 1rem 5rem auto; z-index:1200; width:min(26rem,calc(100vw - 2rem)); padding:.9rem; color:var(--lab-text); background:var(--lab-panel); border:1px solid var(--lab-control-line); border-radius:8px; overflow-wrap:anywhere; pointer-events:none; }
+#workbench-content[data-a8-preset] { background-color:var(--a8-background,transparent); }
+#workbench-content[data-a8-preset="security-grid"] { background-image:linear-gradient(var(--lab-line) 1px,transparent 1px),linear-gradient(90deg,var(--lab-line) 1px,transparent 1px); background-size:36px 36px; }
+#workbench-content[data-a8-preset="circuit"] { background-image:repeating-linear-gradient(135deg,transparent 0 28px,var(--lab-line) 28px 30px,transparent 30px 48px); }
+#workbench-content[data-a8-preset="matrix"] { background-image:repeating-linear-gradient(90deg,transparent 0 18px,var(--lab-tint) 18px 20px); }
+#workbench-content[data-a8-preset="night-sky"] { background-image:radial-gradient(circle,var(--lab-muted) 1px,transparent 2px),radial-gradient(circle,var(--lab-tint),transparent 68%); background-size:47px 53px,100% 100%; }
+@media (prefers-reduced-motion:no-preference) {
+  .a8-lesson > strong { animation:a8-reveal .3s ease-out; }
+  @keyframes a8-reveal { from {opacity:.4;transform:translateY(4px)} to {opacity:1;transform:translateY(0)} }
+}

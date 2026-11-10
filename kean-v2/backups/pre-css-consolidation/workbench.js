@@ -1,0 +1,7 @@
+(()=>{'use strict';
+const back=document.createElement('a');back.href='index.html';back.className='v2-return';back.textContent='↖ K.E.A.N. / Portfolio';document.querySelector('.top-navbar').after(back);
+const status=document.createElement('div');status.className='v2-workspace-status';status.setAttribute('aria-live','polite');document.querySelector('main').prepend(status);
+const labels={'tab-1':'01 / AUTHGUARD','tab-2':'02 / SENTRYSIM','tab-3':'03 / AI SECURITY','tab-4':'04 / STRIDE','tab-5':'05 / SECURE ARCHITECTURE','tab-6':'06 / COURSEWORK','tab-7':'07 / DDOS GUARD','tab-8':'08 / IDENTITY & AI','tab-9':'09 / XSS & RESEARCH'};
+let previous='';function sync(){const active=document.querySelector('.tab-btn.active'),id=active?.dataset.tab||'overview';if(id===previous)return;previous=id;status.replaceChildren();const label=document.createElement('strong');label.textContent=labels[id]||'K.E.A.N. WORKBENCH';const scope=document.createElement('span');scope.className='v2-scope';scope.textContent=['tab-1','tab-2'].includes(id)?' · Interactive security lab / educational simulation':' · Research & coursework';status.append(label,scope);const panel=document.getElementById('panel-'+id);if(panel&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&panel.animate)panel.animate([{opacity:.5,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:'ease-out'});}
+new MutationObserver(sync).observe(document.querySelector('.tabs-nav-bar'),{subtree:true,attributes:true,attributeFilter:['class']});sync();
+})();

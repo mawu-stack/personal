@@ -1,0 +1,2 @@
+const http=require('node:http'),fs=require('node:fs');
+http.createServer((req,res)=>{const file=req.url.startsWith('/test')?'assignment6-check.html':req.url==='/'||req.url.startsWith('/index-cmdk.html')?'index-cmdk.html':null;if(!file){res.writeHead(404);res.end();return;}res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});res.end(fs.readFileSync(file));}).listen(3511,'127.0.0.1',()=>console.log('Assignment 6 preview http://127.0.0.1:3511/ · test /test'));

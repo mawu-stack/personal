@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.mpl-cache/
+.ipynb_checkpoints/
+.tools/
+data/raw-url/*.csv
+backend/models/*.joblib
+backend/models/*.npz
+backend/.pytest_cache/
+*.log
+assignment6/models/*.joblib
+assignment6/results/*.npz

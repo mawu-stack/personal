@@ -1,0 +1,164 @@
+<style id="voice-command-coverage-style">
+  .kean-stride-filters {display:flex;flex-wrap:wrap;gap:8px;margin:24px 0;}
+  .kean-stride-filters button[aria-pressed="true"] {border-color:var(--ui-brand-blue)!important;box-shadow:0 0 0 1px var(--ui-brand-blue);}
+  .stride-bento-card[hidden] {display:none!important;}
+</style>
+<script id="voice-command-coverage">
+(() => {
+  'use strict';
+  const normalize=text=>String(text).toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');
+  const entries=[],lookup=new Map(),covered=new Set();
+  const $=id=>document.getElementById(id);
+  const tabs=['AuthGuard','SentrySim','AI Terminal','STRIDE','Secure Architecture','Academic Coursework'];
+  function add(name,aliases,run,type='Action',element=null) {
+    const entry={name,command:aliases[0],aliases:aliases.join(' '),type,run};
+    entries.push(entry);
+    for(const alias of aliases){const key=normalize(alias);if(!lookup.has(key))lookup.set(key,entry);}
+    if(element)covered.add(element);
+    return entry;
+  }
+  function focusPanel(element) {
+    const panel=element?.closest('.tab-panel');
+    if(panel&&!panel.classList.contains('active'))window.switchTab(panel.id.replace('panel-',''));
+  }
+  function click(element,say,label) {
+    if(!element){say('That control is not available.');return false;}
+    if(element.disabled){say('That control is busy or disabled. Wait for the current simulation to finish.');return false;}
+    const login=$('simulated-login-overlay');
+    if(login&&getComputedStyle(login).display!=='none'&&!login.contains(element)) {
+      say('Start your demo session first.');return false;
+    }
+    const perform=()=>{
+      if(element.disabled){say('That control is busy or disabled. Wait for the current simulation to finish.');return;}
+      element.click();
+      if(label)say(label,'action');
+    };
+    const panel=element.closest('.tab-panel');
+    if(panel&&!panel.classList.contains('active')) {
+      let timer;
+      const observer=new MutationObserver(()=>{
+        if(panel.classList.contains('active')){observer.disconnect();clearTimeout(timer);perform();}
+      });
+      observer.observe(panel,{attributes:true,attributeFilter:['class']});
+      timer=setTimeout(()=>{observer.disconnect();say('Navigation did not complete. Please retry the command.');},2000);
+      focusPanel(element);
+    } else perform();
+    return true;
+  }
+  function button(id,name,aliases) {
+    const element=$(id);
+    add(name,aliases,say=>click(element,say,name+'.'),'Action',element);
+  }
+  window.keanCommandRegistry={
+    catalog:()=>entries.map(({run,...entry})=>entry),
+    resolve:command=>lookup.get(normalize(command.replace(/^please\s+/i,''))),
+    audit:()=>Array.from(document.querySelectorAll('button,input[type="checkbox"],summary,a[href],[onclick],.stride-bento-card,.ai-threat-node')).filter(e=>!e.closest('#cmdk-list')).map(e=>({id:e.id,label:(e.getAttribute('aria-label')||e.getAttribute('title')||e.textContent||e.id).trim().slice(0,120),covered:covered.has(e)}))
+  };
+  function boot() {
+    const tabAliases=[['authguard','credential cryptanalysis','password lab'],['sentrysim','threat topology','attack bench'],['ai','ai terminal','kean ai terminal'],['stride','stride threat matrix','threat matrix'],['secure architecture','architecture','assignment three'],['academic coursework','coursework','academic portfolio']];
+    const numberWords=['one','two','three','four','five','six'];
+    tabAliases.forEach((names,i)=>{
+      const element=$('tab-btn-'+(i+1));
+      const aliases=[];
+      for(const verb of ['open','go to','navigate to','switch to','show me'])for(const name of [...names,'tab '+(i+1),'tab '+numberWords[i]])aliases.push(verb+' '+name);
+      add('Open '+tabs[i],aliases,say=>click(element,say,'Switched to '+tabs[i]+'.'),'Navigate',element);
+    });
+    const defenses=[['waf','WAF',['waf','web application firewall','web app firewall','firewall']],['ratelimit','Rate limiter',['rate limiter','rate limiting','rate limit']],['paramsql','Parameterized SQL',['parameterized sql','parameterized queries','database queries','sql protection']],['domsafe','Safe DOM',['safe dom','dom safe','dom protection','safe rendering']],['pbkdf2','PBKDF2',['pbkdf2','password hashing','credential storage']]];
+    const toggles=[...defenses,['llm-guard','LLM guard',['llm guard','prompt guard','prompt injection guard']],['autonomy-mode','Simulated autonomy',['autonomy mode','simulated autonomy']],['wake-word','Microphone',['microphone','voice','listening']]];
+    toggles.forEach(([id,title,names])=>{
+      const element=$('toggle-'+id);
+      for(const on of [true,false]) {
+        const state=on?'on':'off',aliases=[];
+        for(const name of names)aliases.push('turn '+state+' '+name,'turn '+state+' the '+name,'turn '+name+' '+state,(on?'enable ':'disable ')+name,(on?'enable the ':'disable the ')+name);
+        add('Turn '+state+' '+title,aliases,say=>{
+          if(element.checked===on){say(title+' is already '+state+'.');return;}
+          click(element,say,title+' '+state+'.');
+        },'Action',element);
+      }
+      add('Toggle '+title,names.map(n=>'toggle '+n),say=>click(element,say,title+' '+(!element.checked?'on':'off')+'.'),'Action',element);
+    });
+    const attacks=[['Credential stuffing','hydra spray','brute force'],['IDOR','path traversal','idor traversal'],['SQL injection','s q l injection'],['Stored DOM XSS','xss','cross site scripting'],['ReDoS','redos dos','denial of service','regex denial of service'],['GPU mask crack','gpu mask attack','hashcat mask attack'],['Cache sniffing','cache timing'],['WebRTC audio probe','audio probe','audio hijack','mock audio probe']];
+    attacks.forEach((names,i)=>{
+      const aliases=[];
+      for(const verb of ['run','launch','simulate'])for(const name of [...names,'attack '+(i+1),'vector '+(i+1)])aliases.push(verb+' '+name,verb+' '+name+' attack',verb+' the '+name+' attack');
+      add('Run '+names[0],aliases,say=>click($('btn-attack-'+(i+1)),say,'Started '+names[0]+' simulation.'),'Action',$('btn-attack-'+(i+1)));
+      const debrief=document.querySelector('.btn-debrief-chip[data-vector="'+(i+1)+'"]');
+      add('Review '+names[0]+' debrief',names.flatMap(name=>['review '+name,'show '+name+' debrief']),say=>click(debrief,say,'Opened '+names[0]+' debrief.'),'Navigate',debrief);
+    });
+    button('generate-passphrase-btn','Generate secure passphrase',['generate passphrase','generate a passphrase','generate password','generate a secure password','generate secure password','generate secure passphrase']);
+    add('Check current entropy',['check entropy','check current password entropy','check password strength','what is my entropy','check my password'],say=>say('Current effective password entropy is '+$('real-entropy-bits').textContent+' bits. '+$('zxcvbn-score-desc').textContent));
+    add('Check current TTC',['check ttc','check time to compromise','check crack time','what is my ttc'],say=>{
+      const time=['years','months','days','hours','minutes','seconds'].map(unit=>$('sentry-timer-'+unit).textContent+' '+unit).join(', ');
+      say('AuthGuard crack estimate: '+$('zxcvbn-time').textContent+'. SentrySim estimate: '+time+'. '+$('ttc-verdict-text').textContent);
+    });
+    button('btn-download-receipt','Export AuthGuard audit report',['export audit report','export the audit report','download audit report','export authguard report','save audit report']);
+    button('stride-export-btn','Export STRIDE report',['export stride report','download stride report']);
+    button('toggle-report-btn','Toggle audit report',['show audit report','toggle audit report','open audit report']);
+    button('close-report-btn','Close audit report',['close audit report']);
+    button('btn-copy-receipt','Copy audit report',['copy audit report']);
+    button('clear-pwd-btn','Clear test password',['clear password','clear test password']);
+    button('toggle-pwd-visibility-btn','Toggle password visibility',['toggle password visibility']);
+    button('tip-btn','Next security tip',['next tip','next security tip']);
+    button('btn-test-sentry-voice','Test speech synthesis',['test voice','test speech synthesis']);
+    document.querySelectorAll('.benchmark-chip').forEach((element,i)=>add('Use password sample '+(i+1),['use password sample '+(i+1)],say=>click(element,say,'Password sample '+(i+1)+' selected.'),'Action',element));
+    document.querySelectorAll('.injection-sample-btn').forEach((element,i)=>add('Run prompt sample '+(i+1),['run prompt sample '+(i+1)],say=>click(element,say,'Prompt sample '+(i+1)+' submitted.'),'Action',element));
+    for(const theme of ['light','dark','auto'])button('theme-btn-'+theme,'Use '+theme+' theme',[theme+' mode','use '+theme+' theme','switch to '+theme+' mode']);
+    for(const bits of ['32','41','64','128','live'])button('btn-ent-'+bits,'Use '+bits+' entropy',['use '+bits+' entropy','set entropy to '+bits]);
+    button('btn-submit-injection','Test current prompt',['test prompt','test current prompt','run prompt test']);
+    button('btn-test-tier1-action','Run read-only agent demo',['run read only demo','run tier one action','run tier 1 action']);
+    button('btn-test-tier2-action','Propose simulated credential rotation',['rotate simulated credentials','run tier two action','run tier 2 action']);
+    button('btn-open-connect-ai','Open AI connection',['connect ai','open ai connection']);
+    button('btn-close-ai-modal','Close AI connection',['close ai connection']);
+    button('btn-save-ai-key','Save entered AI key',['save ai key']);
+    button('btn-clear-ai-key','Clear AI key',['clear ai key']);
+    button('btn-copy-telemetry','Copy SentrySim log',['copy sentry log','copy telemetry']);
+    button('btn-clear-telemetry','Clear SentrySim log',['clear sentry log','clear telemetry']);
+    button('btn-clear-activity-log','Clear activity log',['clear activity log']);
+    button('btn-toggle-activity-dock','Toggle activity log',['toggle activity log','toggle telemetry dock']);
+    button('btn-push-test-event','Add test log event',['add test event']);
+    button('cmdk-launch','Open command palette',['open commands','open command palette']);
+    button('cmdk-close','Close command palette',['close commands','close command palette']);
+    add('What can you do?',['what can you do','help','list commands','voice help'],say=>say('I can open all six tabs, turn defenses on or off, run eight simulated attacks, generate a passphrase, read entropy and crack estimates, filter or explain STRIDE, and export reports. Say open commands to browse every control.'));
+
+    // These are actual filter buttons: mouse and voice share their click handler.
+    const categories=[['all','All'],['s','Spoofing'],['t','Tampering'],['r','Repudiation'],['i','Information disclosure'],['d','Denial of service'],['e','Elevation of privilege']];
+    const filters=document.createElement('div');filters.className='kean-stride-filters';filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter STRIDE categories');
+    const grid=document.querySelector('#panel-tab-4 .stride-bento-grid');
+    grid.before(filters);
+    categories.forEach(([key,name])=>{
+      const control=document.createElement('button');control.type='button';control.className='wb-button';control.textContent=name;control.id='kean-filter-'+key;control.setAttribute('aria-pressed',String(key==='all'));
+      control.addEventListener('click',()=>{
+        for(const button of filters.children)button.setAttribute('aria-pressed',String(button===control));
+        document.querySelectorAll('#panel-tab-4 .stride-bento-card').forEach(card=>{card.hidden=key!=='all'&&card.id!=='stride-card-'+key;});
+      });filters.append(control);
+      add('Filter STRIDE: '+name,['filter stride '+name,'filter '+name,'show '+name+' threats',...(key==='all'?['show all stride','clear stride filter']:[])],say=>click(control,say,'Showing '+name+' STRIDE categories.'),'Action',control);
+      if(key!=='all'){
+        const detail=document.querySelector('[data-target="forensics-'+key+'"]');
+        add('Toggle '+name+' details',['toggle '+name+' details','show '+name+' details'],say=>{control.click();click(detail,say,name+' details toggled.');},'Action',detail);
+      }
+    });
+    document.querySelectorAll('details').forEach((details,i)=>{
+      const summary=details.querySelector('summary'),title=i===0?'the math':summary.textContent.trim();
+      for(const open of [true,false])add((open?'Show ':'Hide ')+title,[(open?'show ':'hide ')+title,(open?'expand ':'collapse ')+title],say=>{
+        if(details.open===open){say(title+' is already '+(open?'open':'closed')+'.');return;}
+        click(summary,say,title+' '+(open?'opened':'closed')+'.');
+      },'Action',summary);
+    });
+
+    // A deterministic, scoped command for every remaining clickable control.
+    // No arbitrary selector execution and no fuzzy execution of state-changing actions.
+    document.querySelectorAll('button,input[type="checkbox"],summary,a[href],[onclick],.stride-bento-card,.ai-threat-node').forEach(element=>{
+      if(covered.has(element)||element.closest('#cmdk-list'))return;
+      let label=(element.getAttribute('aria-label')||element.getAttribute('title')||element.querySelector('h2,h3')?.textContent||element.textContent||element.id).replace(/\s+/g,' ').trim();
+      label=label.replace(/[^\p{L}\p{N}\s.,:()&/—-]/gu,'').trim();
+      if(!label)label=element.id||'control';
+      const panel=element.closest('.tab-panel');
+      const scope=panel?(tabs[Number(panel.id.slice(-1))-1]||'overview'):'website';
+      let command='activate '+label+' in '+scope;
+      if(lookup.has(normalize(command)))command+=' '+(element.id||entries.length);
+      add(label+' · '+scope,[command],say=>click(element,say,element.dataset.query?null:'Activated '+label+'.'),'Control',element);
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>

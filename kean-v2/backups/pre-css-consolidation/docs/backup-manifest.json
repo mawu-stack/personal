@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-25",
+  "files": [
+    {
+      "original": "index-cmdk.html",
+      "backup": "legacy/index-cmdk.html",
+      "sha256": "c3e0df0bafed1e819b4eda933b43711dfd8ce3cdc73d334b2e21bab5a70ae987"
+    },
+    {
+      "original": "index.html",
+      "backup": "legacy/index-original.html",
+      "sha256": "d847abfe7a02a38e8cb930dad466006ca6c9d65f90d043521bd46a68b94bc3c4"
+    }
+  ]
+}

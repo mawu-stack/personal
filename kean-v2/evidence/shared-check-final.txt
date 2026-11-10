@@ -1,0 +1,44 @@
+PASS Public demo sign-in still works
+PASS One shared stylesheet; retired overrides not loaded
+PASS All 15 legacy style blocks externalized
+PASS All nine original controls reused in sidebar
+PASS New node shape wins over legacy selectors
+PASS Legacy blue node background resolved
+PASS 390px Tab 1 has no page overflow
+PASS 390px Tab 2 has no page overflow
+PASS 390px Tab 3 has no page overflow
+PASS 390px Tab 4 has no page overflow
+PASS 390px Tab 5 has no page overflow
+PASS 390px Tab 6 has no page overflow
+PASS 390px Tab 7 has no page overflow
+PASS 390px Tab 8 has no page overflow
+PASS 390px Tab 9 has no page overflow
+PASS 768px Tab 1 has no page overflow
+PASS 768px Tab 2 has no page overflow
+PASS 768px Tab 3 has no page overflow
+PASS 768px Tab 4 has no page overflow
+PASS 768px Tab 5 has no page overflow
+PASS 768px Tab 6 has no page overflow
+PASS 768px Tab 7 has no page overflow
+PASS 768px Tab 8 has no page overflow
+PASS 768px Tab 9 has no page overflow
+PASS 1200px Tab 1 has no page overflow
+PASS 1200px Tab 2 has no page overflow
+PASS 1200px Tab 3 has no page overflow
+PASS 1200px Tab 4 has no page overflow
+PASS 1200px Tab 5 has no page overflow
+PASS 1200px Tab 6 has no page overflow
+PASS 1200px Tab 7 has no page overflow
+PASS 1200px Tab 8 has no page overflow
+PASS 1200px Tab 9 has no page overflow
+  focused tab-btn-6 active panel-tab-6
+PASS Desktop vertical arrow selects next original tab
+PASS Light canvas uses shared theme (actual rgb(244, 243, 238); wb-in-lab wb-light)
+PASS Dark canvas uses homepage color (actual rgb(11, 12, 16); wb-in-lab dark-mode)
+PASS AI threat node fills existing prompt
+PASS Existing Connect AI opens
+PASS STRIDE tier filter updates original matrix
+PASS Browser back restores preceding lab
+PASS Browser forward restores architecture
+PASS No runtime errors during exercised interactions
+COMPLETE: 42 passed, 0 failed. No paid AI or physical voice test.

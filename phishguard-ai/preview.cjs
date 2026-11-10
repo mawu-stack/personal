@@ -1,0 +1,3 @@
+const http=require('node:http'),fs=require('node:fs');
+const routes={'/':'index-cmdk.html','/index-cmdk.html':'index-cmdk.html','/test':'phishguard-ai/browser-check.html','/a4':'assignment4-check.html','/voice':'assignment4-voice-check.html','/presentation':'presentation-check.html'};
+http.createServer((req,res)=>{const path=routes[req.url.split('?')[0]];if(!path){res.writeHead(404);return res.end('Not found');}res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});res.end(fs.readFileSync(path));}).listen(3507,'127.0.0.1',()=>console.log('PhishGuard preview http://127.0.0.1:3507'));

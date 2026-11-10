@@ -1,0 +1,265 @@
+[
+  {
+    "name": "Test Console rerun",
+    "expected": "21 passing rows",
+    "actual": "21 of 21 measured checks passed.",
+    "result": "PASS"
+  },
+  {
+    "name": "Exact compound command",
+    "expected": "Dark blue, visible lesson, ordered actions and answer",
+    "actual": {
+      "color": "rgb(19, 40, 68)",
+      "items": [
+        "Completed — Background changed to dark blue.",
+        "Completed — Playing Cybersecurity training video.",
+        "Completed — Local answer. Phishing uses deceptive messages to get people to share information or take unsafe actions. Check the full sender address, unexpected urgency and whether the request matches what you know. A familiar logo or a padlock alone cannot establish trust. Practical steps: Open the service through a saved bookmark, verify the request through a trusted contact, and report the message. This explanation uses general cybersecurity knowledge."
+      ],
+      "lesson": true
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "Contextual comparison",
+    "expected": "Both DDoS and phishing explained",
+    "actual": "Local answer. DDoS disrupts availability by overwhelming a service. Phishing uses a deceptive message to persuade a person to share information or take an unsafe action. DDoS Guard AI in Assignment 7 demonstrates flow analysis for the first problem. Practical steps: compare traffic against its baseline for DDoS and verify the sender independently for phishing.",
+    "result": "PASS"
+  },
+  {
+    "name": "Contextual navigation",
+    "expected": "Tab 07 opens",
+    "actual": "http://127.0.0.1:3513/personal/kean-v2/workbench.html#tab-7",
+    "result": "PASS"
+  },
+  {
+    "name": "Approved MP4 delivery",
+    "expected": "Video is decoded and playing",
+    "actual": {
+      "duration": null,
+      "paused": false,
+      "ready": 0,
+      "time": 0
+    },
+    "result": "FAIL"
+  },
+  {
+    "name": "Approved MP4 after loading",
+    "expected": "Valid duration and advanced playhead",
+    "actual": {
+      "duration": 5.041667,
+      "paused": true,
+      "ready": 4,
+      "time": 5.041667
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "Live login telemetry",
+    "expected": "At least one login and live source label",
+    "actual": {
+      "metrics": "Login attempts\n1\nFailed attempts\n0\nFailure rate\n0.0%\nSuspicious IPs\n0\nThreat level\nLow · 0",
+      "banner": "Live classroom events from this page. IP addresses are unavailable for page events."
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "Suspicious filter",
+    "expected": "All visible rows flagged",
+    "actual": 11,
+    "result": "PASS"
+  },
+  {
+    "name": "Replay updates DOM",
+    "expected": "400 → 407 total events",
+    "actual": {
+      "before": "389 unflagged events · 11 flagged events. Login failure rate: 13.8% unflagged (21/152), 66.7% flagged (4/6).",
+      "after": "393 unflagged events · 14 flagged events. Login failure rate: 16.0% unflagged (25/156), 77.8% flagged (7/9)."
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "DHCP simulation",
+    "expected": "Labeled renewal and unchanged example lease",
+    "actual": "[SIMULATED EDUCATIONAL OUTPUT]\nSample lease renewed. The address stayed the same.\nEthernet adapter Classroom sample\nIPv4 Address: 192.0.2.10\nSubnet Mask: 255.255.255.0\nDefault Gateway: 192.0.2.1\nPhysical Address: 02-00-00-00-02-0A\nDHCP Enabled: Yes\nDNS Servers: 203.0.113.53",
+    "result": "PASS"
+  },
+  {
+    "name": "IP conflict",
+    "expected": "Assigned .180 rejected",
+    "actual": "Rejected in the simulation. The address is assigned or reserved in the /24 example.",
+    "result": "PASS"
+  },
+  {
+    "name": "Off-subnet connectivity",
+    "expected": "100% simulated loss",
+    "actual": "Packets: Sent = 4, Received = 0, Lost = 4 (100% loss)",
+    "result": "PASS"
+  },
+  {
+    "name": "ARP clear then remote ping",
+    "expected": "Empty then gateway-only mapping",
+    "actual": "[SIMULATED EDUCATIONAL OUTPUT]\nInterface: 192.0.2.10\nInternet Address     Physical Address     Type\n192.0.2.1     02-00-00-00-02-01     dynamic",
+    "result": "PASS"
+  },
+  {
+    "name": "DNS sample ping",
+    "expected": "25% loss",
+    "actual": "Packets: Sent = 4, Received = 3, Lost = 1 (25% loss)",
+    "result": "PASS"
+  },
+  {
+    "name": "Illustrative routes",
+    "expected": "Five labeled routes per target and at least one timeout",
+    "actual": {
+      "runs": 10,
+      "unique": 10
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "Empty report",
+    "expected": "Missing actual observations and no sample IPs",
+    "actual": true,
+    "result": "PASS"
+  },
+  {
+    "name": "Traceroute parser with labeled QA fixture",
+    "expected": "Hop 3, highest exact RTT 23 ms, timeout preserved",
+    "actual": "www.kean.edu / 1\t3 (destination confirmed)\t23 ms at hop 3\t1 192.0.2.1 (<1 ms, 1 ms, 1 ms) → 2 Request timed out. (*, *, *) → 3 203.0.113.70 (19 ms, 23 ms, 21 ms)",
+    "result": "PASS"
+  },
+  {
+    "name": "Report carries provided capture only",
+    "expected": "QA observation appears in report",
+    "actual": true,
+    "result": "PASS"
+  },
+  {
+    "name": "Keyboard tab routing",
+    "expected": "All ten tabs reachable with unique IDs",
+    "actual": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "result": "PASS"
+  },
+  {
+    "name": "Malicious inputs and student authorization",
+    "expected": "Five safe rejections, stable URL/color and empty block list",
+    "actual": {
+      "messages": [
+        "Command rejected. Use a listed action with valid parameters.",
+        "Command rejected. Only listed sections and approved media can be opened.",
+        "Command rejected. Only listed sections and approved media can be opened.",
+        "Command rejected. Use a listed action with valid parameters.",
+        "This action requires an authorized demo session."
+      ],
+      "state": {
+        "block": "No simulated blocks.",
+        "color": "rgb(19, 40, 68)",
+        "hash": "#tab-10"
+      }
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "Existing command palette",
+    "expected": "New action appears and routes to Monitor",
+    "actual": "http://127.0.0.1:3513/personal/kean-v2/workbench.html#tab-10",
+    "result": "PASS"
+  },
+  {
+    "name": "Admin simulated block and cancel",
+    "expected": "No change before confirmation; one local list entry after confirm",
+    "actual": {
+      "pending": true,
+      "empty": "No simulated blocks.",
+      "cancelEmpty": "No simulated blocks.",
+      "finalBlock": "203.0.113.220"
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "AuthGuard sample",
+    "expected": "Computed positive effective entropy",
+    "actual": "",
+    "result": "FAIL"
+  },
+  {
+    "name": "SentrySim original simulation",
+    "expected": "Graph and blocked Tier 2 result",
+    "actual": "BLOCKED · Tier 2 · Ingress rate limiter (HTTP 429) (original simulation result)",
+    "result": "FAIL"
+  },
+  {
+    "name": "STRIDE content",
+    "expected": "Six threat categories appear",
+    "actual": true,
+    "result": "PASS"
+  },
+  {
+    "name": "AuthGuard after active-tab and entropy readiness",
+    "expected": "Positive effective entropy",
+    "actual": "111.8",
+    "result": "PASS"
+  },
+  {
+    "name": "SentrySim after active-tab readiness",
+    "expected": "Visible graph and retained blocked result",
+    "actual": "BLOCKED · Tier 2 · Ingress rate limiter (HTTP 429) (original simulation result)",
+    "result": "PASS"
+  },
+  {
+    "name": "Relative font controls and bounds",
+    "expected": "1.6 → 0.8 → 1",
+    "actual": [
+      "1.6",
+      "0.8",
+      "1"
+    ],
+    "result": "PASS"
+  },
+  {
+    "name": "Approved MP4 pause",
+    "expected": "Decoded clip paused before end",
+    "actual": {
+      "duration": 5.041667,
+      "paused": false,
+      "time": 0
+    },
+    "result": "FAIL"
+  },
+  {
+    "name": "Mobile page fit",
+    "expected": "Both sections at 390px without page overflow",
+    "actual": {
+      "monitorFit": {
+        "scroll": 375,
+        "viewport": 390
+      },
+      "labFit": {
+        "scroll": 375,
+        "viewport": 390
+      }
+    },
+    "result": "PASS"
+  },
+  {
+    "name": "Native pause after command completed",
+    "expected": "Paused at a position before end",
+    "actual": {
+      "duration": 5.041667,
+      "paused": true,
+      "time": 0.034881
+    },
+    "result": "PASS"
+  }
+]

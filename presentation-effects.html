@@ -1,0 +1,156 @@
+<style id="presentation-effects-style">
+  html {view-transition-name:none;}
+  ::view-transition {pointer-events:none;}
+  .tab-panel.active {view-transition-name:workbench-panel;}
+  ::view-transition-old(workbench-panel),::view-transition-new(workbench-panel) {animation-duration:180ms;animation-timing-function:ease-out;}
+  .interaction-highlight {outline:2px solid var(--ui-brand-cyan,#69cde7);outline-offset:4px;}
+  #interaction-status {position:fixed;right:24px;bottom:92px;z-index:1001;max-width:min(360px,calc(100vw - 48px));padding:10px 16px;border:1px solid var(--ui-card-border,#304055);border-radius:12px;background:var(--ui-card-bg,#111c2d);color:var(--ui-value,#edf4ff);font:500 13px/1.5 var(--font-sans);box-shadow:var(--ui-card-shadow);pointer-events:none;}
+  #interaction-status:empty {display:none;}
+  @media(prefers-reduced-motion:reduce) {
+    ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) {animation:none!important;}
+  }
+</style>
+<div id="interaction-status" role="status" aria-live="polite" aria-atomic="true"></div>
+<script id="presentation-effects-controller">
+(() => {
+  'use strict';
+  function boot() {
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+    const motionAllowed=()=>!reduced.matches&&!document.hidden;
+    const status=document.getElementById('interaction-status');
+    const effects=new Map(), disclosures=new Map();
+    let statusTimer, navigation, tabFade;
+    function announce(text) {
+      clearTimeout(statusTimer);
+      status.textContent=text;
+      statusTimer=setTimeout(()=>{status.textContent='';},3500);
+    }
+    function highlight(element) {
+      if(!element||!element.getClientRects().length||document.hidden)return;
+      effects.get(element)?.();
+      const oldOutline=element.style.outlineColor;
+      element.classList.add('interaction-highlight');
+      let tween,timer;
+      const clean=()=>{
+        clearTimeout(timer);tween?.kill();
+        element.classList.remove('interaction-highlight');
+        element.style.outlineColor=oldOutline;
+        effects.delete(element);
+      };
+      effects.set(element,clean);
+      if(motionAllowed()&&window.gsap) {
+        tween=gsap.to(element,{outlineColor:'transparent',duration:.55,delay:.08,onComplete:clean});
+      } else timer=setTimeout(clean,650);
+    }
+
+    // Keep the existing navigation controller as the sole owner of tab state.
+    const navigate=window.switchTab;
+    window.switchTab=function(...args) {
+      if(tabFade){tabFade();tabFade=null;}
+      if(navigation){navigation.apply();navigation.transition?.skipTransition();navigation=null;}
+      const active=document.querySelector('.tab-panel.active');
+      const requested=String(args[0]||'');
+      if(!motionAllowed()||!document.startViewTransition||active?.id==='panel-'+requested) {
+        const result=navigate.apply(this,args);
+        const next=document.querySelector('.tab-panel.active');
+        if(motionAllowed()&&!document.startViewTransition&&next!==active&&window.gsap) {
+          const opacity=next.style.opacity;
+          let tween;
+          const clean=()=>{tween?.kill();next.style.opacity=opacity;tabFade=null;};
+          tabFade=clean;
+          tween=gsap.fromTo(next,{opacity:.75},{opacity:1,duration:.18,onComplete:clean});
+        }
+        return result;
+      }
+      const receiver=this;
+      let applied=false,result;
+      const job={apply(){if(!applied){applied=true;result=navigate.apply(receiver,args);}return result;},transition:null};
+      navigation=job;
+      try {
+        job.transition=document.startViewTransition(()=>job.apply());
+        // Skipped or overlapping transitions must never drop the navigation itself.
+        job.transition.ready.catch(()=>{});
+        job.transition.finished.catch(()=>{}).finally(()=>{if(navigation===job)navigation=null;});
+      } catch(error) {
+        if(navigation===job)navigation=null;
+        return job.apply();
+      }
+      return result;
+    };
+
+    // Shared click feedback includes programmatic clicks issued by routeCommand.
+    document.addEventListener('click',event=>{
+      const button=event.target.closest('button');
+      if(!button)return;
+      if(button.id==='generate-passphrase-btn') {
+        highlight(document.querySelector('.v2-crack-hero'));
+        announce('Passphrase generated. AuthGuard results updated.');
+      } else if(button.matches('.btn-launch-attack')) {
+        highlight(button.closest('.attack-card')||button);
+        announce('Attack simulation started. Follow the SentrySim trace.');
+      }
+    });
+    document.addEventListener('change',event=>{
+      const control=event.target;
+      const card=control.closest('.defense-toggle-card');
+      if(card&&control.matches('input[type="checkbox"]')) {
+        highlight(card);
+        announce((card.querySelector('.defense-title')?.textContent.trim()||'Defense')+': '+(control.checked?'on':'off')+'.');
+      }
+    });
+
+    // Preserve native details semantics, focus, and text; animate only its height.
+    document.querySelectorAll('details').forEach(details=>{
+      const summary=details.querySelector(':scope > summary');
+      if(!summary)return;
+      summary.addEventListener('click',event=>{
+        if(event.defaultPrevented||event.target.closest('a,button,input,select,textarea'))return;
+        const previous=disclosures.get(details);
+        const targetOpen=previous?!previous.targetOpen:!details.open;
+        if(!motionAllowed()||!details.animate) {
+          previous?.finish();
+          // Native click handles the next toggle when no animation is needed.
+          return;
+        }
+        event.preventDefault();
+        const from=details.getBoundingClientRect().height;
+        previous?.cancel();
+        const oldOverflow=details.style.overflow;
+        details.open=false;
+        const collapsed=details.getBoundingClientRect().height;
+        details.open=true;
+        const expanded=details.getBoundingClientRect().height;
+        details.style.overflow='hidden';
+        const animation=details.animate([{height:from+'px'},{height:(targetOpen?expanded:collapsed)+'px'}],{duration:200,easing:'ease-out'});
+        const clean=()=>{animation.cancel();details.style.overflow=oldOverflow;disclosures.delete(details);};
+        const job={targetOpen,cancel:clean,finish(){details.open=targetOpen;clean();}};
+        disclosures.set(details,job);
+        animation.onfinish=()=>job.finish();
+      });
+    });
+
+    // Existing BYOK output owns request state; observe it without changing fetch logic.
+    const output=document.getElementById('injection-sandbox-display');
+    if(output) {
+      let wasBusy=false;
+      new MutationObserver(()=>{
+        const busy=output.textContent.startsWith('// Querying Google Gemini Live');
+        output.setAttribute('aria-busy',String(busy));
+        if(busy&&!wasBusy)announce('Processing AI request…');
+        if(!busy&&wasBusy)announce(output.textContent.includes('API Error:')?'AI request returned an error. See the result.':output.textContent.includes('[NOTICE: BYOK live request failed')?'AI request failed. Local simulation results are ready.':'AI results ready.');
+        wasBusy=busy;
+      }).observe(output,{childList:true,characterData:true,subtree:true});
+    }
+    function settle() {
+      if(motionAllowed())return;
+      if(navigation){navigation.apply();navigation.transition?.skipTransition();navigation=null;}
+      if(tabFade){tabFade();tabFade=null;}
+      for(const finish of [...effects.values()])finish();
+      for(const job of [...disclosures.values()])job.finish();
+    }
+    reduced.addEventListener('change',settle);
+    document.addEventListener('visibilitychange',settle);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>

@@ -1,0 +1,72 @@
+<template id="lab1-network-template">
+  <section id="lab1-network" class="a8 a8-card" tabindex="-1" aria-labelledby="lab1-title">
+    <span class="wb-overline">LAB 1 / IDENTITY AND SECURITY</span>
+    <h2 id="lab1-title">Identity and Security</h2>
+    <p class="a8-banner">SIMULATED NETWORK OUTPUT — EDUCATIONAL DEMONSTRATION</p>
+    <p>These exercises use fictional values and reserved IP addresses. Capture actual output separately for your laboratory report.</p>
+    <section class="a8-card">
+      <h3>Lab 1.1 — Windows Client IP Configuration</h3>
+      <div class="a8-actions" aria-label="IP configuration demonstrations">
+        <button type="button" class="research-button" data-lab1-command="ip-help">ipconfig /?</button>
+        <button type="button" class="research-button" data-lab1-command="ip-basic">ipconfig</button>
+        <button type="button" class="research-button" data-lab1-command="ip-all">ipconfig /all</button>
+        <button type="button" class="research-button" data-lab1-command="ip-renew">ipconfig /renew</button>
+      </div>
+      <pre id="lab1-ip-output" class="lab1-output" aria-live="polite"></pre>
+      <p>In <code>192.0.2.10/24</code>, the mask <code>255.255.255.0</code> makes <code>192.0.2.0</code> the network and <code>.10</code> the host portion. A default gateway forwards traffic outside the LAN. DHCP leases settings to the client. DNS resolves names. A MAC address identifies an interface on the local link.</p>
+      <details><summary>Changing and restoring a host address</summary><p>For an authorized Windows lab, record the adapter’s current assignment mode, IP, mask, gateway and DNS before opening its IPv4 properties. Use the instructor-provided address only after checking the subnet and checking that the address is available. Restore the saved DHCP or static settings afterward and verify them with <code>ipconfig /all</code>.</p></details>
+      <form id="lab1-ip-form"><label for="lab1-proposed-ip">Proposed IPv4 address in the simulation</label><div class="a8-actions"><input id="lab1-proposed-ip" placeholder="192.0.2.180" maxlength="15" required><button class="research-button" type="submit">Apply simulated address</button><button class="research-button" type="button" data-lab1-command="ip-restore">Restore simulated settings</button></div></form>
+      <p>Original example <code>192.0.2.10/24</code>. In this sample LAN, <code>192.0.2.180</code> is already assigned.</p>
+      <p id="lab1-ip-status" role="status"></p>
+    </section>
+    <section class="a8-card">
+      <h3>Lab 1.2 — IP Network Configuration</h3>
+      <h4>Lab A — Ping and Tracert</h4>
+      <div class="a8-actions">
+        <button type="button" class="research-button" data-lab1-command="ping-help">ping /?</button>
+        <button type="button" class="research-button" data-lab1-command="ping-gateway">Ping simulated gateway</button>
+        <button type="button" class="research-button" data-lab1-command="ping-dns">Ping simulated DNS server</button>
+      </div>
+      <pre id="lab1-ping-output" class="lab1-output" aria-live="polite"></pre>
+      <p>Ping measures ICMP echo round-trip time. TTL is a remaining hop limit. A timeout can reflect filtering or loss. A reply shows that an endpoint responded and does not authenticate its identity. A DNS server’s ping reply also does not verify DNS service.</p>
+      <form id="lab1-trace-form" class="a8-actions">
+        <label for="lab1-target">Destination example</label><select id="lab1-target"><option value="kean">tracert www.kean.edu</option><option value="google">tracert www.google.com</option></select>
+        <label for="lab1-run">Illustrative run</label><select id="lab1-run"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+        <button type="submit" class="research-button">Show simulated route</button>
+      </form>
+      <pre id="lab1-trace-output" class="lab1-output" aria-live="polite"></pre>
+      <p>Traceroute increases probe TTL to reveal responding routers. An asterisk means a probe had no reply. Routes can vary with routing and load balancing.</p>
+      <h4>Network topology</h4><ol id="lab1-topology" class="lab1-topology"></ol>
+      <p>For a same-LAN destination, resolve that destination’s MAC and send the frame directly. For a remote destination, resolve the gateway’s MAC and send the frame to it while keeping the remote IP in the packet.</p>
+      <h4>Compare actual tracert observations</h4>
+      <p>Paste numbered Windows traceroute rows. The comparison uses the highest exact reported probe time per run and leaves timeouts or less-than readings as pasted. Capture up to five runs for each destination.</p>
+      <form id="lab1-observation-form">
+        <label for="lab1-actual-trace">Actual output for selected destination and run</label>
+        <textarea id="lab1-actual-trace" rows="5" maxlength="16000" placeholder="Paste your own tracert output"></textarea>
+        <div class="a8-actions"><label>Observed reachability <select id="lab1-reached"><option value="unconfirmed">Destination not confirmed</option><option value="reached">Destination reached (I verified it)</option><option value="not-reached">Destination not reached (I verified it)</option></select></label><button class="research-button" type="submit">Add actual run</button></div>
+      </form>
+      <div class="a8-table"><table><thead><tr><th>Run</th><th>Hops</th><th>Highest exact RTT</th><th>Observed topology</th></tr></thead><tbody id="lab1-actual-routes"></tbody></table></div>
+      <p id="lab1-actual-status" role="status">[MISSING: actual traceroute output]</p>
+      <h4>Lab B — ARP</h4>
+      <div class="a8-actions"><button type="button" class="research-button" data-lab1-command="arp-help">arp /?</button><button type="button" class="research-button" data-lab1-command="arp-view">arp -a</button><button type="button" class="research-button" data-lab1-command="arp-clear">arp -d · clear sample cache</button><button type="button" class="research-button" data-lab1-command="arp-local">Contact sample LAN peer</button></div>
+      <pre id="lab1-arp-output" class="lab1-output" aria-live="polite"></pre>
+      <p>ARP maps local IPv4 addresses to MAC addresses. Clearing the sample cache removes its learned entries. The simulated ping or LAN peer exercise repopulates it. For a remote DNS address, the cache learns the local gateway’s MAC.</p>
+    </section>
+    <section class="a8-card">
+      <h3>Lab 1 report workspace</h3>
+      <p>Enter your observations and preview a plain-text report. Your entries stay in this page until you download a local copy. The downloads contain your entries and saved actual runs, which may include private network details.</p>
+      <form id="lab1-report-form">
+        <div class="lab1-fields">
+          <label>Student and course <input name="student" maxlength="180"></label><label>Instructor and date <input name="instructor" maxlength="180"></label>
+          <label>Computer and OS <input name="computer" maxlength="180"></label><label>Lab location, connection and ISP <input name="connection" maxlength="250"></label>
+          <label>Description <textarea name="description" rows="3" maxlength="4000"></textarea></label><label>IP configuration observations <textarea name="ip" rows="3" maxlength="4000"></textarea></label>
+          <label>Ping observations <textarea name="ping" rows="3" maxlength="4000"></textarea></label><label>ARP observations <textarea name="arp" rows="3" maxlength="4000"></textarea></label>
+          <label>Problems and fixes <textarea name="problems" rows="3" maxlength="4000"></textarea></label><label>Conclusions <textarea name="conclusions" rows="3" maxlength="4000"></textarea></label>
+          <label>References and acknowledgements <textarea name="references" rows="3" maxlength="4000"></textarea></label>
+        </div>
+        <div class="a8-actions"><button class="research-button" type="submit">Preview report</button><button class="research-button" id="lab1-download-report" type="button">Download report</button><button class="research-button" id="lab1-export-observations" type="button">Export Lab Observations</button></div>
+      </form>
+      <pre id="lab1-report-output" class="lab1-output" aria-live="polite"></pre>
+    </section>
+  </section>
+</template>

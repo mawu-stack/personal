@@ -1,0 +1,16 @@
+{
+  "declared_date": "2026-10-22",
+  "question": "Does combining a lexical Random Forest with a URL character-pattern classifier improve phishing F1 and false-positive rate relative to the lexical baseline?",
+  "primary_metric": "phishing F1 at threshold 0.5",
+  "secondary_metrics": ["precision", "recall", "false-positive rate", "false-negative rate", "average precision", "ROC-AUC", "accuracy"],
+  "outer_split": "Reuse the stored domain-disjoint train/test partition. This historical test set has been inspected in earlier work; this extension is exploratory, not a fresh confirmatory test.",
+  "inner_split": "First seed-73 StratifiedGroupKFold(n_splits=5) fold within the outer training partition only.",
+  "lexical_model": {"n_estimators":150,"max_depth":22,"min_samples_leaf":3,"class_weight":"balanced","random_state":42,"n_jobs":2},
+  "character_model": {"representation":"HashingVectorizer","analyzer":"char","ngram_range":[3,4],"n_features":262144,"alternate_sign":false,"norm":"l2","lowercase":false,"input":"canonical_url from the shared offline parser","classifier":"SGDClassifier","loss":"log_loss","alpha":0.00001,"max_iter":30,"tol":0.001,"class_weight":"balanced","average":true,"random_state":42},
+  "hybrid": "p = (1 - character_weight) * lexical_probability + character_weight * character_probability",
+  "weight_candidates": [0.25,0.5,0.75],
+  "selection_rule": "Choose maximum inner-validation phishing F1; ties choose the smaller character weight. Fix the weight before evaluating the historical test set.",
+  "ablations": ["lexical-only Random Forest", "character-only linear classifier", "selected hybrid"],
+  "uncertainty": "500 paired registrable-domain cluster bootstrap draws for hybrid minus lexical test F1; percentile interval is exploratory and conditional on fitted models.",
+  "prohibitions": ["No test-set hyperparameter or threshold selection", "No URL visits", "No changes to the deployed scanner models", "No invented results", "No claim that this is a deep-learning or LLM experiment"]
+}

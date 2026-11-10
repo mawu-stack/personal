@@ -1,0 +1,5 @@
+Running…
+PASS Reduced-motion branch disables continuous motion control
+PASS Optional animation bundles are not loaded
+PASS Static scenes and project navigation still work
+COMPLETE: 3 reduced-motion branch checks passed. Actual CSS media preference / physical device not simulated.

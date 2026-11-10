@@ -1,0 +1,3 @@
+import fs from 'node:fs';
+let s=fs.readFileSync('ddos-guard/browser-check.html','utf8');s=s.replace("w.switchTab('tab-'+i);check(","w.switchTab('tab-'+i);await wait(()=>$('panel-tab-'+i).classList.contains('active'));check(").replace("frame.style.width='390px';check(","frame.style.width='390px';await wait(()=>w.innerWidth<=400);check(");fs.writeFileSync('ddos-guard/browser-check.html',s);
+let js=fs.readFileSync('ddos-guard/controller.js','utf8');js=js.replace("e.preventDefault();const values=model.features.map", "e.preventDefault();if(model.features.some((_,i)=>!$('dg-value-'+i).value.trim())){$('dg-verdict').textContent='Enter all eight measurements before analyzing.';return;}const values=model.features.map");fs.writeFileSync('ddos-guard/controller.js',js);

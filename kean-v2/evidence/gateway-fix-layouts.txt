@@ -1,0 +1,56 @@
+PASS Public demo sign-in still works
+PASS One shared stylesheet; retired overrides not loaded
+PASS All 15 legacy style blocks externalized
+PASS All nine original controls reused in sidebar
+PASS New node shape wins over legacy selectors
+PASS Legacy blue node background resolved
+PASS 390px Tab 1 has no page overflow
+PASS 390px Tab 2 has no page overflow
+PASS 390px Tab 3 has no page overflow
+PASS 390px Tab 4 has no page overflow
+PASS 390px Tab 5 has no page overflow
+PASS 390px Tab 6 has no page overflow
+PASS 390px Tab 7 has no page overflow
+PASS 390px Tab 8 has no page overflow
+PASS 390px Tab 9 has no page overflow
+PASS 768px Tab 1 has no page overflow
+PASS 768px Tab 2 has no page overflow
+PASS 768px Tab 3 has no page overflow
+PASS 768px Tab 4 has no page overflow
+PASS 768px Tab 5 has no page overflow
+PASS 768px Tab 6 has no page overflow
+PASS 768px Tab 7 has no page overflow
+PASS 768px Tab 8 has no page overflow
+PASS 768px Tab 9 has no page overflow
+PASS 1200px Tab 1 has no page overflow
+PASS 1200px Tab 2 has no page overflow
+PASS 1200px Tab 3 has no page overflow
+PASS 1200px Tab 4 has no page overflow
+PASS 1200px Tab 5 has no page overflow
+PASS 1200px Tab 6 has no page overflow
+PASS 1200px Tab 7 has no page overflow
+PASS 1200px Tab 8 has no page overflow
+PASS 1200px Tab 9 has no page overflow
+  focused tab-btn-6 active panel-tab-6
+PASS Desktop vertical arrow selects next original tab
+PASS Light canvas uses shared theme (actual rgb(244, 243, 238); wb-in-lab wb-light)
+PASS Dark canvas uses homepage color (actual rgb(11, 12, 16); wb-in-lab dark-mode)
+PASS AI threat node fills existing prompt
+PASS Existing Connect AI opens
+PASS STRIDE tier filter updates original matrix
+PASS Browser back restores preceding lab
+PASS Browser forward restores architecture
+PASS DDoS example produces real local tree inference
+PASS DDoS decision path displayed
+PASS Measured DDoS model rows loaded
+PASS Actual built-in XSS control suite passes
+PASS XSS lab renders markup as inert text
+PASS Identity lab denies admin action to regular user
+PASS 390px navigation clears measured header
+PASS 768px navigation clears measured header
+PASS 1024px navigation clears measured header
+PASS 1280px navigation clears measured header
+PASS dark shared text tokens meet 4.5:1 against canvas
+PASS light shared text tokens meet 4.5:1 against canvas
+PASS No runtime errors during exercised interactions
+COMPLETE: 54 passed, 0 failed. No paid AI or physical voice test.

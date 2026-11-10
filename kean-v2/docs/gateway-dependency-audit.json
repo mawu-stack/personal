@@ -1,0 +1,60 @@
+{
+  "backupFiles": 72,
+  "external": [
+    {
+      "tag": "stylesheet",
+      "src": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    },
+    {
+      "tag": "script",
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    },
+    {
+      "tag": "script",
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+    },
+    {
+      "tag": "script",
+      "src": "https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"
+    },
+    {
+      "tag": "script",
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
+    },
+    {
+      "tag": "script",
+      "src": "https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.waves.min.js"
+    },
+    {
+      "tag": "script",
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
+    },
+    {
+      "tag": "stylesheet",
+      "src": "legacy-compat.css"
+    },
+    {
+      "tag": "stylesheet",
+      "src": "workbench.css"
+    },
+    {
+      "tag": "script",
+      "src": "workbench.js"
+    },
+    {
+      "tag": "script",
+      "src": "architecture.js"
+    }
+  ],
+  "inlineControllers": 13,
+  "flow": [
+    "index.html Workbench/project links -> workbench.html#overview or #tab-N",
+    "consolidate.mjs retains original simulated-login-overlay and form IDs",
+    "legacy-compat.css contains old .sim-login-* modal rules",
+    "inline handleSimulatedLoginSubmit -> A4Auth.authenticate (PBKDF2 120000)",
+    "success hides overlay, emits kean:session-start, starts 20-minute timer",
+    "a4-end-session calls handleSessionExpired, emitting kean:session-end and showing same overlay"
+  ],
+  "themeFix": "Presentation adapter restores only cyberworkbench-theme after legacy startup; no key persistence added",
+  "cssRetention": "Compatibility layer retained because rare failure/admin/voice states still depend on it; no unsupported wholesale removal"
+}

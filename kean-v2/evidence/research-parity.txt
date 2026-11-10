@@ -1,0 +1,63 @@
+Running…
+PASS Original credential login and user role in both runtimes
+PASS AuthGuard entropy-bits parity: password
+PASS AuthGuard real-entropy-bits parity: password
+PASS AuthGuard zxcvbn-score-desc parity: password
+PASS AuthGuard entropy-bits parity: Tr0ub4dor&3
+PASS AuthGuard real-entropy-bits parity: Tr0ub4dor&3
+PASS AuthGuard zxcvbn-score-desc parity: Tr0ub4dor&3
+PASS AuthGuard entropy-bits parity: correct-horse-battery-staple
+PASS AuthGuard real-entropy-bits parity: correct-horse-battery-staple
+PASS AuthGuard zxcvbn-score-desc parity: correct-horse-battery-staple
+PASS AuthGuard entropy-bits parity: Cyb3r$ecure!2026#
+PASS AuthGuard real-entropy-bits parity: Cyb3r$ecure!2026#
+PASS AuthGuard zxcvbn-score-desc parity: Cyb3r$ecure!2026#
+PASS Full audit receipt parity (timestamp normalized)
+PASS Password visibility control retained
+PASS Password clear retained
+PASS Passphrase generation remains functional (random outputs not compared)
+PASS TTC exact parity 32 bits / {"waf":true,"rateLimit":true,"pbkdf2":true}
+PASS TTC exact parity 32 bits / {"waf":false,"rateLimit":false,"pbkdf2":false}
+PASS TTC exact parity 32 bits / {"waf":true,"rateLimit":false,"pbkdf2":true}
+PASS TTC exact parity 41 bits / {"waf":true,"rateLimit":true,"pbkdf2":true}
+PASS TTC exact parity 41 bits / {"waf":false,"rateLimit":false,"pbkdf2":false}
+PASS TTC exact parity 41 bits / {"waf":true,"rateLimit":false,"pbkdf2":true}
+PASS TTC exact parity 64 bits / {"waf":true,"rateLimit":true,"pbkdf2":true}
+PASS TTC exact parity 64 bits / {"waf":false,"rateLimit":false,"pbkdf2":false}
+PASS TTC exact parity 64 bits / {"waf":true,"rateLimit":false,"pbkdf2":true}
+PASS TTC exact parity 128 bits / {"waf":true,"rateLimit":true,"pbkdf2":true}
+PASS TTC exact parity 128 bits / {"waf":false,"rateLimit":false,"pbkdf2":false}
+PASS TTC exact parity 128 bits / {"waf":true,"rateLimit":false,"pbkdf2":true}
+PASS Vector 1 emits its actual telemetry
+PASS Vector 1 telemetry matches original (timestamp normalized)
+PASS Vector 2 emits its actual telemetry
+PASS Vector 2 telemetry matches original (timestamp normalized)
+PASS Vector 3 emits its actual telemetry
+PASS Vector 3 telemetry matches original (timestamp normalized)
+PASS Vector 4 emits its actual telemetry
+PASS Vector 4 telemetry matches original (timestamp normalized)
+PASS Vector 5 emits its actual telemetry
+PASS Vector 5 telemetry matches original (timestamp normalized)
+PASS Vector 6 emits its actual telemetry
+PASS Vector 6 telemetry matches original (timestamp normalized)
+PASS Vector 7 emits its actual telemetry
+PASS Vector 7 telemetry matches original (timestamp normalized)
+PASS Vector 8 emits its actual telemetry
+PASS Vector 8 telemetry matches original (timestamp normalized)
+PASS Parameterized SQL control still neutralizes SQLi button
+PASS Retained tab 1 navigates
+PASS Retained tab 2 navigates
+PASS Retained tab 3 navigates
+PASS Retained tab 4 navigates
+PASS Retained tab 5 navigates
+PASS Retained tab 6 navigates
+PASS Retained tab 7 navigates
+PASS Retained tab 8 navigates
+PASS Retained tab 9 navigates
+PASS Shared route still enforces Regular User denial
+PASS Existing Ctrl+K palette opens in both
+PASS Migrated AuthGuard fits 390px without page overflow
+PASS Migrated navigation becomes mobile grid
+PASS All nine mobile destinations available
+PASS Return-to-portfolio link available
+COMPLETE: 61 parity/smoke checks passed. Vector checks verify controls and feedback, not every branch. Physical voice and paid provider calls not tested.

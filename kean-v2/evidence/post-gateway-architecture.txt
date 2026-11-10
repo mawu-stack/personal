@@ -1,0 +1,23 @@
+PASS Tab 5 original content exact
+PASS Tab 6 original content exact
+PASS Nine accessible component buttons
+PASS Inspector uses verbatim Frontend
+PASS Inspector uses verbatim Web server
+PASS Inspector uses verbatim Application layer
+PASS Inspector uses verbatim Database
+PASS Inspector uses verbatim Authentication
+PASS Inspector uses verbatim Authorization
+PASS Inspector uses verbatim Encryption
+PASS Inspector uses verbatim Session management
+PASS Inspector uses verbatim Input validation
+PASS Four boundary request walkthrough
+PASS Reset clears path
+PASS Direct #tab-5 opens correct panel
+PASS Homepage return preserved
+PASS Accessible light palette selected
+PASS 390px diagram fits viewport
+PASS Mobile inspector stacks
+PASS Original assignment navigation focuses original heading
+PASS Complete original walkthrough remains available
+PASS Native keyboard controls and inspector association
+COMPLETE: 22 checks passed. No live provider or microphone test.

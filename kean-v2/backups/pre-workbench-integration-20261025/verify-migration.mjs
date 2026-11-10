@@ -1,0 +1,6 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import{parse}from'../.html-audit/node_modules/parse5/dist/index.js';
+const original=fs.readFileSync('kean-v2/legacy/index-cmdk.html','utf8'),current=fs.readFileSync('kean-v2/workbench.html','utf8');assert.equal(current.replace('<link rel="stylesheet" href="workbench.css">\n','').replace('<script src="workbench.js"></script>\n',''),original,'Exact original HTML restored by removing two presentation assets');
+const errors=[],ids=new Set();function walk(n){for(const a of n.attrs||[])if(a.name==='id'){assert(!ids.has(a.value));ids.add(a.value);}for(const c of n.childNodes||[])walk(c);}walk(parse(current,{onParseError:e=>errors.push(e)}));assert.equal(errors.length,0);for(let i=1;i<=9;i++)assert(ids.has('panel-tab-'+i));
+assert(!/fetch\(|localStorage|routeCommand\s*=|SecurityState\s*=|switchTab\s*=/.test(fs.readFileSync('kean-v2/workbench.js','utf8')),'Adapter cannot replace core state/routing or send requests');
+for(const file of ['workbench.css','phase2.css']){let n=0;for(const c of fs.readFileSync('kean-v2/'+file,'utf8').replace(/\/\*[\s\S]*?\*\//g,'')){if(c==='{')n++;if(c==='}')n--;assert(n>=0);}assert.equal(n,0);}
+console.log('PASS: all nine panels, original inline scripts, all academic text and state/routing code byte-preserved; adapter changes presentation only; IDs/HTML/CSS valid.');

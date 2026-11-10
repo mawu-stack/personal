@@ -1,0 +1,57 @@
+<section id="panel-tab-10" class="tab-panel a8" data-tab="tab-10" role="tabpanel" aria-labelledby="tab-btn-10">
+  <header class="a8-hero"><span class="wb-overline">ASSIGNMENT 8 / SECURITY OPERATIONS</span><h2>Security Monitor</h2><p>Inspect classroom security events and control the workbench through approved commands.</p></header>
+  <section class="a8-card">
+    <h3>Site-control assistant</h3>
+    <form id="a8-command-form"><label for="a8-command">Type a command or security question</label><div class="a8-actions"><input id="a8-command" maxlength="1200" required autocomplete="off" placeholder="Change the background to dark blue"><button class="research-button" type="submit">Send</button></div></form>
+    <div class="a8-actions">
+      <button type="button" class="research-button" id="a8-activate">Activate audio</button>
+      <button type="button" class="research-button" data-a8-command="play the cybersecurity training video">Play phishing lesson</button>
+      <button type="button" class="research-button" data-a8-command="find laptops under 900">Find sample laptops</button>
+      <button type="button" class="research-button" data-a8-command="reset appearance">Reset appearance</button>
+    </div>
+    <p class="a8-muted">Last input source <strong id="a8-source">None yet</strong></p>
+    <p id="a8-status" role="status">Ready after demo sign-in.</p>
+    <details><summary>Example commands</summary><p>Set theme to light. Set font scale to 120%. Set preset to security-grid. Change music to calm. Play music. Pause music. Play Under Siege preview. Find laptops under $900. Open the dashboard.</p></details>
+  </section>
+  <section class="a8-card" id="a8-media" hidden>
+    <h3 id="a8-video-title">Approved media</h3><div id="a8-video-stage" class="a8-lesson"></div>
+    <div class="a8-actions">
+      <button type="button" class="research-button" data-a8-command="play video">Resume</button>
+      <button type="button" class="research-button" data-a8-command="pause video">Pause</button>
+      <button type="button" class="research-button" data-a8-command="close video">Close</button>
+    </div>
+  </section>
+  <section class="a8-card" id="a8-catalog" hidden><h3>Sample catalog</h3><p class="a8-banner">DEMO - no real purchases</p><p id="a8-product-count"></p><ul id="a8-products"></ul></section>
+  <section class="a8-card" id="a8-monitor">
+    <h3>Security event dashboard</h3>
+    <p class="a8-banner" id="a8-sim-banner">Simulated log data for demonstration.</p>
+    <div class="a8-actions">
+      <label for="a8-dataset">Event source</label><select id="a8-dataset"><option value="simulated">Fixed-seed simulated traffic</option><option value="live">Live classroom events</option></select>
+      <button type="button" class="research-button" data-a8-command="replay attack">Replay attack</button>
+    </div>
+    <div id="a8-metrics" class="a8-metrics"></div>
+    <h4>Detected flags by type</h4><p id="a8-types"></p>
+    <h4>Suspicious IPs</h4><p id="a8-ips"></p>
+    <p class="a8-muted">Threat score adds 2 points per distinct rule and IP pair. Page events use one group per rule. Low 0–2, Elevated 3–5, High 6–9, Critical 10+. Counts are educational indicators.</p>
+    <h4>24-hour event timeline</h4><div id="a8-timeline"></div>
+    <p class="a8-muted">Mint shows all events. Orange shows flagged events. Simulated times use the fixed UTC demo day. Live hours are relative to the past 24 hours.</p>
+    <h4>Normal vs Suspicious</h4><p id="a8-baseline"></p>
+    <div class="a8-actions"><label for="a8-filter">Filter events</label><select id="a8-filter"><option value="all">All events</option><option value="normal">Normal</option><option value="suspicious">Suspicious</option></select></div>
+    <p id="a8-table-note" class="a8-muted"></p>
+    <div class="a8-table"><table><thead><tr><th>Time</th><th>IP or origin</th><th>Event</th><th>Classification</th><th>Evidence</th></tr></thead><tbody id="a8-events"></tbody></table></div>
+    <p id="a8-alert-detail" role="status">Select an alert to inspect its rule.</p>
+    <details><summary>Detection thresholds</summary><ul><li>At least 5 failures per IP in 60 seconds.</li><li>At least 4 distinct usernames per IP in the selected event set.</li><li>Successful sign-in after at least 3 failures in the prior 60 seconds.</li><li>Administrator login outside 08:00–18:00 UTC.</li><li>At least 30 requests per IP in 10 seconds.</li><li>SQL-like boolean bypass or UNION SELECT pattern. Script tags and inline event-handler patterns flag XSS.</li></ul></details>
+    <h4>Simulated block list</h4><p id="a8-blocklist">No simulated blocks.</p><p class="a8-muted">A demo administrator can request a documentation IP block and confirm it here.</p>
+    <div id="a8-confirm-block" class="a8-banner" hidden><p id="a8-confirm-text"></p><button type="button" class="research-button" id="a8-block-confirm">Confirm simulated block</button> <button type="button" class="research-button" id="a8-block-cancel">Cancel</button></div>
+  </section>
+  <section id="a8-evidence" class="a8-card">
+    <h3>Test Console</h3>
+    <p>Runs the same interpreter in local-only mode and measures live workbench state. The run changes appearance, opens tabs, plays the lesson, and then resets appearance. Activate audio first to exercise music playback. Security answers use a rough keyword check.</p>
+    <div class="a8-actions"><button id="a8-run-tests" type="button" class="research-button">Run checks</button><button id="a8-export-tests" type="button" class="research-button" disabled>Export test report</button></div>
+    <p id="a8-test-status" role="status">Checks have not run.</p>
+    <div class="a8-table"><table><thead><tr><th>Input</th><th>Action or answer source</th><th>Result</th><th>ms</th><th>Observation</th></tr></thead><tbody id="a8-test-rows"></tbody></table></div>
+    <h4>Demo checklist</h4><ul id="a8-checklist"></ul>
+    <p id="a8-kb-status" class="a8-muted"></p>
+  </section>
+  <details class="a8-card"><summary>Limitations and Privacy</summary><p>The assistant uses approved actions and fixed parameter schemas. It has no OS or file access. Simulated traffic and product listings are classroom examples. Answers may be wrong. The microphone starts only after opt-in. BYOK keys and the six-turn conversation are held for the current session. With a provider connected, relevant questions and recent conversation context may go to that provider. Keep passwords and payment information out of the command box.</p></details>
+</section>

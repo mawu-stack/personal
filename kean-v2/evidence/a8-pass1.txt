@@ -1,0 +1,21 @@
+Change the background to dark blue | setBackgroundColor | PASS | 27.8 | State matched.
+Set preset to security-grid | setBackgroundPreset | PASS | 6.8 | State matched.
+Set theme to light | setTheme | PASS | 4.7 | State matched.
+Set theme to dark | setTheme | PASS | 5.1 | State matched.
+Set font scale to 120% | setFontScale | PASS | 37.8 | State matched.
+Change music to calm | changeMusic | PASS | 5.5 | State matched.
+Play music | playMusic | PASS | 17.2 | State matched.
+Pause music | pauseMusic | PASS | 4.1 | State matched.
+Play the cybersecurity training video | playVideo | PASS | 126.0 | State matched.
+Pause video | pauseVideo | PASS | 4.8 | State matched.
+Close video | closeVideo | PASS | 6.3 | State matched.
+Show products | showProducts | PASS | 25.1 | State matched.
+Find laptops under $900 | findProducts | PASS | 26.1 | State matched.
+Open architecture | navigateTo | PASS | 223.1 | State matched.
+Open the dashboard | openDashboard | PASS | 393.2 | State matched.
+Reset appearance | resetAppearance | PASS | 39.6 | State matched.
+Teach me how to recognize phishing attacks | Local general knowledge | PASS | 7.9 | Rough keyword check.
+How do I make strong passwords? | Local education / Assignment 2 | PASS | 6.8 | Rough keyword check.
+Compare DoS and DDoS | Local education / Assignment 2, 7 | PASS | 7.1 | Rough keyword check.
+Explain SQL injection | Local education / Assignment 2, 3 | PASS | 7.6 | Rough keyword check.
+What is MFA? | Local education / Assignment 4 | PASS | 7.2 | Rough keyword check.

@@ -1,0 +1,6 @@
+PASS Existing workbench and gateway reduced-motion rules found
+PASS Gateway entrance animation disabled
+PASS Input transition disabled
+PASS Navigation works with reduced motion
+PASS No Web Animations requested by shell/transition adapters
+COMPLETE: 5 checks passed under forced reduced-motion fixture.

@@ -1,0 +1,74 @@
+PASS Existing pinned graph engine reused
+PASS Five actual graph tiers
+PASS Application and optional AI connections
+PASS All eight scenario choices retained
+PASS Vector 1 exposed outcome comes from original rule
+PASS Vector 1 defended result comes from original rule
+PASS Vector 1 destinations recorded from original tracer
+PASS Vector 1 restores user defense settings
+PASS Vector 2 exposed outcome comes from original rule
+PASS Vector 2 defended result comes from original rule
+PASS Vector 2 destinations recorded from original tracer
+PASS Vector 2 restores user defense settings
+PASS Vector 3 exposed outcome comes from original rule
+PASS Vector 3 defended result comes from original rule
+PASS Vector 3 destinations recorded from original tracer
+PASS Vector 3 restores user defense settings
+PASS Vector 4 exposed outcome comes from original rule
+PASS Vector 4 defended result comes from original rule
+PASS Vector 4 destinations recorded from original tracer
+PASS Vector 4 restores user defense settings
+PASS Vector 5 exposed outcome comes from original rule
+PASS Vector 5 defended result comes from original rule
+PASS Vector 5 destinations recorded from original tracer
+PASS Vector 5 restores user defense settings
+PASS Vector 6 exposed outcome comes from original rule
+PASS Vector 6 defended result comes from original rule
+PASS Vector 6 destinations recorded from original tracer
+PASS Vector 6 restores user defense settings
+PASS Vector 7 exposed outcome comes from original rule
+PASS Vector 7 defended result comes from original rule
+PASS Vector 7 destinations recorded from original tracer
+PASS Vector 7 restores user defense settings
+PASS Vector 8 exposed outcome comes from original rule
+PASS Vector 8 defended result comes from original rule
+PASS Vector 8 destinations recorded from original tracer
+PASS Vector 8 restores user defense settings
+PASS Unsafe XSS markup stays inert in upgraded replay
+PASS Tier 1 graph selection works
+PASS Tier 2 graph selection works
+PASS Tier 3 graph selection works
+PASS Tier 4 graph selection works
+PASS Tier 5 graph selection works
+PASS Connection inspection works
+PASS Step starts at first tier
+PASS Step advances one tier
+PASS Resume starts playback
+PASS Pause freezes illustrative playback
+PASS Exposed playback reaches actual vault outcome
+PASS Reset clears playback, graph and timeline
+PASS Blocked playback stops at ingress tier
+PASS Timeline includes genuine simulator event
+PASS Zoom control operates on graph
+PASS Zoom out reverses zoom
+PASS Pan changes graph viewport
+PASS AI tier honestly marked untested by eight vectors
+PASS Keyboard selects next tier
+PASS 1440px has no horizontal page overflow
+PASS 1440px packet stays at recorded tier after resize
+PASS 1440px full topology fits
+PASS 1024px has no horizontal page overflow
+PASS 1024px packet stays at recorded tier after resize
+PASS 1024px full topology fits
+PASS 768px has no horizontal page overflow
+PASS 768px packet stays at recorded tier after resize
+PASS 768px full topology fits
+PASS 390px has no horizontal page overflow
+PASS 390px packet stays at recorded tier after resize
+PASS 390px full topology fits
+PASS light theme updates graph
+PASS dark theme updates graph
+PASS No duplicate IDs
+PASS No runtime errors in eight-scenario regression
+PASS All eight original launch controls preserved
+COMPLETE: 73 checks passed. Comparison uses actual original launch handlers and events; no external attack traffic.

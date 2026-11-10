@@ -1,0 +1,202 @@
+[
+  {
+    "before": "Simulated Authentication Gate",
+    "after": "Demo sign-in",
+    "count": 1
+  },
+  {
+    "before": "Anti-Spoofing &amp; Ephemeral Session Demo",
+    "after": "Explore a temporary session",
+    "count": 1
+  },
+  {
+    "before": "e.g. admin or mawutorwu",
+    "after": "Enter a demo username",
+    "count": 1
+  },
+  {
+    "before": "Enter any password",
+    "after": "Enter a demo password",
+    "count": 1
+  },
+  {
+    "before": "</span> Sign In",
+    "after": "</span> Start demo",
+    "count": 1
+  },
+  {
+    "before": "Simulated login — no real authentication occurs. Any input signs you in instantly.",
+    "after": "Demo only. Any username and password will work. Do not use real credentials.",
+    "count": 1
+  },
+  {
+    "before": "Session nearing expiry — re-authenticate soon to avoid losing state.",
+    "after": "Your session ends soon. Sign in again to continue.",
+    "count": 1
+  },
+  {
+    "before": "🔬 AuthGuard Cryptographic Testing Bench & Threat Rig",
+    "after": "How long could this password resist cracking?",
+    "count": 1
+  },
+  {
+    "before": "Real-world pattern-penalized entropy analysis, textbook Diceware detection, interactive NIST passphrase generator, and side-by-side Dropbox zxcvbn industry benchmarking.",
+    "after": "Compare password-strength estimates, spot predictable patterns, and try a generated passphrase.",
+    "count": 1
+  },
+  {
+    "before": "🔐 Multi-Model Credential Vulnerability Analyzer",
+    "after": "Test a password",
+    "count": 1
+  },
+  {
+    "before": "Type a candidate password, click benchmark samples, or click <strong>Generate Secure NIST Passphrase</strong> to test resistance against modern Hashcat dictionary combinators, mask attacks, and known public wordlists:",
+    "after": "Enter a test password, choose a sample, or <strong>generate a passphrase</strong>. Compare how each resists guessing.",
+    "count": 1
+  },
+  {
+    "before": "Enter candidate password to evaluate...",
+    "after": "Enter a test password…",
+    "count": 1
+  },
+  {
+    "before": "🎲 Generate Secure NIST Passphrase",
+    "after": "🎲 Generate passphrase",
+    "count": 1
+  },
+  {
+    "before": "Show Next Tip",
+    "after": "Next tip",
+    "count": 1
+  },
+  {
+    "before": "🛡️ SentrySim // BreachPredict AI: Threat Modeling &amp; Penetration Workbench",
+    "after": "See where an attack stops.",
+    "count": 1
+  },
+  {
+    "before": "Active Defense Configuration &amp; Architectural Hardening",
+    "after": "Your defenses",
+    "count": 1
+  },
+  {
+    "before": "Predictive Time-to-Compromise (TTC) Math Engine",
+    "after": "Estimated time to compromise",
+    "count": 1
+  },
+  {
+    "before": "Keyspace Exhaustion Resistance Depth",
+    "after": "Resistance to guessing",
+    "count": 1
+  },
+  {
+    "before": "8-Vector Interactive Penetration Arsenal",
+    "after": "Choose an attack",
+    "count": 1
+  },
+  {
+    "before": "Click any vector launcher below to inject a simulated exploit packet against the current active defense posture:",
+    "after": "Run a simulated attack to see how your defenses respond.",
+    "count": 1
+  },
+  {
+    "before": "Launch Hydra Spray",
+    "after": "Run Hydra spray",
+    "count": 1
+  },
+  {
+    "before": "Test IDOR Traversal",
+    "after": "Run IDOR test",
+    "count": 1
+  },
+  {
+    "before": "Inject SQL Tautology",
+    "after": "Run SQL injection",
+    "count": 1
+  },
+  {
+    "before": "Inject XSS Payload",
+    "after": "Run XSS test",
+    "count": 1
+  },
+  {
+    "before": "Trigger ReDoS Storm",
+    "after": "Run ReDoS test",
+    "count": 1
+  },
+  {
+    "before": "Sniff Token Leakage",
+    "after": "Test token leakage",
+    "count": 1
+  },
+  {
+    "before": "Trigger Mock Audio Probe",
+    "after": "Run mock audio probe",
+    "count": 1
+  },
+  {
+    "before": "K.E.A.N. Incident Debriefing &amp; Vulnerability Forensics",
+    "after": "Understand the attack",
+    "count": 1
+  },
+  {
+    "before": "Select an attack vector below to load forensic telemetry, root cause mechanics, and production remediation code:",
+    "after": "Choose an attack to review what happened, why it worked, and how to defend against it.",
+    "count": 1
+  },
+  {
+    "before": "OWASP LLM01:2025 Prompt Injection Defense Bench",
+    "after": "Test prompt injection · OWASP LLM01:2025",
+    "count": 1
+  },
+  {
+    "before": "Type adversarial prompt injection test payload...",
+    "after": "Enter a prompt to test…",
+    "count": 1
+  },
+  {
+    "before": ">Test Injection<",
+    "after": ">Test prompt<",
+    "count": 1
+  },
+  {
+    "before": "K.E.A.N. Real-Time Wake-Word Voice Sentry",
+    "after": "Talk to K.E.A.N.",
+    "count": 1
+  },
+  {
+    "before": "Continuous Wake-Word Detection:",
+    "after": "Hands-free commands",
+    "count": 1
+  },
+  {
+    "before": "▶ Test Speech Synthesis",
+    "after": "▶ Test audio",
+    "count": 1
+  },
+  {
+    "before": "STRIDE Threat Modeling",
+    "after": "Find the gaps in your defenses.",
+    "count": 1
+  },
+  {
+    "before": "Interactive 6-vector threat surface linked in real time to Tab 2 defense telemetry and architectural mitigations.",
+    "after": "Explore six STRIDE threat categories. Coverage updates as you change SentrySim defenses.",
+    "count": 1
+  },
+  {
+    "before": "Export Threat Model (.txt)",
+    "after": "Download report (.txt)",
+    "count": 1
+  },
+  {
+    "before": "🔬 Inspect Forensics &amp; Code Fix",
+    "after": "Show details &amp; code fix",
+    "count": 6
+  },
+  {
+    "before": "Configure defenses ↗",
+    "after": "Edit defenses ↗",
+    "count": 1
+  }
+]

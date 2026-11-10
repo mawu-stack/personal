@@ -1,0 +1,28 @@
+Running…
+PASS Homepage loads under /personal/kean-v2/
+PASS One main landmark and H1
+PASS Original field artwork loads
+PASS Five project selectors
+PASS Orbit selection updates title and real destination
+PASS Orbit selection announced with pressed state
+PASS Project description updates
+PASS Real DDoS F1 bars rendered
+PASS Real test count displayed
+PASS Legacy links preserve GitHub Pages repository prefix
+PASS Explorer opens as native modal
+PASS Focus moves to search
+PASS All nine original destinations listed
+PASS Search finds password tool
+PASS No-result empty state
+PASS Arrow key changes highlighted destination
+PASS Close restores opener focus
+PASS Ctrl+K opens explorer
+PASS No horizontal page overflow at 390px
+PASS Mobile hero is one column
+PASS Mobile menu available
+PASS Mobile navigation closes after selection
+PASS No horizontal overflow at tablet width
+PASS No horizontal overflow at desktop width
+PASS Stylesheet loaded
+PASS Homepage does not invent a login or collect credentials
+COMPLETE: 26 prototype checks passed. Physical microphone, paid providers and full migration regressions are pending.

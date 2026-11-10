@@ -1,0 +1,4 @@
+Standalone workbench console: []
+PASS: Physical pointer selected Perimeter / WAF.
+PASS: ArrowRight on focused graph selected App Core / Router.
+QA container console (unattributed initialization messages): [{"level":"error","message":"Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.","timestamp":"2026-10-27T19:54:02.118Z"},{"level":"error","message":"Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.","timestamp":"2026-10-27T19:59:17.844Z"},{"level":"error","message":"Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.","timestamp":"2026-10-27T20:02:00.870Z"}]

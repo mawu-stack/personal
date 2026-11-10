@@ -1,0 +1,44 @@
+PASS Lab 07 opens after original demo login
+NOT VERIFIED media playback: Local MP4 HTTP 404
+PASS Stored model table and dataset counters render
+PASS Two stored ROC curves, chance and axes render
+PASS Distribution selector Flow Packets/s
+PASS Distribution selector Flow Bytes/s
+PASS Distribution selector Flow Duration
+PASS Metric selector precision
+PASS Metric selector recall
+PASS Metric selector f1
+PASS Metric selector accuracy
+PASS Held-out example 1 prediction and explanation
+PASS Held-out example 2 prediction and explanation
+PASS Held-out example 3 prediction and explanation
+PASS Held-out example 4 prediction and explanation
+PASS Held-out example 5 prediction and explanation
+PASS Held-out example 6 prediction and explanation
+PASS Held-out example 7 prediction and explanation
+PASS Held-out example 8 prediction and explanation
+PASS Held-out example 9 prediction and explanation
+PASS Held-out example 10 prediction and explanation
+PASS Held-out example 11 prediction and explanation
+PASS Held-out example 12 prediction and explanation
+PASS Held-out example 13 prediction and explanation
+PASS Held-out example 14 prediction and explanation
+PASS Held-out example 15 prediction and explanation
+PASS Held-out example 16 prediction and explanation
+PASS Held-out example 17 prediction and explanation
+PASS Held-out example 18 prediction and explanation
+PASS Held-out example 19 prediction and explanation
+PASS Held-out example 20 prediction and explanation
+PASS Held-out example 21 prediction and explanation
+PASS Held-out example 22 prediction and explanation
+PASS Held-out example 23 prediction and explanation
+PASS Held-out example 24 prediction and explanation
+PASS Opt-in history saves
+PASS History revisit
+PASS Delete one history entry
+PASS Invalid protocol rejected
+PASS Missing measurements rejected
+PASS Original research JSON export creates download
+PASS Error investigator shows stored missed-attack count
+PASS No captured runtime errors
+COMPLETE: 42 local checks passed. No training, rendering, server, microphone or external AI calls.

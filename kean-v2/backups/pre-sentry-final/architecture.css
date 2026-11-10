@@ -1,0 +1,47 @@
+/* Lab 05 topology only. No selectors affect the other eight labs. */
+#panel-tab-5 .arch-topology {padding:clamp(18px,2.8vw,34px);border-radius:12px;background:var(--lab-panel);max-width:100%;box-sizing:border-box}
+#panel-tab-5 .arch-topology h3 {font-size:clamp(28px,3.5vw,46px);max-width:28ch;margin:12px 0 18px}
+#panel-tab-5 .arch-topology-intro {max-width:85ch;color:var(--lab-muted);font-size:14px}
+#panel-tab-5 .arch-topology .arch-toolbar {margin:24px 0 14px;gap:8px}
+#panel-tab-5 .arch-topology :is(button,select) {min-height:44px;border:1px solid var(--lab-control-line);border-radius:6px;background:var(--lab-bg);color:var(--lab-text);padding:10px 14px;font:500 12px/1.5 var(--sans);box-shadow:none}
+#panel-tab-5 .arch-topology button:hover {border-color:var(--lab-accent);background:var(--lab-tint)}
+#panel-tab-5 .arch-topology .arch-toolbar button:first-child {background:var(--lab-accent);color:var(--lab-bg);border-color:var(--lab-accent)}
+#panel-tab-5 .arch-topology button[aria-pressed=true] {border-color:var(--lab-accent);color:var(--lab-accent)}
+#panel-tab-5 .arch-viewport-tools {display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 16px}
+#panel-tab-5 .arch-topology .arch-viewport-tools button {font-size:11px;padding:8px 10px}
+#panel-tab-5 .arch-zoom {font:11px var(--mono);color:var(--lab-muted);margin-left:auto}
+#panel-tab-5 .arch-graph-frame {position:relative;min-width:0;width:100%;border:1px solid var(--lab-line);border-radius:8px;overflow:hidden;background-color:#10151c;background-image:radial-gradient(#778d832e .7px,transparent .7px);background-size:18px 18px;box-sizing:border-box}
+body.wb-light #panel-tab-5 .arch-graph-frame {background-color:#f4f3ee;background-image:radial-gradient(#375d492e .7px,transparent .7px)}
+#panel-tab-5 #architecture-graph {width:100%;height:540px;position:relative;display:block;touch-action:none;outline-offset:-4px}
+#panel-tab-5 #architecture-graph:focus-visible {outline:2px solid var(--lab-accent)}
+#panel-tab-5 .arch-graph-frame::after {content:'PROPOSED / NOT DEPLOYED';position:absolute;top:12px;left:14px;padding:4px 7px;border:1px solid var(--lab-line);border-radius:4px;background:var(--lab-panel);color:var(--lab-muted);font:9px/1.5 var(--mono);letter-spacing:.08em;pointer-events:none;z-index:2}
+#panel-tab-5 .arch-graph-loading {position:absolute;inset:40% 20px auto;text-align:center;padding:16px;background:var(--lab-panel);color:var(--lab-text);font-size:14px;pointer-events:none}
+#panel-tab-5 .arch-legend {font:11px/1.8 var(--sans);color:var(--lab-muted);margin:14px 0}
+#panel-tab-5 .arch-topology .arch-progress {margin:18px 0 24px;padding:18px 20px;border:1px solid var(--lab-line);border-left:3px solid var(--lab-accent);background:var(--lab-tint);border-radius:4px;min-height:72px;color:var(--lab-text);font:13px/1.8 var(--sans);box-sizing:border-box}
+#panel-tab-5 .arch-progress strong,#panel-tab-5 .arch-progress span {display:block}
+#panel-tab-5 .arch-progress strong {font:11px/1.8 var(--mono);color:var(--lab-accent);margin-bottom:6px}
+#panel-tab-5 .arch-context {display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:32px;border-top:1px solid var(--lab-line);padding-top:22px}
+#panel-tab-5 .arch-topology .arch-inspector {border:0;padding:0;min-width:0}
+#panel-tab-5 .arch-topology .arch-inspector h4 {margin:10px 0 16px;font-size:25px}
+#panel-tab-5 .arch-topology .arch-inspector p {font-size:13px}
+#panel-tab-5 .arch-component-picker {min-width:0;padding-left:24px;border-left:1px solid var(--lab-line)}
+#panel-tab-5 .arch-component-picker label {display:block;font-size:13px;margin:0 0 10px}
+#panel-tab-5 .arch-component-picker select {width:100%;max-width:100%;box-sizing:border-box}
+#panel-tab-5 .arch-key-help {font-size:12px;color:var(--lab-muted);margin:14px 0}
+#panel-tab-5 .arch-accessibility {border-top:1px solid var(--lab-line);padding-top:16px}
+#panel-tab-5 .arch-accessibility summary {font-size:12px;cursor:pointer;min-height:36px}
+#panel-tab-5 .arch-topology .arch-nodes {display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+#panel-tab-5 .arch-topology .arch-nodes::before {display:none}
+#panel-tab-5 .arch-topology .arch-controls {display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0}
+#panel-tab-5 .arch-topology .arch-node {width:100%;min-width:0;font-size:11px;box-sizing:border-box}
+#panel-tab-5 .arch-research {border:1px solid var(--lab-line);border-radius:8px;padding:clamp(18px,3vw,30px);background:var(--lab-panel)}
+#panel-tab-5 .arch-research>summary {font:500 16px/1.6 var(--sans);color:var(--lab-text);cursor:pointer;min-height:44px}
+#panel-tab-5 .arch-research>section,#panel-tab-5 .arch-research>details,#panel-tab-5 .arch-research>footer {margin-top:36px}
+#panel-tab-5 .research-guide {padding-bottom:20px;margin-bottom:24px}
+#panel-tab-5 .research-guide h3 {font-size:24px}
+@media(max-width:850px){#panel-tab-5 .arch-context {grid-template-columns:1fr;gap:24px}#panel-tab-5 .arch-component-picker {padding:22px 0 0;border-left:0;border-top:1px solid var(--lab-line)}#panel-tab-5 #architecture-graph {height:600px}#panel-tab-5 .arch-zoom {margin-left:0}}
+@media(max-width:480px){#panel-tab-5 .arch-topology {padding:16px}#panel-tab-5 #architecture-graph {height:640px}#panel-tab-5 .arch-viewport-tools {display:grid;grid-template-columns:1fr 1fr}#panel-tab-5 .arch-topology .arch-toolbar button {flex:1 1 130px;padding:10px;font-size:11px}#panel-tab-5 .arch-topology .arch-progress {padding:14px}}
+/* Lab 05 mobile only: retain the shared assistant/command controls in document
+   flow rather than allowing them to cover the interactive graph. */
+@media(max-width:480px){body:has(#panel-tab-5.active) #kean-presentation-bar {position:static;width:auto;max-width:none;margin:12px 20px;box-sizing:border-box}body:has(#panel-tab-5.active) #cmdk-launch {position:static;display:block;margin:12px 20px 70px;width:max-content;max-width:calc(100% - 40px)}}
+@media(max-width:480px){body:has(#panel-tab-5.active) .top-navbar {height:auto;min-height:0}body:has(#panel-tab-5.active) .nav-container {height:auto;min-height:0;align-content:start}}

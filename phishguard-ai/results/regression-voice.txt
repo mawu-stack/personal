@@ -1,0 +1,47 @@
+Running…
+COMMAND AUDIT: [{"id":"kean-prime-test","label":"Test K.E.A.N. Prime","covered":false}]
+PASS Voice navigation: authguard
+PASS Voice navigation: sentrysim
+PASS Voice navigation: ai terminal
+PASS Voice navigation: stride
+PASS Voice navigation: secure architecture
+PASS Voice navigation: academic coursework
+PASS Voice/click defense parity: waf
+PASS Idempotent enable: waf
+PASS Voice/click defense parity: rate limiter
+PASS Idempotent enable: rate limiter
+PASS Voice/click defense parity: parameterized sql
+PASS Idempotent enable: parameterized sql
+PASS Voice/click defense parity: safe dom
+PASS Idempotent enable: safe dom
+PASS Voice/click defense parity: pbkdf2
+PASS Idempotent enable: pbkdf2
+PASS Voice/click attack parity: credential stuffing
+PASS Voice/click attack parity: idor
+PASS Voice/click attack parity: sql injection
+PASS Voice/click attack parity: stored dom xss
+PASS Voice/click attack parity: redos
+PASS Voice/click attack parity: gpu mask crack
+PASS Voice/click attack parity: cache sniffing
+PASS Voice/click attack parity: webrtc audio probe
+PASS Generated via original button
+PASS Reads current entropy
+PASS Reads current crack time
+PASS Filter spoofing
+PASS Explain spoofing
+PASS Filter tampering
+PASS Explain tampering
+PASS Filter repudiation
+PASS Explain repudiation
+PASS Filter information disclosure
+PASS Explain information disclosure
+PASS Filter denial of service
+PASS Explain denial of service
+PASS Filter elevation of privilege
+PASS Explain elevation of privilege
+PASS Audit export uses same report generator
+PASS STRIDE export
+PASS Capability summary
+PASS Palette shares registry
+
+COMPLETE: 43 checks passed.

@@ -1,0 +1,11 @@
+PASS Missing #simulated-login-overlay safely leaves original markup unchanged
+PASS Missing .sim-login-card safely leaves original markup unchanged
+PASS Missing #sim-login-form safely leaves original markup unchanged
+PASS Missing #btn-sim-login-submit safely leaves original markup unchanged
+PASS Missing #sim-login-username safely leaves original markup unchanged
+PASS Missing #sim-login-password safely leaves original markup unchanged
+PASS Missing .sim-login-title safely leaves original markup unchanged
+PASS Missing .sim-login-subtitle safely leaves original markup unchanged
+PASS Missing .sim-login-header safely leaves original markup unchanged
+PASS Missing workbench header exits without runtime failure
+COMPLETE: 10 guard checks passed.

@@ -1,0 +1,86 @@
+[
+  {
+    "before": "<select id=\"sim-login-role\" class=\"sim-login-input\"><option value=\"user\">Regular User</option><option value=\"admin\">Administrator</option></select>",
+    "after": "<output id=\"sim-login-role\" hidden>user</output>"
+  },
+  {
+    "before": "<label for=\"sim-login-role\" class=\"sim-login-label\">Demonstration role</label>",
+    "after": "<span class=\"sim-login-label\">Your role is assigned by the demo account.</span>"
+  },
+  {
+    "before": "<p class=\"sim-login-note\" id=\"sim-login-note\">\n          Demo only. Any username and password will work. Do not use real credentials.\n        </p>",
+    "after": "<p class=\"sim-login-note\" id=\"sim-login-note\" role=\"status\">Throwaway demo accounts:<br>Regular User: <code>student</code> / <code>StudentDemo!2026</code><br>Administrator: <code>administrator</code> / <code>AdminDemo!2026</code><br>Use these public lab credentials only; never enter a real password.</p>"
+  },
+  {
+    "before": "window.handleSimulatedLoginSubmit = function() {",
+    "after": "window.handleSimulatedLoginSubmit = async function() {"
+  },
+  {
+    "before": "      // Any non-empty input logs in; default fallback if empty\n      const username = uVal || 'demo_user';",
+    "after": "      const account = await window.A4Auth.authenticate(uVal, pVal);\n      if (!account) return;\n      const username = account.name;"
+  },
+  {
+    "before": "      document.dispatchEvent(new CustomEvent(\"kean:session-start\",{detail:{token:window.currentSessionToken,role:document.getElementById(\"sim-login-role\").value === \"admin\" ? \"admin\" : \"user\",expiresAt:Date.now()+SESSION_DURATION_SECONDS*1000}}));",
+    "after": "      window.currentSession={token:window.currentSessionToken,username:account.name,role:account.role,expiresAt:Date.now()+SESSION_DURATION_SECONDS*1000};\n      window.A4Auth.setSession(window.currentSession);\n      document.dispatchEvent(new CustomEvent(\"kean:session-start\",{detail:window.currentSession}));"
+  },
+  {
+    "before": "    window.handleSessionExpired = function() {",
+    "after": "    window.handleSessionExpired = function() {\n      window.currentSession=null;\n      window.A4Auth?.setSession(null);"
+  },
+  {
+    "before": "  const permissions={user:['profile.view','profile.edit'],admin:['users.manage','logs.view','content.manage']};",
+    "after": "  const permissions=window.A4Auth.permissions;"
+  },
+  {
+    "before": "  const resetUsers=()=>[{name:'demo.student',role:'user',enabled:true},{name:'demo.editor',role:'admin',enabled:true},{name:'demo.guest',role:'user',enabled:false}];",
+    "after": "  const resetUsers=()=>window.A4Auth.users;"
+  },
+  {
+    "before": "const authenticated=valid(),allowed=authenticated&&permissions[identity.role]?.includes(permission);",
+    "after": "const authenticated=valid(),allowed=window.A4Auth.authorize(permission);\n    if(identity&&window.currentSession)identity.role=window.currentSession.role;"
+  },
+  {
+    "before": "    $('a4-decision').textContent=(allowed?'ACCESS GRANTED — ':'ACCESS DENIED — ')+reason;",
+    "after": "    $('a4-decision').textContent='Authenticated: '+(authenticated?'yes':'no')+'. Authorized: '+(allowed?'yes':'no')+'. '+reason;"
+  },
+  {
+    "before": "window.SecurityState.activityLog.slice(0,20).map",
+    "after": "[...window.A4Auth.audit,...window.SecurityState.activityLog].map"
+  },
+  {
+    "before": "$('a4-check').addEventListener('click',()=>{hidePanels();const action=$('a4-action').value;",
+    "after": "function execute(action){hidePanels();"
+  },
+  {
+    "before": "if(action==='content.manage')$('a4-content').hidden=false;});",
+    "after": "if(action==='content.manage')$('a4-content').hidden=false;}\n    $('a4-check').addEventListener('click',()=>execute($('a4-action').value));\n    $('a4-try-admin').addEventListener('click',()=>execute('logs.view'));\n    window.A4Auth.execute=execute;\n    for(const [label,aliases,action] of [['Show security logs',['show security logs','view security logs'],'logs.view'],['Manage users',['manage users'],'users.manage'],['Manage website content',['manage website content'],'content.manage'],['View personal information',['view personal information'],'profile.view'],['Edit personal profile',['edit personal profile'],'profile.edit']])window.keanCommandRegistry?.register(label,aliases,say=>{window.switchTab('tab-8');execute(action);say($('a4-decision').textContent);},'Action');"
+  },
+  {
+    "before": "Roles are self-selected for this demo; production permissions must be enforced by a server.",
+    "after": "Accounts assign roles in memory. Client-side checks can be bypassed in developer tools; a real system enforces them server-side as in the Assignment 3 architecture."
+  },
+  {
+    "before": "Latest 20 events from Live Telemetry.",
+    "after": "Full in-memory login/authorization audit plus Live Telemetry."
+  },
+  {
+    "before": "These fictional accounts do not affect your active role or real accounts.",
+    "after": "Enable/disable and role changes apply to these in-memory demo accounts. They reset on a fresh page load."
+  },
+  {
+    "before": "<button type=\"button\" id=\"a4-check\"",
+    "after": "<table><thead><tr><th>Authentication</th><th>Authorization</th></tr></thead><tbody><tr><td>Proving who you are through login.</td><td>Checking what your role permits at execution time.</td></tr></tbody></table><button type=\"button\" id=\"a4-try-admin\" class=\"wb-button\">Try an admin action</button>\n<button type=\"button\" id=\"a4-check\""
+  },
+  {
+    "before": "End demo session / change role",
+    "after": "Logout"
+  },
+  {
+    "before": "    const nav=document.createElement('span');",
+    "after": "    const nav=document.createElement('span');"
+  },
+  {
+    "before": "</body>",
+    "after": "<script id=\"a4-auth-controller\">\n(()=>{\n 'use strict';\n const $=id=>document.getElementById(id);\n const users=[\n {name:'student',role:'user',enabled:true,salt:'5ee61caea51a8cd0a2db703466f0fca6',hash:'d78713a780d06a0b26ad906ef0782e73550ec0606993355d15fa264fce2b415e'},\n {name:'administrator',role:'admin',enabled:true,salt:'a1692e604620261fcacd66696da2768a',hash:'6f2e6136d9ec64a987443e6c6e0be7d70f0b774632bbfef061313ae594a3cfb4'}\n ];\n const permissions=Object.freeze({user:Object.freeze(['profile.view','profile.edit']),admin:Object.freeze(['profile.view','profile.edit','users.manage','logs.view','content.manage'])});\n let session=null,failures=0,lockedUntil=0,pending=false;\n const audit=[];\n const credentials=$('sim-login-note').cloneNode(true);\n function record(source,message,type='info') {audit.push({timestamp:new Date().toISOString(),source,message});window.SecurityState?.logEvent(source,message,type);}\n function status(text){let el=$('a4-login-status');if(!el){el=document.createElement('p');el.id='a4-login-status';el.setAttribute('role','status');$('sim-login-form').append(el);}el.textContent=text;}\n const bytes=hex=>Uint8Array.from(hex.match(/../g),h=>parseInt(h,16));\n function equal(a,b){let difference=a.length^b.length;for(let i=0;i<Math.max(a.length,b.length);i++)difference|=(a[i]||0)^(b[i]||0);return difference===0;}\n async function authenticate(name,password){\n  if(pending){record('AUTH','Login attempt rejected while credential verification is in progress.','warn');return null;}\n  if(Date.now()<lockedUntil){record('AUTH','Login attempt denied during 30-second lockout.','warn');status('Sign-in unavailable. Wait '+Math.ceil((lockedUntil-Date.now())/1000)+' seconds and retry.');return null;}\n  if(lockedUntil){failures=0;lockedUntil=0;}\n  if(!window.crypto?.subtle){record('AUTH','Login unavailable: WebCrypto is not available.','error');status('Credential verification requires WebCrypto. Open the file in a supported browser or use localhost.');return null;}\n  pending=true;$('btn-sim-login-submit').disabled=true;status('Checking credentials…');\n  try{\n   const account=users.find(u=>u.name===name),reference=account||users[0];\n   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);\n   const result=new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',salt:bytes(reference.salt),iterations:120000,hash:'SHA-256'},key,256));\n   if(!account||!account.enabled||!equal(result,bytes(reference.hash))){failures++;if(failures>=3)lockedUntil=Date.now()+30000;record('AUTH','Login attempt failed: invalid or unavailable credentials'+(lockedUntil?'; 30-second lockout started.':'.'),'warn');status('Unable to sign in with those credentials.'+(lockedUntil?' Try again in 30 seconds.':''));return null;}\n   failures=0;record('AUTH','Login succeeded for demo account '+account.name+'.','success');status('Signed in.');return {name:account.name,role:account.role};\n  }catch(error){record('AUTH','Credential verification failed: '+error.name,'error');status('Unable to verify credentials. Retry in a supported browser.');return null;}\n  finally{pending=false;$('btn-sim-login-submit').disabled=false;$('sim-login-password').value='';}\n }\n function authorize(action){\n  const account=users.find(u=>u.name===session?.username);\n  const authenticated=Boolean(session&&session.token===window.currentSessionToken&&Date.now()<session.expiresAt);\n  if(account&&session)session.role=account.role;\n  const allowed=Boolean(authenticated&&account?.enabled&&permissions[account.role]?.includes(action));\n  record('AUTHORIZATION',(allowed?'Allowed':'Denied')+' '+action+'; authenticated='+(authenticated?'yes':'no')+'; authorized='+(allowed?'yes':'no')+'.',allowed?'info':'warn');\n  return allowed;\n }\n window.authorize=authorize;\n window.A4Auth={users,permissions,audit,authenticate,authorize,setSession(value){session=value;},get session(){return session;},get lockoutRemaining(){return Math.max(0,lockedUntil-Date.now());}};\n document.addEventListener('kean:session-end',()=>{session=null;window.currentSessionToken=null;queueMicrotask(()=>{const note=$('sim-login-note');if(note)note.replaceWith(credentials.cloneNode(true));});});\n})();\n\n</script>\n</body>"
+  }
+]

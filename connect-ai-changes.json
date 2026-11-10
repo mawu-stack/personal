@@ -1,0 +1,50 @@
+[
+  {
+    "before": "#ai-connect-modal.modal-backdrop,\n    #connect-ai-modal.modal-backdrop",
+    "after": "#ai-connect-modal.modal-backdrop"
+  },
+  {
+    "before": "id=\"ai-connect-modal\" class=\"modal-overlay\"",
+    "after": "id=\"ai-connect-modal\" class=\"modal-backdrop\""
+  },
+  {
+    "before": "<div class=\"modal-content\">",
+    "after": "<div class=\"modal-content modal-card\">"
+  },
+  {
+    "before": "const aiModal = document.getElementById('connect-ai-modal');",
+    "after": "const aiModal = document.getElementById('ai-connect-modal');"
+  },
+  {
+    "before": "const aiKeyInput = document.getElementById('ai-key-input');",
+    "after": "const aiKeyInput = document.getElementById('ai-api-key-input');"
+  },
+  {
+    "before": "    const aiProviderSelect = document.getElementById('ai-provider-select');\n",
+    "after": ""
+  },
+  {
+    "before": "function openAiDialog() {\n      const modalEl = document.getElementById('ai-connect-modal') || document.getElementById('connect-ai-modal');",
+    "after": "function openAiDialog() {\n      const modalEl = aiModal;"
+  },
+  {
+    "before": "function closeAiDialog() {\n      const modalEl = document.getElementById('ai-connect-modal') || document.getElementById('connect-ai-modal');",
+    "after": "function closeAiDialog() {\n      const modalEl = aiModal;"
+  },
+  {
+    "before": "const provider = aiProviderSelect ? aiProviderSelect.value : 'gemini';",
+    "after": "const provider = 'gemini';"
+  },
+  {
+    "before": "if (modalEl) { modalEl.style.display = 'none'; modalEl.classList.remove('open'); }",
+    "after": "if (modalEl) { modalEl.style.display = 'none'; modalEl.classList.remove('open'); }\n      if (aiKeyInput) aiKeyInput.value = '';\n      openAiBtn?.focus();"
+  },
+  {
+    "before": "    // Phase 2: Global Escape key listener to close open modals\n  window.addEventListener('keydown', (e) => {\n    if (e.key === 'Escape' || e.key === 'Esc') {\n      const modal = document.getElementById('ai-connect-modal') || document.getElementById('connect-ai-modal');\n      if (modal && (modal.style.display === 'flex' || modal.style.display === 'block')) {\n        modal.style.display = 'none';\n      }\n    }\n  });\n\n",
+    "after": "    window.addEventListener('keydown', e => {\n      if (e.key === 'Escape' && aiModal?.classList.contains('open')) closeAiDialog();\n    });\n\n"
+  },
+  {
+    "before": "    // Wire Dedicated AI Modal Open/Close\n    const aiModalBox = document.getElementById('ai-connect-modal') || document.getElementById('connect-ai-modal');\n    const openBtn = document.getElementById('btn-open-connect-ai');\n    const closeBtn = document.getElementById('btn-close-ai-modal') || document.getElementById('btn-close-modal');\n\n    if (openBtn && aiModalBox) {\n      openBtn.addEventListener('click', function() {\n        aiModalBox.style.display = 'flex';\n      });\n    }\n    if (closeBtn && aiModalBox) {\n      closeBtn.addEventListener('click', function() {\n        aiModalBox.style.display = 'none';\n      });\n    }\n    if (aiModalBox) {\n      aiModalBox.addEventListener('click', function(e) {\n        if (e.target === aiModalBox) {\n          aiModalBox.style.display = 'none';\n        }\n      });\n    }\n\n",
+    "after": ""
+  }
+]
